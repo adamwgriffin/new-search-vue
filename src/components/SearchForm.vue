@@ -18,7 +18,7 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
-import { autocompleteOptions } from '@/config/autoCompleteOptions'
+import { autocompleteOptions } from '@/config/google'
 
 export default {
   watch: {
