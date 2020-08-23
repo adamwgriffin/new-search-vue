@@ -29,6 +29,7 @@ export const mutations = {
     state.googleMap = MapInstance
   },
 
+  // TODO: this probably needs a better name and needs to be less specific, but I don't know how to change it yet
   moveMap(state, { location, viewport }) {
     state.googleMap.setCenter(location)
     state.googleMap.fitBounds(viewport)
