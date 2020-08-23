@@ -3,7 +3,7 @@
     <SearchForm />
     <div class="search-results">
       <PickList />
-      <ListingMapComponent />
+      <ListingMap />
     </div>
   </div>
 </template>
@@ -11,13 +11,13 @@
 <script>
 import SearchForm from "@/components/SearchForm"
 import PickList from '@/components/PickList'
-import ListingMapComponent from "@/components/ListingMapComponent"
+import ListingMap from "@/components/ListingMap"
 
 export default {
   components: {
     SearchForm,
     PickList,
-    ListingMapComponent,
+    ListingMap,
   }
 }
 </script>
