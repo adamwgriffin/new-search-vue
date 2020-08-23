@@ -66,6 +66,16 @@ export const actions = {
       return error
     }
   },
+
+  async setMapLocation({ dispatch, commit, state }, payload) {
+    try {
+      await dispatch('geocodeMap', payload)
+      const { location, viewport } = state.geocode.results[0].geometry
+      commit('moveMap', { location, viewport })
+      return results
+    } catch (error) {
+      return error
+    }
   },
 
   async initializeMap({ commit }, payload) {
