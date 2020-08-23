@@ -14,10 +14,6 @@ export default {
       'markers'
     ]),
     
-    // ...mapState('listingMap', [
-    //   'markers'
-    // ]),
-    
     ...mapState('listingSearch', [
       'searchParams'
     ]),
@@ -26,6 +22,7 @@ export default {
   async mounted() {
     await this.initializeMap({ el: this.$el })
     this.setMapLocation({ address: this.searchParams.location_search_field })
+    this.searchListings(this.searchParams)
     // this.addListingMarkers()
   },
 
@@ -45,6 +42,8 @@ export default {
     ...mapMutations('listingMap', ['moveMap']),
         
     ...mapActions('listingMap', ['initializeMap', 'setMapLocation']),
+    
+    ...mapActions('listingSearch', ['searchListings']),
 
     // markerClickHandler(marker) {
     //   this.googleMap.setZoom(13)
