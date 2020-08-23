@@ -40,8 +40,8 @@ export default {
   },
 
   destroyed() {
-    this.autocomplete.removeListener(this.autocompleteListener)
-    this.autocomplete.clearInstanceListeners()
+    this.autocompleteListener.remove()
+    this.setAutocompleteListener(null)
   },
 
   methods: {
