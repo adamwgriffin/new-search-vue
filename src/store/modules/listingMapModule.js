@@ -1,4 +1,4 @@
-import { initializeGoogleMaps } from '@/lib/google_maps'
+import { initializeGoogleMaps, geocode } from '@/lib/google_maps'
 
 const initialState = () => {
   return {
@@ -7,7 +7,7 @@ const initialState = () => {
     geocoder: null,
     geocode: {
       request: null,
-      response: null,
+      results: null,
       status: null
     },
     markers: [],
@@ -21,12 +21,17 @@ export const getters = {
 }
 
 export const mutations = {
-  setGoogle(state, GoogleMaps) {
-    state.google = GoogleMaps
+  setGoogle(state, google) {
+    state.google = google
   },
 
-  setListingMap(state, MapInstance) {
+  setMap(state, MapInstance) {
     state.googleMap = MapInstance
+  },
+
+  moveMap(state, { location, viewport }) {
+    state.googleMap.setCenter(location)
+    state.googleMap.fitBounds(viewport)
   },
 
   setGeocoder(state, GeocoderInstance) {
@@ -52,23 +57,20 @@ export const mutations = {
 
 export const actions = {
   
-  geocodeMap({ state }, payload) {
-    state.geocoder.geocode(payload, (results, status) => {
-      if (status !== 'OK' || !results[0]) {
-        throw new Error(status);
-      }
-      state.googleMap.setCenter(results[0].geometry.location)
-      state.googleMap.fitBounds(results[0].geometry.viewport)
-    })
+  async geocodeMap({ state, commit }, request) {
+    const res = await geocode(state.geocoder, request)
+    commit('setGeocoderResponse', { ...request, ...res })
+    return res
   },
 
   async initializeMap({ dispatch, commit }, payload) {
     try {
       const google = await initializeGoogleMaps()
       commit('setGoogle', google)
-      commit('setListingMap', new google.maps.Map(payload.el))
+      commit('setMap', new google.maps.Map(payload.el))
       commit('setGeocoder', new google.maps.Geocoder())
-      dispatch('geocodeMap', payload.geocoderObj)
+      const { results } = await dispatch('geocodeMap', payload.geocoderObj)
+      commit('moveMap', { location: results[0].geometry.location, viewport: results[0].geometry.viewport })
     } catch (error) {
       console.error(error)
     }

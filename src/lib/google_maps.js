@@ -27,12 +27,16 @@ export const initializeGoogleMaps = () => {
   return initPromise
 }
 
-// export const geocodeMap = (geocodeParams) => {
-//   this.geocoder.geocode(geocodeParams, (results, status) => {
-//     if (status !== 'OK' || !results[0]) {
-//       throw new Error(status);
-//     }
-//     this.listingMap.setCenter(results[0].geometry.location)
-//     this.listingMap.fitBounds(results[0].geometry.viewport)
-//   })
-// }
+export const geocode = (geocoder, request) => {
+  return new Promise((resolve, reject) => {
+    geocoder.geocode(request, (results, status) => {
+      if (status === 'OK' && results[0]) {
+        resolve({ results, status })
+      } else if (status === 'OK' && !results[0]) {
+        reject(new Error('No results found'))
+      } else {
+        reject(new Error(status))
+      }
+    })
+  })
+}
