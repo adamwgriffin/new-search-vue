@@ -66,6 +66,7 @@ export default {
       this.updateLocationSearchField(this.$refs.locationSearchField.value)
       const { location, viewport } = this.autocompletePlace.geometry
       this.moveMap({ location, viewport })
+      this.searchListings(this.searchParams)
     },
 
     initAutoComplete() {
