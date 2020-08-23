@@ -2,15 +2,17 @@
   <div class="search-form">
     <form autocomplete="off">
       <SearchField />
+      <SearchButton />
     </form>
   </div>
 </template>
 
 <script>
 import SearchField from '@/components/SearchField'
+import SearchButton from '@/components/SearchButton'
 
 export default {
-  components: { SearchField }
+  components: { SearchField, SearchButton }
 }
 </script>
 

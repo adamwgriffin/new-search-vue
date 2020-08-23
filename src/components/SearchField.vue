@@ -1,15 +1,12 @@
 <template>
-  <div>
-    <input
-      type="text"
-      id="location-search-field"
-      name="location_search_field"
-      ref="locationSearchField"
-      :value="searchParams.location_search_field"
-      @input="handleLocationInput"
-    >
-    <button id="search-button" @click.prevent="search">Search</button>
-  </div>
+  <input
+    type="text"
+    id="location-search-field"
+    name="location_search_field"
+    ref="locationSearchField"
+    :value="searchParams.location_search_field"
+    @input="handleLocationInput"
+  >
 </template>
 
 <script>
@@ -56,8 +53,6 @@ export default {
       'updateLocationSearchField'
     ]),
 
-    ...mapActions('listingMap', ['setMapLocation']),
-
     ...mapActions('listingSearch', ['searchListings']),
 
     handlePlaceChanged() {
@@ -69,21 +64,12 @@ export default {
     },
 
     initAutoComplete() {
-      this.setAutocomplete(
-        new google.maps.places.Autocomplete(this.$refs.locationSearchField, autocompleteOptions)
-      )
-      this.setAutocompleteListener(
-        this.autocomplete.addListener('place_changed', this.handlePlaceChanged)
-      )
+      this.setAutocomplete(new google.maps.places.Autocomplete(this.$refs.locationSearchField, autocompleteOptions))
+      this.setAutocompleteListener(this.autocomplete.addListener('place_changed', this.handlePlaceChanged))
     },
 
     handleLocationInput(e) {
       this.updateLocationSearchField(e.target.value)
-    },
-
-    search() {
-      this.setMapLocation({ address: this.searchParams.location_search_field })
-      this.searchListings(this.searchParams)
     }
   }
 }
@@ -94,16 +80,6 @@ export default {
   height: 2.2rem;
   width: 40%;
   padding: 0rem .8rem;
-  font-size: 1rem;
-}
-
-#search-button {
-  margin-left: 1rem;
-  width: 5rem;
-  height: 2.2rem;
-  border-radius: .5rem;
-  background: gray;
-  color: white;
   font-size: 1rem;
 }
 </style>
