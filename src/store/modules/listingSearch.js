@@ -4,7 +4,7 @@ import { getListings } from '@/services/listing'
 const initialState = () => {
   return {
     searchParams: {
-      location_search_field: "7555 22nd Ave NW, Seattle, WA 98117, USA",
+      location_search_field: "Fremont, Seattle, WA, USA",
       agent_uuid: "f74a3f6d-aeda-4daa-835e-029386152405",
       pgsize: 20
     },
@@ -29,8 +29,8 @@ export const getters = {
     return coordinates.map(coordinate => {
       return {
         position: {
-          lat: coordinate[0],
-          lng: coordinate[1]
+          lat: coordinate[1],
+          lng: coordinate[0]
         }
       }
     })
