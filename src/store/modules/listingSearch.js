@@ -22,6 +22,8 @@ export const getters = {
     return get(listingSearch, 'results.result_list', [])
   },
 
+  // TODO: not sure if unwrapping result_geo this way is the ideal method. will need to look at search code for a better
+  // exmaple
   listingLocations({ listingSearch }) {
     const coordinates = get(listingSearch, 'results.result_geo[0].geojson.coordinates[0][0]', []) 
     return coordinates.map(coordinate => {
