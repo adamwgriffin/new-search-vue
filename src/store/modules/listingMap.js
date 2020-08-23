@@ -80,7 +80,7 @@ export const actions = {
 
   async initializeMap({ commit }, payload) {
     try {
-      await new Loader(googleMapsOptions).load()
+      if (typeof google === 'undefined') await new Loader(googleMapsOptions).load()
       commit('setMap', new google.maps.Map(payload.el))
       commit('setGeocoder', new google.maps.Geocoder())
     } catch (error) {
