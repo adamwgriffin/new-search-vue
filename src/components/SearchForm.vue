@@ -35,6 +35,7 @@ export default {
       'markers',
       'autocomplete',
       'autocompletePlace',
+      'autocompleteListener'
     ]),
 
     ...mapState('listingSearch', [
@@ -50,6 +51,7 @@ export default {
     ...mapMutations('listingMap', [
       'setAutocomplete',
       'setAutocompletePlace',
+      'setAutocompleteListener',
       'moveMap'
     ]),
     
@@ -73,8 +75,9 @@ export default {
       this.setAutocomplete(
         new google.maps.places.Autocomplete(this.$refs.locationSearchField, autocompleteOptions)
       )
-      // TODO: need to remove this listener when component is destroyed
-      this.autocomplete.addListener('place_changed', this.handlePlaceChanged)
+      this.setAutocompleteListener(
+        this.autocomplete.addListener('place_changed', this.handlePlaceChanged)
+      )
     },
 
     handleLocationInput(e) {

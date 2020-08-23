@@ -16,6 +16,7 @@ const initialState = () => {
     markers: [],
     autocomplete: null,
     autocompletePlace: null,
+    autocompleteListener: null
   }
 }
 
@@ -52,6 +53,10 @@ export const mutations = {
 
   setAutocompletePlace(state, place) {
     state.autocompletePlace = place
+  },
+
+  setAutocompleteListener(state, listener) {
+    state.autocompleteListener = listener
   }
 }
 
