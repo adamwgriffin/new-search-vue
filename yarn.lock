@@ -885,6 +885,11 @@
   resolved "https://registry.yarnpkg.com/@google/markerclustererplus/-/markerclustererplus-5.1.0.tgz#245d39408c6863f2f7f2d325c846e6e8128ee301"
   integrity sha512-LLYJHLLERawpRQUn7iu/Y6Ll/2vJct3v5iIky99apzaZ9nTy/adYhAEmnUI9PRnMS3nt65CQdLDz178HA6wvgw==
 
+"@googlemaps/loader@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@googlemaps/loader/-/loader-0.0.10.tgz#4460e0ef5de694b4c04b424d96e4d66248e468e7"
+  integrity sha512-oTxt9Pa3iZwcyFfhpVuu/3/VX7Ybio7WQZnfsKfnHS5nVOVRpsD0K+s8a2Elnl5hI999xFlmXGJwuVGoEAF5pg==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"

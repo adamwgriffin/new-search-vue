@@ -9,6 +9,7 @@ const initPromise = new Promise((resolve, reject) => {
   rejectInitPromise = reject
 })
 
+// we're using @googlemaps/loader in favor of this for now
 export const initializeGoogleMaps = () => {
   // If Google Maps already is initialized the `initPromise` should get resolved eventually.
   if (initialized) return initPromise
