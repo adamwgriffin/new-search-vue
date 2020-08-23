@@ -58,9 +58,14 @@ export const mutations = {
 export const actions = {
   
   async geocodeMap({ state, commit }, request) {
-    const res = await geocode(state.geocoder, request)
-    commit('setGeocoderResponse', { ...request, ...res })
-    return res
+    try {
+      const res = await geocode(state.geocoder, request)
+      commit('setGeocoderResponse', { ...request, ...res })
+      return res
+    } catch (error) {
+      return error
+    }
+  },
   },
 
   async initializeMap({ commit }, payload) {
