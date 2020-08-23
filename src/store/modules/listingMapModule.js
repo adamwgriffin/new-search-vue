@@ -63,14 +63,12 @@ export const actions = {
     return res
   },
 
-  async initializeMap({ dispatch, commit }, payload) {
+  async initializeMap({ commit }, payload) {
     try {
       const google = await initializeGoogleMaps()
       commit('setGoogle', google)
       commit('setMap', new google.maps.Map(payload.el))
       commit('setGeocoder', new google.maps.Geocoder())
-      const { results } = await dispatch('geocodeMap', payload.geocoderObj)
-      commit('moveMap', { location: results[0].geometry.location, viewport: results[0].geometry.viewport })
     } catch (error) {
       console.error(error)
     }

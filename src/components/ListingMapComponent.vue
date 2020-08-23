@@ -25,7 +25,8 @@ export default {
   },
 
   async mounted() {
-    await this.initializeMap({ el: this.$el, geocoderObj: { address:  this.searchParams.location_search_field } })
+    await this.initializeMap({ el: this.$el })
+    this.setInitialLocation()
     // this.addListingMarkers()
   },
 
@@ -41,8 +42,15 @@ export default {
   // },
 
   methods: {
+
+    ...mapMutations('listingMapModule', ['moveMap']),
         
-    ...mapActions('listingMapModule', ['initializeMap']),
+    ...mapActions('listingMapModule', ['initializeMap', 'geocodeMap']),
+
+    async setInitialLocation() {
+      const { results } = await this.geocodeMap({ address:  this.searchParams.location_search_field })
+      this.moveMap({ location: results[0].geometry.location, viewport: results[0].geometry.viewport })
+    },
 
     // markerClickHandler(marker) {
     //   this.googleMap.setZoom(13)
