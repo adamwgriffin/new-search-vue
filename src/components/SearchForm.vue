@@ -53,18 +53,19 @@ export default {
       'setAutocompletePlace',
     ]),
     
-    ...mapMutations('listings', [
+    ...mapMutations('listingSearch', [
       'updateLocationSearchField'
     ]),
 
     ...mapActions('listingSearch', ['searchListings']),
 
+    // TODO: use moveMap in store instead
     moveMap(location, viewport) {
-      this.listingMap.setCenter(location)
-      this.listingMap.fitBounds(viewport)
+      this.googleMap.setCenter(location)
+      this.googleMap.fitBounds(viewport)
     },
 
-    handlPlaceChanged() {
+    handlePlaceChanged() {
       this.setAutocompletePlace(this.autocomplete.getPlace())
       this.updateLocationSearchField(this.$refs.locationSearchField.value)
       this.moveMap(this.autocompletePlace.geometry.location, this.autocompletePlace.geometry.viewport)
@@ -74,7 +75,8 @@ export default {
       this.setAutocomplete(
         new google.maps.places.Autocomplete(this.$refs.locationSearchField, autocompleteOptions)
       )
-      this.autocomplete.addListener('place_changed', this.handlPlaceChanged)
+      // TODO: need to remove this listener when component is destroyed
+      this.autocomplete.addListener('place_changed', this.handlePlaceChanged)
     },
 
     handleLocationInput(e) {
@@ -86,6 +88,8 @@ export default {
       this.searchListings(this.searchParams)
     },
 
+    // TODO: get rid of this in favor of using geocoder action in store
+    // could call this something like setSearchLocation instead?
     geocodeMap(request) {
       this.geocoder.geocode(request, (results, status) => {
         this.setGeocoderResponse({ request, results, status })
