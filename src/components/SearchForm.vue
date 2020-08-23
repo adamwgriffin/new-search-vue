@@ -22,15 +22,14 @@ import { autocompleteOptions } from '@/config/google'
 
 export default {
   watch: {
-    google() {
+    googleMap() {
       !this.autocomplete && this.initAutoComplete()
     }
   },
 
   computed: {
     ...mapState('listingMap', [
-      'google',
-      'listingMap',
+      'googleMap',
       'geocoder',
       'geocodeResponse',
       'markers',
@@ -73,7 +72,7 @@ export default {
 
     initAutoComplete() {
       this.setAutocomplete(
-        new this.google.maps.places.Autocomplete(this.$refs.locationSearchField, autocompleteOptions)
+        new google.maps.places.Autocomplete(this.$refs.locationSearchField, autocompleteOptions)
       )
       this.autocomplete.addListener('place_changed', this.handlPlaceChanged)
     },

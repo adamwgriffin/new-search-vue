@@ -10,7 +10,6 @@ export default {
 
   computed: {
     ...mapState('listingMap', [
-      'google',
       'googleMap',
       'markers'
     ]),
@@ -59,7 +58,7 @@ export default {
 
     // createMarkersFromLocations() {
     //   return this.listingLocations.map( location => {
-    //     const marker = new this.google.maps.Marker( { ...location, map: this.googleMap,  } )
+    //     const marker = new google.maps.Marker( { ...location, map: googleMap,  } )
     //     marker.addListener('click', () => this.markerClickHandler(marker))
     //     return marker
     //   })
@@ -74,7 +73,7 @@ export default {
     // },
 
     // addListingMarkers() {
-    //   if (this.google) {
+    //   if (google) {
     //     console.log('google exists, adding markers')
     //     this.setMarkers(this.createMarkersFromLocations())
     //     this.createMarkerClusters()

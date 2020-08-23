@@ -6,7 +6,6 @@ import { geocode } from '@/lib/google_maps'
 
 const initialState = () => {
   return {
-    google: null,
     googleMap: null,
     geocoder: null,
     geocode: {
@@ -25,10 +24,6 @@ export const getters = {
 }
 
 export const mutations = {
-  setGoogle(state, google) {
-    state.google = google
-  },
-
   setMap(state, MapInstance) {
     state.googleMap = MapInstance
   },
@@ -71,7 +66,6 @@ export const actions = {
   async initializeMap({ commit }, payload) {
     try {
       await new Loader(googleMapsOptions).load()
-      commit('setGoogle', google)
       commit('setMap', new google.maps.Map(payload.el))
       commit('setGeocoder', new google.maps.Geocoder())
     } catch (error) {
