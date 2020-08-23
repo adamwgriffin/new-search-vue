@@ -13,7 +13,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters('listingSearchModule', ['listings'])
+    ...mapGetters('listingSearch', ['listings'])
   }
 }
 </script>

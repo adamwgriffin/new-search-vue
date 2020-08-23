@@ -1,7 +1,7 @@
-import listingMapModule from '@/store/modules/listingMapModule'
-import listingSearchModule from '@/store/modules/listingSearchModule'
+import listingMap from '@/store/modules/listingMap'
+import listingSearch from '@/store/modules/listingSearch'
 
 export default {
-  listingMapModule,
-  listingSearchModule
+  listingMap,
+  listingSearch
 }

@@ -9,17 +9,17 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 export default {
 
   computed: {
-    ...mapState('listingMapModule', [
+    ...mapState('listingMap', [
       'google',
       'googleMap',
       'markers'
     ]),
     
-    // ...mapState('listingMapModule', [
+    // ...mapState('listingMap', [
     //   'markers'
     // ]),
     
-    ...mapState('listingSearchModule', [
+    ...mapState('listingSearch', [
       'searchParams'
     ]),
   },
@@ -43,9 +43,9 @@ export default {
 
   methods: {
 
-    ...mapMutations('listingMapModule', ['moveMap']),
+    ...mapMutations('listingMap', ['moveMap']),
         
-    ...mapActions('listingMapModule', ['initializeMap', 'geocodeMap']),
+    ...mapActions('listingMap', ['initializeMap', 'geocodeMap']),
 
     async setInitialLocation() {
       const { results } = await this.geocodeMap({ address:  this.searchParams.location_search_field })

@@ -28,7 +28,7 @@ export default {
   },
 
   computed: {
-    ...mapState('listingMapModule', [
+    ...mapState('listingMap', [
       'google',
       'listingMap',
       'geocoder',
@@ -38,7 +38,7 @@ export default {
       'autocompletePlace',
     ]),
 
-    ...mapState('listingSearchModule', [
+    ...mapState('listingSearch', [
       'searchParams'
     ])
   },
@@ -48,7 +48,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations('listingMapModule', [
+    ...mapMutations('listingMap', [
       'setGeocoderResponse',
       'setAutocomplete',
       'setAutocompletePlace',
@@ -58,7 +58,7 @@ export default {
       'updateLocationSearchField'
     ]),
 
-    ...mapActions('listingSearchModule', ['searchListings']),
+    ...mapActions('listingSearch', ['searchListings']),
 
     moveMap(location, viewport) {
       this.listingMap.setCenter(location)
