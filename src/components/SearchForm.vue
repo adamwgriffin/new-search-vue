@@ -47,6 +47,11 @@ export default {
     this.searchListings(this.searchParams)
   },
 
+  destroyed() {
+    this.autocomplete.removeListener(this.autocompleteListener)
+    this.autocomplete.clearInstanceListeners()
+  },
+
   methods: {
     ...mapMutations('listingMap', [
       'setAutocomplete',
