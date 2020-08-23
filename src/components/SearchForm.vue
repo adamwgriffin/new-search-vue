@@ -48,22 +48,18 @@ export default {
 
   methods: {
     ...mapMutations('listingMap', [
-      'setGeocoderResponse',
       'setAutocomplete',
       'setAutocompletePlace',
+      'moveMap'
     ]),
     
     ...mapMutations('listingSearch', [
       'updateLocationSearchField'
     ]),
 
-    ...mapActions('listingSearch', ['searchListings']),
+    ...mapActions('listingMap', ['setMapLocation']),
 
-    // TODO: use moveMap in store instead
-    moveMap(location, viewport) {
-      this.googleMap.setCenter(location)
-      this.googleMap.fitBounds(viewport)
-    },
+    ...mapActions('listingSearch', ['searchListings']),
 
     handlePlaceChanged() {
       this.setAutocompletePlace(this.autocomplete.getPlace())
@@ -84,20 +80,8 @@ export default {
     },
 
     search() {
-      this.geocodeMap({ 'address': this.searchParams.location_search_field })
+      this.setMapLocation({ address: this.searchParams.location_search_field })
       this.searchListings(this.searchParams)
-    },
-
-    // TODO: get rid of this in favor of using geocoder action in store
-    // could call this something like setSearchLocation instead?
-    geocodeMap(request) {
-      this.geocoder.geocode(request, (results, status) => {
-        this.setGeocoderResponse({ request, results, status })
-        if (status !== google.maps.GeocoderStatus.OK || !results[0]) {
-          throw new Error(status)
-        }
-        this.moveMap(results[0].geometry.location, results[0].geometry.viewport)
-      })
     }
   }
 }
