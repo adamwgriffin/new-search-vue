@@ -1,10 +1,10 @@
 <template>
   <div id="search">
-    <SearchForm />
     <div class="search-results">
+      <SearchForm />
       <PickList />
-      <ListingMap />
     </div>
+    <ListingMap />
   </div>
 </template>
 
@@ -25,12 +25,11 @@ export default {
 <style>
 #search {
   display: flex;
-  flex-direction: column;
   height: 100%;
 }
 
 .search-results {
-  display: flex;
+  width: 65%;
   height: 100%;
 }
 </style>

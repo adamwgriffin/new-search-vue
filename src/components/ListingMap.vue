@@ -81,6 +81,6 @@ export default {
 
 <style scoped>
 #listing-map {
-  width: 40%;
+  width: 35%;
 }
 </style>
