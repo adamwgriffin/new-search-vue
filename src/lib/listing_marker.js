@@ -10,7 +10,21 @@ export const LISTING_MARKER_ICON_BASE = {
   strokeWeight: 2.5
 }
 
-export const listingMarkerIcon = (options={}) => ({ ...LISTING_MARKER_ICON_BASE, ...options })
+export const svgIcon = ({ fill }) => {
+  return `
+  <svg width="20px" height="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="10" cy="10" r="7" fill="${fill}" stroke="white" stroke-width="2"></circle>
+  </svg>
+  `
+}
+
+export const listingMarkerIcon = (options) => ({
+  url: `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgIcon(options))}`,
+  // size: new google.maps.Size(200, 200),
+  // scaledSize: new google.maps.Size(16, 16),
+  // anchor: new google.maps.Point(16, 16),
+  // labelOrigin: new google.maps.Point(16, 16)
+})
 
 export const listingMarker = (google, position, map, icon, options={}) => {
   return new google.maps.Marker({ position, map, icon, ...options })

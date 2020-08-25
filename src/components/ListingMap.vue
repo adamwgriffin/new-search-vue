@@ -50,10 +50,11 @@ export default {
 
     createMarkersFromLocations() {
       return this.listingLocations.map(position => {
-        const markerIcon = listingMarkerIcon({ fillColor: "#0f2b59" })
+        const markerIcon = listingMarkerIcon({ fill: "#0f2b59" })
+        const markerIconHover = listingMarkerIcon({ fill: 'red' })
         const marker = listingMarker(google, position, this.googleMap, markerIcon)
         marker.addListener('click', () => this.markerClickHandler(marker))
-        marker.addListener('mouseover', () => marker.setIcon(listingMarkerIcon({ fillColor: 'red' })))
+        marker.addListener('mouseover', () => marker.setIcon(markerIconHover))
         marker.addListener('mouseout', () => marker.setIcon(markerIcon))
         return marker
       })
