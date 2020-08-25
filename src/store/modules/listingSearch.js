@@ -18,13 +18,24 @@ const initialState = () => {
 }
 
 export const getters = {
+  
   listings({ listingSearch }) {
     return get(listingSearch, 'results.result_list', [])
   },
 
-  // TODO: not sure if unwrapping result_geo this way is the ideal method. will need to look at search code for a better
-  // exmaple
-  listingLocations({ listingSearch }) {
+  listingLocations(state, { listings }) {
+    return listings.map(listing => {
+      return {
+        position: {
+          lat: +listing.location.latitude,
+          lng: +listing.location.longitude
+        }
+      }
+    })
+  },
+
+  // TODO: I think result_geo is actually the geospatial layer. keeping this here because we may need that
+  /* listingLocations({ listingSearch }) {
     const coordinates = get(listingSearch, 'results.result_geo[0].geojson.coordinates[0][0]', []) 
     return coordinates.map(coordinate => {
       return {
@@ -34,7 +45,8 @@ export const getters = {
         }
       }
     })
-  }
+  } */
+
 }
 
 export const mutations = {
