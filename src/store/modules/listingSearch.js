@@ -26,10 +26,8 @@ export const getters = {
   listingLocations(state, { listings }) {
     return listings.map(listing => {
       return {
-        position: {
-          lat: +listing.location.latitude,
-          lng: +listing.location.longitude
-        }
+        lat: +listing.location.latitude,
+        lng: +listing.location.longitude
       }
     })
   },

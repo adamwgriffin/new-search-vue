@@ -5,6 +5,7 @@
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import MarkerClusterer from '@google/markerclustererplus'
+import { listingMarker, listingMarkerIcon } from '@/lib/listing_marker'
 
 export default {
 
@@ -48,9 +49,12 @@ export default {
     },
 
     createMarkersFromLocations() {
-      return this.listingLocations.map( location => {
-        const marker = new google.maps.Marker( { ...location, map: this.googleMap } )
+      return this.listingLocations.map(position => {
+        const markerIcon = listingMarkerIcon({ fillColor: "#0f2b59" })
+        const marker = listingMarker(google, position, this.googleMap, markerIcon)
         marker.addListener('click', () => this.markerClickHandler(marker))
+        marker.addListener('mouseover', () => marker.setIcon(listingMarkerIcon({ fillColor: 'red' })))
+        marker.addListener('mouseout', () => marker.setIcon(markerIcon))
         return marker
       })
     },
