@@ -35,7 +35,7 @@ export default {
   },
 
   destroyed() {
-    this.autocompleteListener.remove()
+    this.autocompleteListener?.remove()
     this.setAutocompleteListener(null)
   },
 
