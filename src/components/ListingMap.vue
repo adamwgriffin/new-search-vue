@@ -9,6 +9,13 @@ import { listingMarker, listingMarkerIcon } from '@/lib/listing_marker'
 
 export default {
 
+  props: {
+    google: {
+      type: Object,
+      required: true
+    }
+  },
+
   computed: {
     ...mapState('listingMap', [
       'googleMap',
@@ -23,7 +30,7 @@ export default {
   },
 
   async mounted() {
-    await this.initializeMap({ el: this.$el })
+    await this.initializeMap({ google: this.google, el: this.$el })
     this.setMapLocation({ address: this.searchParams.location_search_field })
     this.searchListings(this.searchParams)
     this.addListingMarkers()

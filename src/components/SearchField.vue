@@ -14,18 +14,16 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 import { autocompleteOptions } from '@/config/google'
 
 export default {
+  props: ['google'],
+
   watch: {
-    googleMap() {
+    google() {
       !this.autocomplete && this.initAutoComplete()
     }
   },
 
   computed: {
     ...mapState('listingMap', [
-      'googleMap',
-      'geocoder',
-      'geocodeResponse',
-      'markers',
       'autocomplete',
       'autocompletePlace',
       'autocompleteListener'
@@ -64,7 +62,7 @@ export default {
     },
 
     initAutoComplete() {
-      this.setAutocomplete(new google.maps.places.Autocomplete(this.$refs.locationSearchField, autocompleteOptions))
+      this.setAutocomplete(new this.google.maps.places.Autocomplete(this.$refs.locationSearchField, autocompleteOptions))
       this.setAutocompleteListener(this.autocomplete.addListener('place_changed', this.handlePlaceChanged))
     },
 

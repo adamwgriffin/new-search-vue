@@ -1,7 +1,7 @@
 <template>
   <div class="search-form">
     <form autocomplete="off">
-      <SearchField />
+      <SearchField :google="google" />
       <SearchButton />
     </form>
   </div>
@@ -12,7 +12,9 @@ import SearchField from '@/components/SearchField'
 import SearchButton from '@/components/SearchButton'
 
 export default {
-  components: { SearchField, SearchButton }
+  components: { SearchField, SearchButton },
+
+  props: ['google']
 }
 </script>
 
