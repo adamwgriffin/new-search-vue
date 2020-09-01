@@ -1,4 +1,5 @@
 import { geocode } from '@/lib/google_maps'
+import get from 'lodash/get'
 
 const initialState = () => {
   return {
@@ -7,10 +8,9 @@ const initialState = () => {
       results: null,
       status: null
     },
-    markers: [],
-    autocomplete: null,
-    autocompletePlace: null,
-    autocompleteListener: null
+    location: null,
+    viewport: null,
+    markers: []
   }
 }
 
@@ -19,25 +19,23 @@ export const getters = {
 }
 
 export const mutations = {
+
   setGeocoderResponse(state, payload) {
     state.geocode = payload
   },
 
+  setLocation(state, payload) {
+    state.location = payload
+  },
+
+  setViewport(state, payload) {
+    state.viewport = payload
+  },
+
   setMarkers(state, markers) {
     state.markers = markers
-  },
-
-  setAutocomplete(state, autocomplete) {
-    state.autocomplete = autocomplete
-  },
-
-  setAutocompletePlace(state, place) {
-    state.autocompletePlace = place
-  },
-
-  setAutocompleteListener(state, listener) {
-    state.autocompleteListener = listener
   }
+
 }
 
 export const actions = {
@@ -46,22 +44,15 @@ export const actions = {
     try {
       const res = await geocode(payload.geocoder, payload.request)
       commit('setGeocoderResponse', { ...payload.request, ...res })
+      const { location, viewport } = res?.results?.[0]?.geometry ?? {}
+      commit('setLocation', location)
+      commit('setViewport', viewport)
       return res
     } catch (error) {
       return error
     }
-  },
-
-  async setMapLocation({ dispatch, commit, state }, payload) {
-    try {
-      await dispatch('geocodeMap', payload)
-      const { location, viewport } = state.geocode.results[0].geometry
-      commit('moveMap', { location, viewport })
-      return results
-    } catch (error) {
-      return error
-    }
   }
+
 }
 
 export default {

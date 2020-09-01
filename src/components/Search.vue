@@ -1,7 +1,7 @@
 <template>
   <div id="search">
     <div class="search-results">
-      <SearchForm :google="google" />
+      <SearchForm :google="google" :geocoder="geocoder" />
       <PickList />
     </div>
     <ListingMap v-if="google" :google="google" :location="location" :viewport="viewport" />
@@ -12,7 +12,6 @@
 // TODO: switch to @googlemaps/js-api-loader if it ever supports clientId. @googlemaps/loader was deprecated in favor of
 // @googlemaps/js-api-loader but it doesn't seem to support clientId yet.
 import { Loader } from '@googlemaps/loader'
-import get from 'lodash/get'
 import { mapState, mapActions } from 'vuex'
 import { googleMapsOptions } from '@/config/google'
 import SearchForm from "@/components/SearchForm"
@@ -29,20 +28,14 @@ export default {
 
   computed: {
     ...mapState('listingMap', [
-      'geocode'
+      'geocode',
+      'location',
+      'viewport'
     ]),
 
     ...mapState('listingSearch', [
       'searchParams'
-    ]),
-
-    location() {
-      return get(this.geocode, 'results[0].geometry.location')
-    },
-
-    viewport() {
-      return get(this.geocode, 'results[0].geometry.viewport')
-    }
+    ])
   },
 
   data() {
@@ -53,10 +46,10 @@ export default {
   },
 
   async mounted() {
+    this.searchListings(this.searchParams)
     this.google = await this.loadGoogle()
     this.createGeocoder()
     this.geocodeMap({ geocoder: this.geocoder, request: { address: this.searchParams.location_search_field } })
-    this.searchListings(this.searchParams)
   },
 
   methods: {

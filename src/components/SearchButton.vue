@@ -1,25 +1,14 @@
 <template>
-  <button id="search-button" @click.prevent="search">Search</button>
+  <button id="search-button" @click.prevent="handleClick">
+    <slot></slot>
+  </button>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-
 export default {
-  computed: {
-    ...mapState('listingSearch', [
-      'searchParams'
-    ])
-  },
-
   methods: {
-    ...mapActions('listingMap', ['setMapLocation']),
-
-    ...mapActions('listingSearch', ['searchListings']),
-
-    search() {
-      this.setMapLocation({ address: this.searchParams.location_search_field })
-      this.searchListings(this.searchParams)
+    handleClick() {
+      this.$emit('click')
     }
   }
 }

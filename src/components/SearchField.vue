@@ -4,17 +4,23 @@
     id="location-search-field"
     name="location_search_field"
     ref="locationSearchField"
-    :value="searchParams.location_search_field"
+    :value="locationSearchField"
     @input="handleLocationInput"
   >
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
-import { autocompleteOptions } from '@/config/google'
 
 export default {
-  props: ['google'],
+  props: ['google', 'locationSearchField', 'autocompleteOptions'],
+
+  data() {
+    return {
+      autocomplete: null,
+      autocompletePlace: null,
+      autocompleteListener: null
+    }
+  },
 
   watch: {
     google() {
@@ -22,52 +28,33 @@ export default {
     }
   },
 
-  computed: {
-    ...mapState('listingMap', [
-      'autocomplete',
-      'autocompletePlace',
-      'autocompleteListener'
-    ]),
-
-    ...mapState('listingSearch', [
-      'searchParams'
-    ])
-  },
-
   destroyed() {
     this.autocompleteListener?.remove()
-    this.setAutocompleteListener(null)
   },
 
   methods: {
-    ...mapMutations('listingMap', [
-      'setAutocomplete',
-      'setAutocompletePlace',
-      'setAutocompleteListener',
-      'moveMap'
-    ]),
     
-    ...mapMutations('listingSearch', [
-      'updateLocationSearchField'
-    ]),
-
-    ...mapActions('listingSearch', ['searchListings']),
-
     handlePlaceChanged() {
-      this.setAutocompletePlace(this.autocomplete.getPlace())
-      this.updateLocationSearchField(this.$refs.locationSearchField.value)
-      const { location, viewport } = this.autocompletePlace.geometry
-      this.moveMap({ location, viewport })
-      this.searchListings(this.searchParams)
+      this.autocompletePlace = this.autocomplete.getPlace()
+      this.$emit(
+        'autocompletePlaceChanged',
+        {
+          autocompletePlace: this.autocompletePlace,
+          locationSearchField: this.$refs.locationSearchField.value
+        }
+      )
     },
 
     initAutoComplete() {
-      this.setAutocomplete(new this.google.maps.places.Autocomplete(this.$refs.locationSearchField, autocompleteOptions))
-      this.setAutocompleteListener(this.autocomplete.addListener('place_changed', this.handlePlaceChanged))
+      this.autocomplete = new this.google.maps.places.Autocomplete(
+        this.$refs.locationSearchField,
+        this.autocompleteOptions
+      )
+      this.autocompleteListener = this.autocomplete.addListener('place_changed', this.handlePlaceChanged)
     },
 
     handleLocationInput(e) {
-      this.updateLocationSearchField(e.target.value)
+      this.$emit('inputChanged', e.target.value)
     }
   }
 }
