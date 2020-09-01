@@ -1,4 +1,3 @@
-import get from 'lodash/get'
 import { getListings } from '@/services/listing'
 
 const initialState = () => {
@@ -20,7 +19,7 @@ const initialState = () => {
 export const getters = {
   
   listings({ listingSearch }) {
-    return get(listingSearch, 'results.result_list', [])
+    return listingSearch?.results?.result_list ?? []
   },
 
   listingLocations(state, { listings }) {
