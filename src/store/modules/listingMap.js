@@ -2,8 +2,6 @@ import { geocode } from '@/lib/google_maps'
 
 const initialState = () => {
   return {
-    googleMap: null,
-    geocoder: null,
     geocode: {
       request: null,
       results: null,
@@ -21,20 +19,6 @@ export const getters = {
 }
 
 export const mutations = {
-  setMap(state, MapInstance) {
-    state.googleMap = MapInstance
-  },
-
-  // TODO: this probably needs a better name and needs to be less specific, but I don't know how to change it yet
-  moveMap(state, { location, viewport }) {
-    state.googleMap.setCenter(location)
-    state.googleMap.fitBounds(viewport)
-  },
-
-  setGeocoder(state, GeocoderInstance) {
-    state.geocoder = GeocoderInstance
-  },
-
   setGeocoderResponse(state, payload) {
     state.geocode = payload
   },
@@ -58,10 +42,10 @@ export const mutations = {
 
 export const actions = {
   
-  async geocodeMap({ state, commit }, request) {
+  async geocodeMap({ commit }, payload) {
     try {
-      const res = await geocode(state.geocoder, request)
-      commit('setGeocoderResponse', { ...request, ...res })
+      const res = await geocode(payload.geocoder, payload.request)
+      commit('setGeocoderResponse', { ...payload.request, ...res })
       return res
     } catch (error) {
       return error
@@ -76,16 +60,6 @@ export const actions = {
       return results
     } catch (error) {
       return error
-    }
-  },
-
-  async initializeMap({ commit }, payload) {
-    const { google, el } = payload
-    try {
-      commit('setMap', new google.maps.Map(el))
-      commit('setGeocoder', new google.maps.Geocoder())
-    } catch (error) {
-      console.error(error)
     }
   }
 }

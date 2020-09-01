@@ -13,13 +13,27 @@ export default {
     google: {
       type: Object,
       required: true
+    },
+
+    location: {
+      type: [Object, null]
+    },
+    
+    viewport: {
+      type: [Object, null]
+    }
+  },
+
+  data() {
+    return {
+      googleMap: null
     }
   },
 
   computed: {
     ...mapState('listingMap', [
-      'googleMap',
-      'markers'
+      'markers',
+      'geocode'
     ]),
     
     ...mapState('listingSearch', [
@@ -29,26 +43,35 @@ export default {
     ...mapGetters('listingSearch', ['listingLocations'])
   },
 
-  async mounted() {
-    await this.initializeMap({ google: this.google, el: this.$el })
-    this.setMapLocation({ address: this.searchParams.location_search_field })
-    this.searchListings(this.searchParams)
-    this.addListingMarkers()
-  },
-
   watch: {
+    location(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.moveMap(this.location, this.viewport)
+      }
+    },
+
     listingLocations() {
       this.addListingMarkers()
     }
   },
 
+  async mounted() {
+    this.googleMap = new this.google.maps.Map(this.$el)
+    if (this.location && this.viewport) this.moveMap(this.location, this.viewport)
+    this.addListingMarkers()
+  },
+
   methods: {
 
-    ...mapMutations('listingMap', ['moveMap', 'setMarkers']),
+    ...mapMutations('listingMap', ['setMarkers']),
         
-    ...mapActions('listingMap', ['initializeMap', 'setMapLocation']),
-    
-    ...mapActions('listingSearch', ['searchListings']),
+    ...mapActions('listingMap', ['initializeMap', 'geocodeMap']),
+
+    // TODO: this probably needs a better name and needs to be less specific, but I don't know how to change it yet
+    moveMap(location, viewport) {
+      this.googleMap.setCenter(location)
+      this.googleMap.fitBounds(viewport)
+    },
 
     markerClickHandler(marker) {
       this.googleMap.setZoom(16)
