@@ -31,13 +31,7 @@ export const initializeGoogleMaps = () => {
 export const geocode = (geocoder, request) => {
   return new Promise((resolve, reject) => {
     geocoder.geocode(request, (results, status) => {
-      if (status === 'OK' && results[0]) {
-        resolve({ results, status })
-      } else if (status === 'OK' && !results[0]) {
-        reject(new Error('No results found'))
-      } else {
-        reject(new Error(status))
-      }
+      status === 'OK' ? resolve({ results, status }) : reject(new Error(status))
     })
   })
 }
