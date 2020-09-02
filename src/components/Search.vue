@@ -4,7 +4,21 @@
       <SearchForm :google="google" :geocoder="geocoder" />
       <PickList />
     </div>
-    <ListingMap v-if="google" :google="google" :location="location" :viewport="viewport" />
+    <ListingMap v-if="google" :google="google" :location="location" :viewport="viewport">
+      <!-- this is an example of using scoped slots. we need access to the map object that's created in ListingMap, so
+      we bind the map object inside it's slot, which makes it available inside slotProps when we use it with v-slot -->
+      <template v-slot:default="slotProps">
+        <template v-if="slotProps.map">
+          <ListingMarker
+            v-for="(position, index) in listingLocations"
+            :key="index"
+            :position="position"
+            :google="google"
+            :map="slotProps.map"
+          />
+        </template>
+      </template>
+    </ListingMap>
   </div>
 </template>
 
@@ -12,11 +26,12 @@
 // TODO: switch to @googlemaps/js-api-loader if it ever supports clientId. @googlemaps/loader was deprecated in favor of
 // @googlemaps/js-api-loader but it doesn't seem to support clientId yet.
 import { Loader } from '@googlemaps/loader'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import { googleMapsOptions } from '@/config/google'
 import SearchForm from "@/components/SearchForm"
 import PickList from '@/components/PickList'
 import ListingMap from "@/components/ListingMap"
+import ListingMarker from "@/components/ListingMarker"
 
 export default {
 
@@ -24,6 +39,7 @@ export default {
     SearchForm,
     PickList,
     ListingMap,
+    ListingMarker
   },
 
   computed: {
@@ -35,7 +51,9 @@ export default {
 
     ...mapState('listingSearch', [
       'searchParams'
-    ])
+    ]),
+
+    ...mapGetters('listingSearch', ['listingLocations'])
   },
 
   data() {

@@ -1,5 +1,4 @@
 import { geocode } from '@/lib/google_maps'
-import get from 'lodash/get'
 
 const initialState = () => {
   return {
@@ -10,7 +9,6 @@ const initialState = () => {
     },
     location: null,
     viewport: null,
-    markers: []
   }
 }
 
@@ -30,10 +28,6 @@ export const mutations = {
 
   setViewport(state, payload) {
     state.viewport = payload
-  },
-
-  setMarkers(state, markers) {
-    state.markers = markers
   }
 
 }
