@@ -4,21 +4,7 @@
       <SearchForm :google="google" :geocoder="geocoder" />
       <PickList />
     </div>
-    <!-- this is an example of using scoped slots. we need access to the google "map" object that is created inside
-    the ListingMap child component, so inside ListingMap we bind this map object to it's <slot> as an attribute called
-    "map", e.g., <slot :map="map">. then, when we use the v-slot directive below, we create a variable that we call
-    "slotProps" (the name can be anything), and that variable contains all the props we bound to the slot in the child
-    component. v-slot:default is referencing the "defalut" slot because vue supports using multiple "named slots", and
-    if you create a <slot> with no name then it's name implicitly becomes "default". -->
-    <ListingMap v-if="google" v-slot:default="slotProps" :google="google" :location="location" :viewport="viewport">
-      <ListingMarker
-        v-for="(position, index) in listingLocations"
-        :key="index"
-        :position="position"
-        :google="google"
-        :map="slotProps.map"
-      />
-    </ListingMap>
+    <ListingMap v-if="google" :google="google" />
   </div>
 </template>
 
@@ -26,33 +12,24 @@
 // TODO: switch to @googlemaps/js-api-loader if it ever supports clientId. @googlemaps/loader was deprecated in favor of
 // @googlemaps/js-api-loader but it doesn't seem to support clientId yet.
 import { Loader } from '@googlemaps/loader'
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import { googleMapsOptions } from '@/config/google'
 import SearchForm from "@/components/SearchForm"
 import PickList from '@/components/PickList'
 import ListingMap from "@/components/ListingMap"
-import ListingMarker from "@/components/ListingMarker"
 
 export default {
 
   components: {
     SearchForm,
     PickList,
-    ListingMap,
-    ListingMarker
+    ListingMap
   },
 
   computed: {
-    ...mapState('listingMap', [
-      'location',
-      'viewport'
-    ]),
-
     ...mapState('listingSearch', [
       'searchParams'
-    ]),
-
-    ...mapGetters('listingSearch', ['listingLocations'])
+    ])
   },
 
   data() {

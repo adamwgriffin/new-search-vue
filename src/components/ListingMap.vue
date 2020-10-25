@@ -1,62 +1,53 @@
 <template>
-  <div id="listing-map">
-    <!-- using scoped slots. binding the "map" data attribute here makes it available to the slot content in the parent
-    component (in this case Search) via the v-slot directive -->
-    <slot v-if="map" :map="map"></slot>
-  </div>
+  <!-- this is an example of using scoped slots. we need access to the google "map" object that is created inside
+  the Map child component, so inside Map we bind this map object to it's <slot> as an attribute called
+  "map", e.g., <slot :map="map">. then, when we use the v-slot directive below, we create a variable that we call
+  "slotProps" (the name can be anything), and that variable contains all the props we bound to the slot in the child
+  component. v-slot:default is referencing the "defalut" slot because vue supports using multiple "named slots", and
+  if you create a <slot> with no name then it's name implicitly becomes "default". -->
+  <GoogleMap v-slot:default="slotProps" :google="google" :location="location" :viewport="viewport">
+    <ListingMarker
+      v-for="(position, index) in listingLocations"
+      :key="index"
+      :position="position"
+      :google="google"
+      :map="slotProps.map"
+    />
+  </GoogleMap>
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
+import GoogleMap from '@/components/GoogleMap'
+import ListingMarker from '@/components/ListingMarker'
+
 export default {
+
+  components: {
+    GoogleMap,
+    ListingMarker
+  },
 
   props: {
     google: {
       type: Object,
       required: true
-    },
-
-    location: {
-      type: [Object, null]
-    },
-    
-    viewport: {
-      type: [Object, null]
     }
   },
 
-  data() {
-    return {
-      map: null
-    }
+  computed: {
+    ...mapState('listingMap', [
+      'location',
+      'viewport'
+    ]),
+
+    ...mapGetters('listingSearch', ['listingLocations'])
   },
 
-  watch: {
-    location(newValue, oldValue) {
-      if (newValue !== oldValue) {
-        this.moveMap(this.location, this.viewport)
-      }
-    }
-  },
 
-  async mounted() {
-    this.map = new this.google.maps.Map(this.$el)
-    if (this.location && this.viewport) this.moveMap(this.location, this.viewport)
-  },
-
-  methods: {
-
-    // TODO: this probably needs a better name and needs to be less specific, but I don't know how to change it yet
-    moveMap(location, viewport) {
-      this.map.setCenter(location)
-      this.map.fitBounds(viewport)
-    }
-
-  }
 }
 </script>
 
-<style scoped>
-#listing-map {
-  width: 35%;
-}
+<style>
+
 </style>
