@@ -1,7 +1,3 @@
-<template>
-  
-</template>
-
 <script>
 import { listingMarker, listingMarkerIcon } from '@/lib/listing_marker'
 
@@ -73,7 +69,3 @@ export default {
   
 }
 </script>
-
-<style>
-
-</style>
