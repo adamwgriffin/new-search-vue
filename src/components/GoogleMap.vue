@@ -15,13 +15,12 @@ export default {
       required: true
     },
 
-    /* TODO: get rid of null here. I think it's only necessary if you make the prop required */
     location: {
-      type: [Object, null]
+      type: Object
     },
     
     viewport: {
-      type: [Object, null]
+      type: Object
     }
   },
 
