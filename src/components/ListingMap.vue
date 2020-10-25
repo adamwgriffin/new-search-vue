@@ -1,8 +1,8 @@
 <template>
   <div id="listing-map">
-    <!-- using scoped slots. binding the map data attribute here makes it available to child components as a special ind
-    of prop. -->
-    <slot :map="map"></slot>
+    <!-- using scoped slots. binding the "map" data attribute here makes it available to the slot content in the parent
+    component (in this case Search) via the v-slot directive -->
+    <slot v-if="map" :map="map"></slot>
   </div>
 </template>
 
