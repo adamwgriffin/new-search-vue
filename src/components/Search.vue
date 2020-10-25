@@ -44,7 +44,6 @@ export default {
 
   computed: {
     ...mapState('listingMap', [
-      'geocode',
       'location',
       'viewport'
     ]),
