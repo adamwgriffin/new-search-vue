@@ -13,7 +13,7 @@
 // @googlemaps/js-api-loader but it doesn't seem to support clientId yet.
 import { Loader } from '@googlemaps/loader'
 import { mapState, mapActions } from 'vuex'
-import { googleMapsOptions } from '@/config/google'
+import { mapLoaderOptions } from '@/config/google'
 import SearchForm from "@/components/SearchForm"
 import PickList from '@/components/PickList'
 import ListingMap from "@/components/ListingMap"
@@ -57,7 +57,7 @@ export default {
     do it for a good reason. we don't want to keep google in the store because complex, stateful objects don't work well
     with Vuex, and putting them in the store is discouraged. */
     async loadGoogle() {
-      if (typeof google === 'undefined') await new Loader(googleMapsOptions).load()
+      if (typeof google === 'undefined') await new Loader(mapLoaderOptions).load()
       return google
     },
 

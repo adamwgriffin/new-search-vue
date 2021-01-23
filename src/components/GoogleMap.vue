@@ -21,6 +21,11 @@ export default {
     
     viewport: {
       type: Object
+    },
+
+    mapOptions: {
+      type: Object,
+      default: () => ({})
     }
   },
 
@@ -39,7 +44,7 @@ export default {
   },
 
   async mounted() {
-    this.map = new this.google.maps.Map(this.$el)
+    this.map = new this.google.maps.Map(this.$el, this.mapOptions)
     if (this.location && this.viewport) this.moveMap(this.location, this.viewport)
   },
 
