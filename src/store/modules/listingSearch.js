@@ -33,20 +33,7 @@ export const getters = {
         lng: +listing.location.longitude
       }
     })
-  },
-
-  // TODO: I think result_geo is actually the geospatial layer. keeping this here because we may need that
-  /* listingLocations({ listingSearch }) {
-    const coordinates = get(listingSearch, 'results.result_geo[0].geojson.coordinates[0][0]', []) 
-    return coordinates.map(coordinate => {
-      return {
-        position: {
-          lat: coordinate[1],
-          lng: coordinate[0]
-        }
-      }
-    })
-  } */
+  }
 
 }
 
