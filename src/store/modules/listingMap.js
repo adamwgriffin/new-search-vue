@@ -16,7 +16,8 @@ export const getters = {
 
   // a.k.a, "address type"
   geotype(state) {
-    return googleToServiceAddressTypeMapping[state.geocode.results[0].types[0]]
+    const type = state.geocode.results?.[0]?.types?.[0]
+    return type ? googleToServiceAddressTypeMapping[type] : null
   }
 
 }
