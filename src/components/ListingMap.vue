@@ -5,7 +5,13 @@
   "slotProps" (the name can be anything), and that variable contains all the props we bound to the slot in the child
   component. v-slot:default is referencing the "defalut" slot because vue supports using multiple "named slots", and
   if you create a <slot> with no name then it's name implicitly becomes "default". -->
-  <GoogleMap v-slot:default="slotProps" :google="google" :location="location" :viewport="viewport">
+  <GoogleMap
+    v-slot:default="slotProps"
+    :google="google"
+    :location="location"
+    :viewport="viewport"
+    :mapOptions="mapOptions"
+  >
     <ListingMarker
       v-for="(position, index) in listingLocations"
       :key="index"
@@ -20,6 +26,7 @@
 import { mapState, mapGetters } from 'vuex'
 import GoogleMap from '@/components/GoogleMap'
 import ListingMarker from '@/components/ListingMarker'
+import { mapOptions } from '@/config/google'
 
 export default {
 
@@ -36,6 +43,8 @@ export default {
   },
 
   computed: {
+    mapOptions: () => mapOptions,
+
     ...mapState('listingMap', [
       'location',
       'viewport'
@@ -47,7 +56,3 @@ export default {
 
 }
 </script>
-
-<style>
-
-</style>
