@@ -17,9 +17,8 @@ const initialState = () => {
 }
 
 export const getters = {
-  serviceUrl(state, getters, rootState) {
-    const { serviceBase, serviceVersion } = rootState.env
-    return `${serviceBase}/service/${serviceVersion}/listing/search_v2`
+  serviceUrl(state, getters, rootState, rootGetters) {
+    return `${rootGetters.baseUrl}/listing/search_v2`
   },
   
   listings({ listingSearch }) {

@@ -5,6 +5,12 @@ const initialState = () => {
   }
 }
 
+export const getters = {
+  baseUrl(state) {
+    return `${state.serviceBase}/service/${state.serviceVersion}` 
+  }
+}
+
 export const mutations = {
   setServiceBase(state, value) {
     state.serviceBase = value
@@ -17,5 +23,6 @@ export const mutations = {
 
 export default {
   state: initialState(),
+  getters,
   mutations,
 }
