@@ -1,4 +1,4 @@
-import { getListings } from '@/services/listing'
+import http from '@/lib/http'
 
 const initialState = () => {
   return {
@@ -17,6 +17,10 @@ const initialState = () => {
 }
 
 export const getters = {
+  serviceUrl(state, getters, rootState) {
+    const { serviceBase, serviceVersion } = rootState.env
+    return `${serviceBase}/service/${serviceVersion}/listing/search_v2`
+  },
   
   listings({ listingSearch }) {
     return listingSearch?.results?.result_list ?? []
@@ -69,10 +73,10 @@ export const mutations = {
 }
 
 export const actions = {
-  searchListings: async ({ commit }, payload) => {
+  searchListings: async ({ commit, getters }, payload) => {
     try {
       commit('setSearchListingsPending')
-      const res = await getListings(payload)
+      const res = await http({ url: getters.serviceUrl, params: payload })
       if (res.data.status !== 'fail') {
         commit('setSearchListingsSuccess', { results: res.data.data, status: res.status })
         return res

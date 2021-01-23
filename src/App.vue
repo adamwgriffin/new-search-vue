@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Search />
+    <Search :serviceBase="serviceBase" :serviceVersion="serviceVersion" />
   </div>
 </template>
 
@@ -8,8 +8,13 @@
 import Search from '@/components/Search'
 
 export default {
-  name: 'App',
-  components: { Search }
+  components: { Search },
+
+  computed: {
+    serviceBase: () => process.env.VUE_APP_SERVICE_BASE,
+
+    serviceVersion: () => process.env.VUE_APP_SERVICE_VERSION
+  }
 }
 </script>
 

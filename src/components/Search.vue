@@ -12,24 +12,29 @@
 // TODO: switch to @googlemaps/js-api-loader if it ever supports clientId. @googlemaps/loader was deprecated in favor of
 // @googlemaps/js-api-loader but it doesn't seem to support clientId yet.
 import { Loader } from '@googlemaps/loader'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import { mapLoaderOptions } from '@/config/google'
 import SearchForm from "@/components/SearchForm"
 import PickList from '@/components/PickList'
 import ListingMap from "@/components/ListingMap"
 
 export default {
-
   components: {
     SearchForm,
     PickList,
     ListingMap
   },
 
-  computed: {
-    ...mapState('listingSearch', [
-      'searchParams'
-    ])
+  props: {
+    serviceBase: {
+      type: String,
+      required: true
+    },
+
+    serviceVersion: {
+      type: String,
+      required: true
+    }
   },
 
   data() {
@@ -39,7 +44,15 @@ export default {
     }
   },
 
+  computed: {
+    ...mapState('listingSearch', [
+      'searchParams'
+    ])
+  },
+
   async mounted() {
+    this.setServiceBase(this.serviceBase)
+    this.setServiceVersion(this.serviceVersion)
     this.searchListings(this.searchParams)
     this.google = await this.loadGoogle()
     this.createGeocoder()
@@ -47,6 +60,8 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['setServiceBase', 'setServiceVersion']),
+
     ...mapActions('listingMap', ['geocodeMap']),
 
     ...mapActions('listingSearch', ['searchListings']),
