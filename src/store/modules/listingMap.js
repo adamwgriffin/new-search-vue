@@ -1,4 +1,4 @@
-import { geocode } from '@/lib/google_maps'
+import { geocode, googleToServiceAddressTypeMapping } from '@/lib/geocode'
 
 const initialState = () => {
   return {
@@ -13,6 +13,11 @@ const initialState = () => {
 }
 
 export const getters = {
+
+  // a.k.a, "address type"
+  geotype(state) {
+    return googleToServiceAddressTypeMapping[state.geocode.results[0].types[0]]
+  }
 
 }
 
