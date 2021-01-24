@@ -1,18 +1,34 @@
+import http from '@/lib/http'
 import { geocode, googleToServiceAddressTypeMapping } from '@/lib/geocode'
 
 const initialState = () => {
   return {
+    buffer_miles: 0,
     geocode: {
+      pending: false,
+      request: null,
+      results: null,
+      status: null,
+      error: null,
+    },
+    geoLayer: {
+      pending: false,
       request: null,
       results: null,
       status: null
     },
+    center_lat: null,
+    center_lon: null,
     location: null,
     viewport: null,
+    geojson: {}
   }
 }
 
 export const getters = {
+  geoLayerServiceUrl(state, getters, rootState, rootGetters) {
+    return `${rootGetters.baseUrl}/listing/geo/layer/search`
+  },
 
   // a.k.a, "address type"
   geotype(state) {
@@ -24,8 +40,32 @@ export const getters = {
 
 export const mutations = {
 
-  setGeocoderResponse(state, payload) {
-    state.geocode = payload
+  setGeocodePending(state) {
+    state.geocode.pending = true
+  },
+
+  setGeocodeSuccess(state, payload) {
+    state.geocode.error = null
+    state.geocode.request = payload.request
+    state.geocode.results = payload.results
+    state.geocode.status = payload.status
+    state.geocode.pending = false
+  },
+
+  setGeocodeFailure(state, payload) {
+    state.geocode.error = payload.error
+    state.geocode.request = payload.request
+    state.geocode.results = null
+    state.geocode.status = payload.status
+    state.geocode.pending = false
+  },
+
+  setCenterLat(state, payload) {
+    state.center_lat = payload
+  },
+  
+  setCenterLon(state, payload) {
+    state.center_lon = payload
   },
 
   setLocation(state, payload) {
@@ -34,21 +74,59 @@ export const mutations = {
 
   setViewport(state, payload) {
     state.viewport = payload
-  }
+  },
 
+  setGeoLayerPending(state) {
+    state.geoLayer.pending = true
+  },
+
+  setGeoLayerSuccess(state, { results, status }) {
+    state.geoLayer.results = results
+    state.geoLayer.status = status
+    state.geoLayer.pending = false
+  },
+
+  setGeoLayerFailure(state, error) {
+    state.geoLayer.error = error
+    state.geoLayer.status = error.status
+    state.geoLayer.pending = false
+  },
+
+  setGeojson(state, payload) {
+    state.geojson = payload
+  }
 }
 
 export const actions = {
   
   async geocodeMap({ commit }, payload) {
     try {
+      commit('setGeocodePending')
       const res = await geocode(payload.geocoder, payload.request)
-      commit('setGeocoderResponse', { ...payload.request, ...res })
+      commit('setGeocodeSuccess', { request: payload.request, results: res.results, status: res.status })
       const { location, viewport } = res?.results?.[0]?.geometry ?? {}
+      if (location) {
+        commit('setCenterLat', location.lat())
+        commit('setCenterLon', location.lng())
+      }
       commit('setLocation', location)
       commit('setViewport', viewport)
       return res
     } catch (error) {
+      commit('setGeocodeFailure', { request: payload.request, error: error, status: error.status })
+      return error
+    }
+  },
+
+  async getGeoLayer({ commit, getters }, payload) {
+    try {
+      commit('setGeoLayerPending')
+      const res = await http({ url: getters.geoLayerServiceUrl, params: payload })
+      commit('setGeoLayerSuccess', { results: res.data.data, status: res.status })
+      commit('setGeojson', res?.data.data.result_list?.[0]?.geojson ?? {})
+      return res
+    } catch (error) {
+      commit('setGeoLayerFailure', error)
       return error
     }
   }

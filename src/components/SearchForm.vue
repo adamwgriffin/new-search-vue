@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { autocompleteOptions } from '@/config/google'
 import SearchField from '@/components/SearchField'
 import SearchButton from '@/components/SearchButton'
@@ -25,8 +25,13 @@ export default {
   props: ['google', 'geocoder'],
 
   computed: {
+    ...mapGetters('listingMap', ['geotype']),
+
     ...mapState('listingMap', [
-      'geocode'
+      'center_lat',
+      'center_lon',
+      'geotype',
+      'buffer_miles'
     ]),
 
     ...mapState('listingSearch', [
@@ -43,7 +48,7 @@ export default {
 
     ...mapActions('listingSearch', ['searchListings']),
 
-    ...mapActions('listingMap', ['geocodeMap']),
+    ...mapActions('listingMap', ['geocodeMap', 'getGeoLayer']),
 
     handleSearchFieldInputChanged(e) {
       this.updateLocationSearchField(e)
@@ -58,8 +63,18 @@ export default {
     },
 
     handleSearchButtonClicked() {
+      this.geocodeMap({
+        geocoder: this.geocoder,
+        request: { address: this.searchParams.location_search_field }
+      })
+      this.getGeoLayer({
+        center_lat: this.center_lat,
+        center_lon: this.center_lon,
+        geotype: this.geotype,
+        buffer_miles: this.buffer_miles,
+        source: 'agent website'
+      })
       this.searchListings(this.searchParams)
-      this.geocodeMap({ geocoder: this.geocoder, request: { address: this.searchParams.location_search_field } })
     }
   }
 }
