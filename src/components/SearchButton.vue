@@ -16,12 +16,13 @@ export default {
 
 <style>
 #search-button {
-  margin-left: 1rem;
-  width: 5rem;
   height: 2.2rem;
   border-radius: .5rem;
-  background: gray;
-  color: white;
-  font-size: 1rem;
+  margin-left: .4rem;
+  padding: 0rem .8rem;
+  border: solid gray 1px;
+  background: white;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 </style>

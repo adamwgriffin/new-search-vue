@@ -66,5 +66,7 @@ export default {
   width: 40%;
   padding: 0rem .8rem;
   font-size: 1rem;
+  background: rgb(246, 246, 246);
+  border: solid gray 1px;
 }
 </style>

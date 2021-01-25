@@ -8,7 +8,7 @@
         @inputChanged="handleSearchFieldInputChanged"
         @autocompletePlaceChanged="handleAutocompletePlaceChanged"
       />
-      <search-button @click="handleSearchButtonClicked">Search</search-button>
+      <SearchButton @click="handleSearchButtonClicked">🔎</SearchButton>
     </form>
   </div>
 </template>
@@ -93,7 +93,6 @@ export default {
 
 <style scoped>
 form {
-  padding: 1rem;
-  border-bottom: solid 1px gray;
+  padding: .8rem;
 }
 </style>
