@@ -42,7 +42,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations('listingMap', ['setLocation', 'setViewport']),
+    ...mapMutations('listingMap', ['setLocation', 'setViewport', 'setCenterLat', 'setCenterLon']),
 
     ...mapMutations('listingSearch', ['updateLocationSearchField', 'resetListings']),
 
@@ -59,13 +59,23 @@ export default {
       this.updateLocationSearchField(e.locationSearchField)
       this.searchListings(this.searchParams)
       const { location, viewport } = e.autocompletePlace.geometry
+      this.setCenterLat(location.lat())
+      this.setCenterLon(location.lng())
       this.setLocation(location)
       this.setViewport(viewport)
+      this.getGeoLayer({
+        center_lat: this.center_lat,
+        center_lon: this.center_lon,
+        geotype: this.geotype,
+        buffer_miles: this.buffer_miles,
+        source: 'agent website'
+      })
     },
 
-    handleSearchButtonClicked() {
-      this.geocodeMap({
+    async handleSearchButtonClicked() {
       this.resetListings()
+      this.searchListings(this.searchParams)
+      await this.geocodeMap({
         geocoder: this.geocoder,
         request: { address: this.searchParams.location_search_field }
       })
@@ -76,7 +86,6 @@ export default {
         buffer_miles: this.buffer_miles,
         source: 'agent website'
       })
-      this.searchListings(this.searchParams)
     }
   }
 }

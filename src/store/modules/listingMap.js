@@ -21,7 +21,7 @@ const initialState = () => {
     center_lon: null,
     location: null,
     viewport: null,
-    geojson: {}
+    geoLayerCoordinates: []
   }
 }
 
@@ -41,7 +41,7 @@ export const getters = {
 export const mutations = {
 
   setGeocodePending(state) {
-    state.geocode.pending = true
+    state.geocode = { ...initialState().geocode, pending: true }
   },
 
   setGeocodeSuccess(state, payload) {
@@ -77,7 +77,7 @@ export const mutations = {
   },
 
   setGeoLayerPending(state) {
-    state.geoLayer.pending = true
+    state.geoLayer = { ...initialState().geoLayer, pending: true }
   },
 
   setGeoLayerSuccess(state, { results, status }) {
@@ -92,8 +92,8 @@ export const mutations = {
     state.geoLayer.pending = false
   },
 
-  setGeojson(state, payload) {
-    state.geojson = payload
+  geoLayerCoordinates(state, geojson) {
+    state.geoLayerCoordinates = geojson.coordinates[0][0].map(c => ({ lat: c[1], lng: c[0] }))
   }
 }
 
@@ -122,8 +122,12 @@ export const actions = {
     try {
       commit('setGeoLayerPending')
       const res = await http({ url: getters.geoLayerServiceUrl, params: payload })
-      commit('setGeoLayerSuccess', { results: res.data.data, status: res.status })
-      commit('setGeojson', res?.data.data.result_list?.[0]?.geojson ?? {})
+      if (res.data.status !== 'error') {
+        commit('setGeoLayerSuccess', { results: res.data.data, status: res.status })
+        commit('geoLayerCoordinates', res.data.data.result_list[0].geojson)
+      } else {
+        commit('setGeoLayerFailure', res)
+      }
       return res
     } catch (error) {
       commit('setGeoLayerFailure', error)

@@ -19,20 +19,29 @@
       :google="google"
       :map="slotProps.map"
     />
+    <GeoLayerPolygon
+      :coordinates="geoLayerCoordinates"
+      :options="geoLayerPolygonOptions"
+      :google="google"
+      :map="slotProps.map"
+    />
   </GoogleMap>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import GoogleMap from '@/components/GoogleMap'
 import ListingMarker from '@/components/ListingMarker'
+import GeoLayerPolygon from '@/components/GeoLayerPolygon'
+import { geoLayerPolygonOptions } from '@/config'
 import { mapOptions } from '@/config/google'
 
 export default {
 
   components: {
     GoogleMap,
-    ListingMarker
+    ListingMarker,
+    GeoLayerPolygon
   },
 
   props: {
@@ -45,9 +54,12 @@ export default {
   computed: {
     mapOptions: () => mapOptions,
 
+    geoLayerPolygonOptions,
+
     ...mapState('listingMap', [
       'location',
-      'viewport'
+      'viewport',
+      'geoLayerCoordinates'
     ]),
 
     ...mapState('listingSearch', ['listings'])
