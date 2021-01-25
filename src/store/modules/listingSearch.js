@@ -42,7 +42,7 @@ export const mutations = {
   },
 
   setSearchListingsPending(state) {
-    state.listingSearch.pending = true
+    state.listingSearch = { ...initialState().listingSearch, pending: true }
   },
 
   setSearchListingsSuccess(state, { results, status }) {
