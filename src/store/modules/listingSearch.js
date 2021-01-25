@@ -46,6 +46,10 @@ export const mutations = {
 
   setListings(state, data) {
     state.listings = data.result_list
+  },
+
+  resetListings(state) {
+    state.listings = initialState().listings
   }
 }
 

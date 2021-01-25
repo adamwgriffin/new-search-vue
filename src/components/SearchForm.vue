@@ -44,7 +44,7 @@ export default {
   methods: {
     ...mapMutations('listingMap', ['setLocation', 'setViewport']),
 
-    ...mapMutations('listingSearch', ['updateLocationSearchField']),
+    ...mapMutations('listingSearch', ['updateLocationSearchField', 'resetListings']),
 
     ...mapActions('listingSearch', ['searchListings']),
 
@@ -55,6 +55,7 @@ export default {
     },
 
     handleAutocompletePlaceChanged(e) {
+      this.resetListings()
       this.updateLocationSearchField(e.locationSearchField)
       this.searchListings(this.searchParams)
       const { location, viewport } = e.autocompletePlace.geometry
@@ -64,6 +65,7 @@ export default {
 
     handleSearchButtonClicked() {
       this.geocodeMap({
+      this.resetListings()
         geocoder: this.geocoder,
         request: { address: this.searchParams.location_search_field }
       })
