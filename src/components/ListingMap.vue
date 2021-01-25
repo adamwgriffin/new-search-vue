@@ -13,9 +13,9 @@
     :mapOptions="mapOptions"
   >
     <ListingMarker
-      v-for="(position, index) in listingLocations"
-      :key="index"
-      :position="position"
+      v-for="(l, i) in listings"
+      :key="l.listingid"
+      :position="{ lat: +l.location.latitude, lng: +l.location.longitude }"
       :google="google"
       :map="slotProps.map"
     />
@@ -50,9 +50,8 @@ export default {
       'viewport'
     ]),
 
-    ...mapGetters('listingSearch', ['listingLocations'])
-  },
-
+    ...mapState('listingSearch', ['listings'])
+  }
 
 }
 </script>

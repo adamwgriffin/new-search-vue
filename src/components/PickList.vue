@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters('listingSearch', ['listings'])
+    ...mapState('listingSearch', ['listings'])
   }
 }
 </script>

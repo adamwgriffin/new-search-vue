@@ -12,28 +12,15 @@ const initialState = () => {
       status: null,
       error: null,
       results: {}
-    }
+    },
+    listings: []
   }
 }
 
 export const getters = {
   serviceUrl(state, getters, rootState, rootGetters) {
     return `${rootGetters.baseUrl}/listing/search_v2`
-  },
-  
-  listings({ listingSearch }) {
-    return listingSearch?.results?.result_list ?? []
-  },
-
-  listingLocations(state, { listings }) {
-    return listings.map(listing => {
-      return {
-        lat: +listing.location.latitude,
-        lng: +listing.location.longitude
-      }
-    })
   }
-
 }
 
 export const mutations = {
@@ -55,6 +42,10 @@ export const mutations = {
     state.listingSearch.error = error
     state.listingSearch.status = error.status
     state.listingSearch.pending = false
+  },
+
+  setListings(state, data) {
+    state.listings = data.result_list
   }
 }
 
@@ -65,6 +56,7 @@ export const actions = {
       const res = await http({ url: getters.serviceUrl, params: payload })
       if (res.data.status !== 'fail') {
         commit('setSearchListingsSuccess', { results: res.data.data, status: res.status })
+        commit('setListings', res.data.data)
         return res
       } else {
         commit('setSearchListingsFailure', res.data)
