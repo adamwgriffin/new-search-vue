@@ -42,7 +42,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations('listingMap', ['setLocation', 'setViewport', 'setCenterLat', 'setCenterLon']),
+    ...mapMutations('listingMap', ['setLocation', 'setViewport']),
 
     ...mapMutations('listingSearch', ['updateLocationSearchField', 'resetListings']),
 
@@ -59,8 +59,6 @@ export default {
       this.updateLocationSearchField(e.locationSearchField)
       this.searchListings(this.searchParams)
       const { location, viewport } = e.autocompletePlace.geometry
-      this.setCenterLat(location.lat())
-      this.setCenterLon(location.lng())
       this.setLocation(location)
       this.setViewport(viewport)
       this.getGeoLayer({

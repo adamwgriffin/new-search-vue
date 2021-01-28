@@ -17,8 +17,6 @@ const initialState = () => {
       results: null,
       status: null
     },
-    center_lat: null,
-    center_lon: null,
     location: null,
     viewport: null,
     geoLayerCoordinates: []
@@ -60,14 +58,6 @@ export const mutations = {
     state.geocode.pending = false
   },
 
-  setCenterLat(state, payload) {
-    state.center_lat = payload
-  },
-  
-  setCenterLon(state, payload) {
-    state.center_lon = payload
-  },
-
   setLocation(state, payload) {
     state.location = payload
   },
@@ -105,10 +95,6 @@ export const actions = {
       const res = await geocode(payload.geocoder, payload.request)
       commit('setGeocodeSuccess', { request: payload.request, results: res.results, status: res.status })
       const { location, viewport } = res?.results?.[0]?.geometry ?? {}
-      if (location) {
-        commit('setCenterLat', location.lat())
-        commit('setCenterLon', location.lng())
-      }
       commit('setLocation', location)
       commit('setViewport', viewport)
       return res
