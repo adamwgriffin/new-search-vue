@@ -2,7 +2,10 @@
   <div id="search">
     <div class="search-results">
       <SearchForm :google="google" :geocoder="geocoder" />
-      <PickList />
+      <PickListHeading :countEnd="listings.length" :total="listings.length" />
+      <PickList>
+        <ListingCards :listings="listings" />
+      </PickList>
     </div>
     <ListingMap v-if="google" :google="google" />
   </div>
@@ -15,14 +18,18 @@ import { Loader } from '@googlemaps/loader'
 import { mapState, mapMutations, mapActions } from 'vuex'
 import { mapLoaderOptions } from '@/config/google'
 import SearchForm from "@/components/SearchForm"
+import PickListHeading from '@/components/PickListHeading'
 import PickList from '@/components/PickList'
 import ListingMap from "@/components/ListingMap"
+import ListingCards from '@/components/ListingCards'
 
 export default {
   components: {
     SearchForm,
+    PickListHeading,
     PickList,
-    ListingMap
+    ListingMap,
+    ListingCards
   },
 
   props: {
@@ -46,17 +53,18 @@ export default {
 
   computed: {
     ...mapState('listingSearch', [
-      'searchParams'
+      'searchParams',
+      'listings'
     ])
   },
 
   async mounted() {
     this.setServiceBase(this.serviceBase)
     this.setServiceVersion(this.serviceVersion)
-    this.searchListings(this.searchParams)
     this.google = await this.loadGoogle()
     this.createGeocoder()
-    this.geocodeMap({ geocoder: this.geocoder, request: { address: this.searchParams.location_search_field } })
+    // this.searchListings(this.searchParams)
+    // this.geocodeMap({ geocoder: this.geocoder, request: { address: this.searchParams.location_search_field } })
   },
 
   methods: {
@@ -85,12 +93,18 @@ export default {
 
 <style scoped>
 #search {
+  /* if html, body & parent are all height 100% & parent is display: flex, then #search will also be 100% wthout having
+  to specify it's own height. display: flex in turn allows this element's child, .search-results to also have 100%
+  height without specifying it. flex also causes the divs for each column to sit side-by-side */
   display: flex;
-  height: 100%;
+  /* width is necessary, otherwise the whole layout shrinks down */
+  width: 100%;
 }
 
 .search-results {
+  display: flex;
+  flex-direction: column;
   width: 65%;
-  height: 100%;
+  background: #f6f6f6;
 }
 </style>

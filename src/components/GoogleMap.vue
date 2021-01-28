@@ -59,9 +59,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-#google-map {
-  width: 35%;
-}
-</style>

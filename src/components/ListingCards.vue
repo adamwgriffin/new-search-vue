@@ -28,7 +28,6 @@ export default {
   gap: 1.3rem;
   margin: 0;
   padding: 0;
-  overflow-y: auto;
 }
 
 .grid-item {

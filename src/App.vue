@@ -20,13 +20,15 @@ export default {
 
 <style>
 html, body {
+  /* height: 100%; is necessary here for so that #app will be 100% */
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
 #app {
-  width: 100%;
+  /* height: 100% is necessary to make this element 100%, & display: flex allows it's child's height to also be 100% */
+  display: flex;
   height: 100%;
 }
 </style>

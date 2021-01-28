@@ -92,7 +92,8 @@ export default {
 </script>
 
 <style scoped>
-form {
+.search-form {
+  background: white;
   padding: .8rem;
 }
 </style>
