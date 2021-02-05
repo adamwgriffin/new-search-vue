@@ -1,7 +1,7 @@
 // options for @googlemaps/loader, which loads Google Maps by creating a script tag with these params in it. things like
 // your api key and the libraries you want to load go here
 export const mapLoaderOptions = {
-  clientId: "gme-windermeresolutions",
+  client: "gme-windermeresolutions",
   libraries: ['drawing', 'places', 'geometry']
 }
 

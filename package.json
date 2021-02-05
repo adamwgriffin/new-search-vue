@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@google/markerclustererplus": "^5.1.0",
-    "@googlemaps/loader": "^0.0.10",
+    "@googlemaps/js-api-loader": "^1.11.1",
     "axios": "^0.20.0",
     "axios-jsonp": "^1.0.4",
     "core-js": "^3.6.5",

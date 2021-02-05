@@ -12,9 +12,7 @@
 </template>
 
 <script>
-// TODO: switch to @googlemaps/js-api-loader if it ever supports clientId. @googlemaps/loader was deprecated in favor of
-// @googlemaps/js-api-loader but it doesn't seem to support clientId yet.
-import { Loader } from '@googlemaps/loader'
+import { Loader } from '@googlemaps/js-api-loader';
 import { mapState, mapMutations, mapActions } from 'vuex'
 import { mapLoaderOptions } from '@/config/google'
 import SearchForm from "@/components/SearchForm"
