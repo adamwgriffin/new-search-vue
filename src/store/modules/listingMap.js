@@ -58,8 +58,9 @@ export const mutations = {
     state.geocode.pending = false
   },
 
-  setLocation(state, payload) {
-    state.location = payload
+  setLocation(state, location) {
+    // we're saving location as a plain object in the store because saving complex objects is discouraged in vuex
+    state.location = { lat: location.lat(), lng: location.lng() }
   },
 
   setViewport(state, payload) {

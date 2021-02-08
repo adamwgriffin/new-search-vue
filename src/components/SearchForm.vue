@@ -25,8 +25,7 @@ export default {
     ...mapGetters('listingMap', ['geotype']),
 
     ...mapState('listingMap', [
-      'center_lat',
-      'center_lon',
+      'location',
       'geotype',
       'buffer_miles'
     ]),
@@ -59,8 +58,8 @@ export default {
       this.setLocation(location)
       this.setViewport(viewport)
       this.getGeoLayer({
-        center_lat: this.center_lat,
-        center_lon: this.center_lon,
+        center_lat: this.location.lat,
+        center_lon: this.location.lng,
         geotype: this.geotype,
         buffer_miles: this.buffer_miles,
         source: 'agent website'
@@ -72,8 +71,8 @@ export default {
       this.searchListings(this.searchParams)
       await this.geocodeMap({ address: this.searchParams.location_search_field })
       this.getGeoLayer({
-        center_lat: this.center_lat,
-        center_lon: this.center_lon,
+        center_lat: this.location.lat,
+        center_lon: this.location.lng,
         geotype: this.geotype,
         buffer_miles: this.buffer_miles,
         source: 'agent website'
