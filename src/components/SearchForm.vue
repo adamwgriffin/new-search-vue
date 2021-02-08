@@ -1,13 +1,13 @@
 <template>
   <div class="search-form">
-    <form autocomplete="off">
+    <form autocomplete="off" @submit.prevent="">
       <SearchField
         :locationSearchField="searchParams.location_search_field"
         :autocompleteOptions="autocompleteOptions"
         @inputChanged="handleSearchFieldInputChanged"
         @autocompletePlaceChanged="handleAutocompletePlaceChanged"
       />
-      <SearchButton @click.native.prevent="handleSearchButtonClicked">🔎</SearchButton>
+      <SearchButton @click.native="handleSearchButtonClicked">🔎</SearchButton>
     </form>
   </div>
 </template>
