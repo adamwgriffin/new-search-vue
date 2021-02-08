@@ -50,13 +50,20 @@ export default {
       this.updateLocationSearchField(e)
     },
 
-    handleAutocompletePlaceChanged(e) {
-      this.resetListings()
+    async handleAutocompletePlaceChanged(e) {
       this.updateLocationSearchField(e.locationSearchField)
+      this.resetListings()
       this.searchListings(this.searchParams)
-      const { location, viewport } = e.autocompletePlace.geometry
-      this.setLocation(location)
-      this.setViewport(viewport)
+      /* if the dropdown is open, but the user searches without selecting an option, the "place_changed" event can still
+      be triggered, but it will not have a geometry. it will only have a "name" property with the current value of the
+      input field */
+      if (e.autocompletePlace.geometry) {
+        const { location, viewport } = e.autocompletePlace.geometry
+        this.setLocation(location)
+        this.setViewport(viewport)
+      } else {
+        await this.geocodeMap({ address: this.searchParams.location_search_field })
+      }
       this.getGeoLayer({
         center_lat: this.location.lat,
         center_lon: this.location.lng,
