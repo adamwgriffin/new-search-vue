@@ -59,7 +59,7 @@ export default {
       }
     },
 
-    async initAutoComplete() {
+    initAutoComplete() {
       this.autocomplete = new google.maps.places.Autocomplete(this.$refs.locationSearchField, this.autocompleteOptions)
       this.autocompleteListener = this.autocomplete.addListener('place_changed', this.handlePlaceChanged)
     },
