@@ -7,7 +7,7 @@
         @inputChanged="handleSearchFieldInputChanged"
         @autocompletePlaceChanged="handleAutocompletePlaceChanged"
       />
-      <SearchButton @click="handleSearchButtonClicked">🔎</SearchButton>
+      <SearchButton @click.native.prevent="handleSearchButtonClicked">🔎</SearchButton>
     </form>
   </div>
 </template>

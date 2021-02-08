@@ -1,18 +1,8 @@
 <template>
-  <button id="search-button" @click.prevent="handleClick">
+  <button id="search-button">
     <slot></slot>
   </button>
 </template>
-
-<script>
-export default {
-  methods: {
-    handleClick() {
-      this.$emit('click')
-    }
-  }
-}
-</script>
 
 <style>
 #search-button {
