@@ -10,11 +10,6 @@
 export default {
 
   props: {
-    google: {
-      type: Object,
-      required: true
-    },
-
     location: {
       type: Object
     },
@@ -44,7 +39,7 @@ export default {
   },
 
   async mounted() {
-    this.map = new this.google.maps.Map(this.$el, this.mapOptions)
+    this.map = new google.maps.Map(this.$el, this.mapOptions)
     if (this.location && this.viewport) this.moveMap(this.location, this.viewport)
   },
 

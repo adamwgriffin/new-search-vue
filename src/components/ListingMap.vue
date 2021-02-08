@@ -7,7 +7,6 @@
   if you create a <slot> with no name then it's name implicitly becomes "default". -->
   <GoogleMap
     v-slot:default="slotProps"
-    :google="google"
     :location="location"
     :viewport="viewport"
     :mapOptions="mapOptions"
@@ -16,13 +15,11 @@
       v-for="(l, i) in listings"
       :key="l.listingid"
       :position="{ lat: +l.location.latitude, lng: +l.location.longitude }"
-      :google="google"
       :map="slotProps.map"
     />
     <GeoLayerPolygon
       :coordinates="geoLayerCoordinates"
       :options="geoLayerPolygonOptions"
-      :google="google"
       :map="slotProps.map"
     />
   </GoogleMap>
@@ -42,13 +39,6 @@ export default {
     GoogleMap,
     ListingMarker,
     GeoLayerPolygon
-  },
-
-  props: {
-    google: {
-      type: Object,
-      required: true
-    }
   },
 
   computed: {

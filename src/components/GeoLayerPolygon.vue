@@ -4,11 +4,6 @@
 <script>
 export default {
   props: {
-    google: {
-      type: Object,
-      required: true
-    },
-
     map: {
       type: Object,
       required: true
@@ -43,7 +38,7 @@ export default {
 
   methods: {
     createPolygon() {
-      this.polygon = new this.google.maps.Polygon({
+      this.polygon = new google.maps.Polygon({
         paths: this.coordinates,
         ...this.options
       })

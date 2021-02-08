@@ -92,14 +92,14 @@ export const actions = {
   async geocodeMap({ commit }, payload) {
     try {
       commit('setGeocodePending')
-      const res = await geocode(payload.geocoder, payload.request)
-      commit('setGeocodeSuccess', { request: payload.request, results: res.results, status: res.status })
-      const { location, viewport } = res?.results?.[0]?.geometry ?? {}
+      const res = await geocode(payload)
+      commit('setGeocodeSuccess', { request: payload, results: res.results, status: res.status })
+      const { location, viewport } = res.results[0].geometry
       commit('setLocation', location)
       commit('setViewport', viewport)
       return res
     } catch (error) {
-      commit('setGeocodeFailure', { request: payload.request, error: error, status: error.status })
+      commit('setGeocodeFailure', { request: payload, error: error, status: error.status })
       return error
     }
   },

@@ -26,6 +26,6 @@ export const listingMarkerIcon = (options) => ({
   // labelOrigin: new google.maps.Point(16, 16)
 })
 
-export const listingMarker = (google, position, map, icon, options={}) => {
+export const listingMarker = (position, map, icon, options={}) => {
   return new google.maps.Marker({ position, map, icon, ...options })
 }

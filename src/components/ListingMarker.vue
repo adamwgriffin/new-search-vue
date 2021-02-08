@@ -7,11 +7,6 @@ import { listingMarker, listingMarkerIcon } from '@/lib/listing_marker'
 export default {
 
   props: {
-    google: {
-      type: Object,
-      required: true
-    },
-
     map: {
       type: Object,
       required: true
@@ -62,7 +57,7 @@ export default {
     createMarker() {
       const markerIcon = listingMarkerIcon({ fill: this.iconFill })
       const markerIconHover = listingMarkerIcon({ fill: this.iconHoverFill })
-      this.marker = listingMarker(this.google, this.position, this.map, markerIcon)
+      this.marker = listingMarker(this.position, this.map, markerIcon)
       this.marker.addListener('click', this.markerClickHandler)
       this.marker.addListener('mouseover', () => this.marker.setIcon(markerIconHover))
       this.marker.addListener('mouseout', () => this.marker.setIcon(markerIcon))

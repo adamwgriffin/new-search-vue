@@ -2,7 +2,6 @@
   <div class="search-form">
     <form autocomplete="off">
       <SearchField
-        :google="google"
         :locationSearchField="searchParams.location_search_field"
         :autocompleteOptions="autocompleteOptions"
         @inputChanged="handleSearchFieldInputChanged"
@@ -21,8 +20,6 @@ import SearchButton from '@/components/SearchButton'
 
 export default {
   components: { SearchField, SearchButton },
-
-  props: ['google', 'geocoder'],
 
   computed: {
     ...mapGetters('listingMap', ['geotype']),
@@ -73,10 +70,7 @@ export default {
     async handleSearchButtonClicked() {
       this.resetListings()
       this.searchListings(this.searchParams)
-      await this.geocodeMap({
-        geocoder: this.geocoder,
-        request: { address: this.searchParams.location_search_field }
-      })
+      await this.geocodeMap({ address: this.searchParams.location_search_field })
       this.getGeoLayer({
         center_lat: this.center_lat,
         center_lon: this.center_lon,

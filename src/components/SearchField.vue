@@ -12,7 +12,7 @@
 <script>
 
 export default {
-  props: ['google', 'locationSearchField', 'autocompleteOptions'],
+  props: ['locationSearchField', 'autocompleteOptions'],
 
   data() {
     return {
@@ -22,10 +22,8 @@ export default {
     }
   },
 
-  watch: {
-    google() {
-      !this.autocomplete && this.initAutoComplete()
-    }
+  mounted() {
+    this.initAutoComplete()
   },
 
   destroyed() {
@@ -45,11 +43,24 @@ export default {
       )
     },
 
-    initAutoComplete() {
-      this.autocomplete = new this.google.maps.places.Autocomplete(
-        this.$refs.locationSearchField,
-        this.autocompleteOptions
-      )
+    handleEnter(e) {
+      console.log('handleEnter()')
+      /* if the user selects an autocomplete dropdown item with the keyboard using the enter key it will submit the
+      form, causing both the partial value that was typed as well as the autocomplete value that was selected to both be
+      searched since both the form submit and "place_changed" events fire. this code prevents the form submission event
+      if any of the dom nodes for the autocomplete dropdown are visible, meaning that the dropdown is open. seem like a
+      lame solution but most of the other solutions users have posted on SO are some variation of this.  */
+      const googleDOMNodes = document.getElementsByClassName('pac-container')
+      const googleDOMNodeIsVisible = Array.from(googleDOMNodes).some(node => node.offsetParent !== null)
+      if (googleDOMNodeIsVisible) {
+        e.preventDefault()
+      } else {
+        this.$emit('inputChanged', e.target.value)
+      }
+    },
+
+    async initAutoComplete() {
+      this.autocomplete = new google.maps.places.Autocomplete(this.$refs.locationSearchField, this.autocompleteOptions)
       this.autocompleteListener = this.autocomplete.addListener('place_changed', this.handlePlaceChanged)
     },
 

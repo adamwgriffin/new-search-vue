@@ -23,7 +23,13 @@ export const googleToServiceAddressTypeMapping = Object.freeze({
   'Address': 'Address'
 })
 
-export const geocode = (geocoder, request) => {
+let geocoder = null
+
+export const setGeocoder = (geocoderInstance) => {
+  geocoder = geocoderInstance
+}
+
+export const geocode = (request) => {
   return new Promise((resolve, reject) => {
     geocoder.geocode(request, (results, status) => {
       status === 'OK' ? resolve({ results, status }) : reject(new Error(status))
