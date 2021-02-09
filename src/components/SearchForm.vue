@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import { autocompleteOptions } from '@/config/google'
 import SearchField from '@/components/SearchField'
 import SearchButton from '@/components/SearchButton'
@@ -22,8 +22,6 @@ export default {
   components: { SearchField, SearchButton },
 
   computed: {
-    ...mapGetters('listingMap', ['geotype']),
-
     ...mapState('listingMap', [
       'location',
       'geotype',
@@ -38,7 +36,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations('listingMap', ['setLocation', 'setViewport']),
+    ...mapMutations('listingMap', ['setGeotype', 'setLocation', 'setViewport']),
 
     ...mapMutations('listingSearch', ['updateLocationSearchField', 'resetListings']),
 
@@ -57,10 +55,11 @@ export default {
       /* if the dropdown is open, but the user searches without selecting an option, the "place_changed" event can still
       be triggered, but it will not have a geometry. it will only have a "name" property with the current value of the
       input field */
-      if (e.autocompletePlace.geometry) {
-        const { location, viewport } = e.autocompletePlace.geometry
-        this.setLocation(location)
-        this.setViewport(viewport)
+      const { address_components, geometry } = e.autocompletePlace
+      if (address_components && geometry) {
+        this.setGeotype(address_components[0].types[0])
+        this.setLocation(geometry.location)
+        this.setViewport(geometry.viewport)
       } else {
         await this.geocodeMap({ address: this.searchParams.location_search_field })
       }

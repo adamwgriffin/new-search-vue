@@ -17,6 +17,8 @@ const initialState = () => {
       results: null,
       status: null
     },
+    // a.k.a, "address type"
+    geotype: null,
     location: null,
     viewport: null,
     geoLayerCoordinates: []
@@ -26,14 +28,7 @@ const initialState = () => {
 export const getters = {
   geoLayerServiceUrl(state, getters, rootState, rootGetters) {
     return `${rootGetters.baseUrl}/listing/geo/layer/search`
-  },
-
-  // a.k.a, "address type"
-  geotype(state) {
-    const type = state.geocode.results?.[0]?.types?.[0]
-    return type ? googleToServiceAddressTypeMapping[type] : null
   }
-
 }
 
 export const mutations = {
@@ -67,6 +62,10 @@ export const mutations = {
     state.viewport = payload
   },
 
+  setGeotype(state, type) {
+    state.geotype = googleToServiceAddressTypeMapping[type]
+  },
+
   setGeoLayerPending(state) {
     state.geoLayer = { ...initialState().geoLayer, pending: true }
   },
@@ -83,7 +82,7 @@ export const mutations = {
     state.geoLayer.pending = false
   },
 
-  geoLayerCoordinates(state, geojson) {
+  setGeoLayerCoordinates(state, geojson) {
     state.geoLayerCoordinates = geojson.coordinates[0][0].map(c => ({ lat: c[1], lng: c[0] }))
   }
 }
@@ -95,9 +94,10 @@ export const actions = {
       commit('setGeocodePending')
       const res = await geocode(payload)
       commit('setGeocodeSuccess', { request: payload, results: res.results, status: res.status })
-      const { location, viewport } = res.results[0].geometry
-      commit('setLocation', location)
-      commit('setViewport', viewport)
+      const { types, geometry } = res.results[0]
+      commit('setGeotype', types[0])
+      commit('setLocation', geometry.location)
+      commit('setViewport', geometry.viewport)
       return res
     } catch (error) {
       commit('setGeocodeFailure', { request: payload, error: error, status: error.status })
@@ -111,7 +111,7 @@ export const actions = {
       const res = await http({ url: getters.geoLayerServiceUrl, params: payload })
       if (res.data.status !== 'error') {
         commit('setGeoLayerSuccess', { results: res.data.data, status: res.status })
-        commit('geoLayerCoordinates', res.data.data.result_list[0].geojson)
+        commit('setGeoLayerCoordinates', res.data.data.result_list[0].geojson)
       } else {
         commit('setGeoLayerFailure', res)
       }
