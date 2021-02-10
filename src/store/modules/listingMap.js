@@ -1,5 +1,6 @@
 import http from '@/lib/http'
 import { geocode, googleToServiceAddressTypeMapping } from '@/lib/geocode'
+import { convertGeojsonCoordinatesToPolygonPaths } from '@/lib/polygon'
 
 const initialState = () => {
   return {
@@ -83,7 +84,7 @@ export const mutations = {
   },
 
   setGeoLayerCoordinates(state, geojson) {
-    state.geoLayerCoordinates = geojson.coordinates[0][0].map(c => ({ lat: c[1], lng: c[0] }))
+    state.geoLayerCoordinates = convertGeojsonCoordinatesToPolygonPaths(geojson.coordinates)
   }
 }
 
