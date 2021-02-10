@@ -18,7 +18,7 @@
       :map="slotProps.map"
     />
     <GeoLayerPolygon
-      :coordinates="geoLayerCoordinates"
+      :paths="geoLayerCoordinates"
       :options="geoLayerPolygonOptions"
       :map="slotProps.map"
     />
