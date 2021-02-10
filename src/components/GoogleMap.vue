@@ -13,9 +13,9 @@ export default {
     location: {
       type: Object
     },
-    
-    viewport: {
-      type: Object
+
+    bounds: {
+      type: Object,
     },
 
     mapOptions: {
@@ -32,25 +32,17 @@ export default {
 
   watch: {
     location(newValue, oldValue) {
-      if (newValue !== oldValue) {
-        this.moveMap(this.location, this.viewport)
-      }
+      this.map.setCenter(this.location)
+    },
+
+    bounds(newValue, oldValue) {
+      this.map.fitBounds(this.bounds)
     }
   },
 
   async mounted() {
+    // TODO: location and viewport should maybe just be options of the map
     this.map = new google.maps.Map(this.$el, this.mapOptions)
-    if (this.location && this.viewport) this.moveMap(this.location, this.viewport)
-  },
-
-  methods: {
-
-    // TODO: this probably needs a better name and needs to be less specific, but I don't know how to change it yet
-    moveMap(location, viewport) {
-      this.map.setCenter(location)
-      this.map.fitBounds(viewport)
-    }
-
   }
 }
 </script>
