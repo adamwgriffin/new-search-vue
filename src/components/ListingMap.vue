@@ -8,7 +8,7 @@
   <GoogleMap
     v-slot:default="slotProps"
     :location="location"
-    :viewport="viewport"
+    :bounds="bounds"
     :mapOptions="mapOptions"
   >
     <ListingMarker
@@ -30,6 +30,7 @@ import { mapState } from 'vuex'
 import GoogleMap from '@/components/GoogleMap'
 import ListingMarker from '@/components/ListingMarker'
 import GeoLayerPolygon from '@/components/GeoLayerPolygon'
+import { getGeoLayerBounds } from '@/lib/polygon'
 import { geoLayerPolygonOptions } from '@/config'
 import { mapOptions } from '@/config/google'
 
@@ -43,6 +44,10 @@ export default {
 
   computed: {
     mapOptions: () => mapOptions,
+
+    bounds() {
+      return this.geoLayerCoordinates.length ? getGeoLayerBounds(this.geoLayerCoordinates) : this.viewport
+    },
 
     geoLayerPolygonOptions,
 
