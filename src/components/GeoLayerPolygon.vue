@@ -9,7 +9,7 @@ export default {
       required: true
     },
 
-    coordinates: {
+    paths: {
       type: Array,
       default: () => []
     },
@@ -20,9 +20,8 @@ export default {
   },
 
   watch: {
-    coordinates(newValue, oldValue) {
-      if (this.polygon) this.clearPolygon()
-      if (newValue.length) this.createPolygon()
+    paths(newValue, oldValue) {
+      this.updatePolygon()
     }
   },
 
@@ -32,22 +31,31 @@ export default {
     }
   },
 
-  created() {
-    if (this.coordinates.length) this.createPolygon()
+  mounted() {
+    this.createPolygon()
+  },
+
+  destroyed() {
+    this.destroyPolygon()
   },
 
   methods: {
     createPolygon() {
+      // if this.paths is empty then the polygon will not show on the map, so we can easily create it without showing it
+      // and adds the paths later to make it visible
       this.polygon = new google.maps.Polygon({
-        paths: this.coordinates,
+        paths: this.paths,
         ...this.options
       })
       this.polygon.setMap(this.map)
     },
 
-    clearPolygon() {
+    updatePolygon() {
+      this.polygon.setPaths(this.paths)
+    },
+
+    destroyPolygon() {
       this.polygon.setMap(null)
-      this.polygon = null
     }
   }
 
