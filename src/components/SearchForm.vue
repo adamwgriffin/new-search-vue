@@ -6,8 +6,8 @@
         :autocompleteOptions="autocompleteOptions"
         @inputChanged="handleSearchFieldInputChanged"
         @autocompletePlaceChanged="handleAutocompletePlaceChanged"
+        @searchButtonClicked="handleSearchButtonClicked"
       />
-      <SearchButton @click.native="handleSearchButtonClicked">🔎</SearchButton>
     </form>
   </div>
 </template>
@@ -16,10 +16,9 @@
 import { mapState, mapMutations, mapActions } from 'vuex'
 import { autocompleteOptions } from '@/config/google'
 import SearchField from '@/components/SearchField'
-import SearchButton from '@/components/SearchButton'
 
 export default {
-  components: { SearchField, SearchButton },
+  components: { SearchField },
 
   computed: {
     ...mapState('listingMap', [
