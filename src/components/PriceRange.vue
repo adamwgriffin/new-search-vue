@@ -2,13 +2,17 @@
   <MenuButton :label="'Price Range'">
     <div class="price-range-menu">
       <div class="min-price">
-        <TextField @input="updateValue('pricemin', $event)" :value="value.pricemin" :placeholder="'No min'" />
+        <TextField @input="updateValue('pricemin', $event)" :value="value.pricemin" :placeholder="'No min'">
+          $
+        </TextField>
       </div>
       <div class="to">
         to
       </div>
       <div class="max-price">
-        <TextField @input="updateValue('pricemax', $event)" :value="value.pricemax" :placeholder="'No max'" />
+        <TextField @input="updateValue('pricemax', $event)" :value="value.pricemax" :placeholder="'No max'">
+          $
+        </TextField>
       </div>
     </div>
   </MenuButton>

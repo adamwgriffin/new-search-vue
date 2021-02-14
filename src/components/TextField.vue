@@ -1,8 +1,6 @@
 <template>
   <span class="text-field" :class="textFieldClasses">
-    <i class="leading-icon">
-      $
-    </i>
+    <i><slot></slot></i>
     <input
       type="text"
       :placeholder="placeholder"
@@ -11,7 +9,7 @@
       @blur="toggleFocus"
       :value="value"
     >
-    <i class="trailing-icon" @click="clearInput" :class="trailingIconClasses">
+    <i class="clear-button" @click="clearInput" :class="trailingIconClasses">
       ×
     </i>
   </span>
@@ -92,12 +90,12 @@ i {
   color: rgba(51, 51, 51, 0.38);
 }
 
-.trailing-icon {
+.clear-button {
   cursor: pointer;
   visibility: hidden;
 }
 
-.trailing-icon.visible {
+.clear-button.visible {
   visibility: visible;
 }
 
