@@ -2,7 +2,7 @@
   <div v-if="googleLoaded" id="search">
     <div class="search-results">
       <SearchForm />
-      <PickListHeading :total="listings.length" />
+      <PickListHeading :total="totalListings" />
       <PickList>
         <ListingCards :listings="listings" />
       </PickList>
@@ -17,7 +17,7 @@
 
 <script>
 import { Loader } from '@googlemaps/js-api-loader';
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { mapLoaderOptions } from '@/config/google'
 import { setGeocoder } from '@/lib/geocode'
 import SearchForm from "@/components/SearchForm"
@@ -57,6 +57,10 @@ export default {
     ...mapState('listingSearch', [
       'searchParams',
       'listings'
+    ]),
+
+    ...mapGetters('listingSearch', [
+      'totalListings'
     ])
   },
 

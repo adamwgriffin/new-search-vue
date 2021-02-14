@@ -25,6 +25,10 @@ export const getters = {
     return `${rootGetters.baseUrl}/listing/search_v2`
   },
 
+  totalListings(state) {
+    return state.listings?.length || 0
+  },
+
   searchParamsForListingService(state) {
     return pickBy(state.searchParams)
   }
