@@ -30,6 +30,10 @@ export const mutations = {
     state.searchParams.location_search_field = value
   },
 
+  setSearchParams(state, newParams) {
+    state.searchParams = { ...state.searchParams, ...newParams }
+  },
+
   setSearchListingsPending(state) {
     state.listingSearch = { ...initialState().listingSearch, pending: true }
   },
