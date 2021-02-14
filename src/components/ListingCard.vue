@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import { listingCardMetaInfo } from '../lib/helpers/listing_helpers'
+
 export default {
   props: {
     listing: {
@@ -51,12 +53,7 @@ export default {
     },
 
     metaInfo() {
-      const { bedrooms, sqr_footage } = this.listing
-      return [
-        `${bedrooms} BR`,
-        `${this.bathrooms} BA`,
-        `${sqr_footage.toLocaleString()} SQFT`
-      ].join(' | ')
+      return listingCardMetaInfo(this.listing)
     },
 
     bathrooms() {
