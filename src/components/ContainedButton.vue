@@ -8,7 +8,7 @@
 export default {
   props: {
     highlighted: {
-      type: String
+      type: Boolean
     }
   },
 
