@@ -1,6 +1,6 @@
 <template>
-  <div @click="toggleMenu" v-click-outside="closeMenu" class="menu-button">
-    <ContainedButton :highlighted="open">
+  <div class="menu-button" v-click-outside="closeMenu">
+    <ContainedButton @click="toggleMenu" :highlighted="open">
       {{ label }}
     </ContainedButton>
     <div v-show="open" class="menu">
