@@ -9,6 +9,7 @@
       @input="updateValue($event.target.value)"
       @focus="toggleFocus"
       @blur="toggleFocus"
+      :value="value"
     >
     <i class="trailing-icon" @click="clearInput">
       ×
