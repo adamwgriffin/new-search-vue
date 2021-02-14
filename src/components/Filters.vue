@@ -4,16 +4,10 @@
   </div>
 </template>
 
-<script>
-
-export default {
-}
-</script>
-
 <style scoped>
 #filters {
   display: flex;
   align-items: center;
-  padding: .9rem;
+  padding: .9rem 0;
 }
 </style>
