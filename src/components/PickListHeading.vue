@@ -16,15 +16,6 @@ export default {
   components: { PriceRange },
 
   props: {
-    countStart: {
-      type: Number,
-      default: () => 1
-    },
-
-    countEnd: {
-      type: Number
-    },
-
     total: {
       type: Number
     }
