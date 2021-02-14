@@ -28,10 +28,9 @@ button {
   border-radius: 8px;
   padding: 14px 16px;
   background: #fefefe;
-  font-family: "Open Sans", Hevetica, Verdana, Arial, sans-serif;
   height: 48px;
   font-size: 14px;
-  color: #333333;
+  font-family: inherit;
 }
 
 button.highlighted {

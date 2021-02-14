@@ -36,14 +36,11 @@ export default {
 #picklist-heading {
   display: flex;
   align-items: center;
-  padding: .9rem .9rem 0 .9rem;
+  padding: .9rem;
 }
 
 .count {
   flex-grow: 1;
-  color: #212e35;
-  font-family: "Open Sans", Hevetica, Verdana, Arial, sans-serif;
   font-size: 14px;
-  color: #333333;
 }
 </style>

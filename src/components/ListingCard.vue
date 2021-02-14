@@ -91,7 +91,6 @@ export default {
 <style scoped>
 .listing-card {
   height: 350px;
-  font-family: Muli,Hevetica,Verdana,Arial,sans-serif;
   display: flex;
   flex-direction: column;
   cursor: pointer;
@@ -115,7 +114,6 @@ export default {
 }
 
 .price {
-  font-family: Arial, sans-serif;
   font-size: 24px;
   text-shadow: 1px 1px #333;
   font-weight: 100;
@@ -126,7 +124,6 @@ export default {
   flex-grow: 1;
   padding: .5rem;
   background: white;
-  color: #212e35;
   font-size: 14px;
   border-bottom: 3px solid #000;
 }
@@ -154,13 +151,15 @@ export default {
 }
 
 .contact-button {
-  display: inline-block;
+  white-space: nowrap;
   background: inherit;
   border: 1px solid #909090;
   border-radius: 3px;
   padding: 4px;
   cursor: pointer;
   font-weight: normal;
+  color: inherit;
+  font-family: inherit;
 }
 .contact-button:hover {
   background: #f5f5f5;
