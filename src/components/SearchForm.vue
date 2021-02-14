@@ -1,24 +1,24 @@
 <template>
-  <div class="search-form">
-    <form autocomplete="off" @submit.prevent="">
-      <SearchField
-        :locationSearchField="searchParams.location_search_field"
-        :autocompleteOptions="autocompleteOptions"
-        @inputChanged="handleSearchFieldInputChanged"
-        @autocompletePlaceChanged="handleAutocompletePlaceChanged"
-        @searchButtonClicked="handleSearchButtonClicked"
-      />
-    </form>
-  </div>
+  <form autocomplete="off" @submit.prevent="" id="search-form">
+    <SearchField
+      :locationSearchField="searchParams.location_search_field"
+      :autocompleteOptions="autocompleteOptions"
+      @inputChanged="handleSearchFieldInputChanged"
+      @autocompletePlaceChanged="handleAutocompletePlaceChanged"
+      @searchButtonClicked="handleSearchButtonClicked"
+    />
+    <Filters :total="totalListings" />
+  </form>
 </template>
 
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { autocompleteOptions } from '@/config/google'
 import SearchField from '@/components/SearchField'
+import Filters from '@/components/Filters'
 
 export default {
-  components: { SearchField },
+  components: { SearchField, Filters },
 
   computed: {
     ...mapState('listingMap', [
@@ -32,7 +32,8 @@ export default {
     ]),
 
     ...mapGetters('listingSearch', [
-      'searchParamsForListingService'
+      'searchParamsForListingService',
+      'totalListings'
     ]),
 
     autocompleteOptions: () => autocompleteOptions
@@ -92,7 +93,7 @@ export default {
 </script>
 
 <style scoped>
-.search-form {
+#search-form {
   padding: .8rem .8rem 0 .8rem;
 }
 </style>

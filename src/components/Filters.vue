@@ -1,9 +1,9 @@
 <template>
-  <div id="picklist-heading">
+  <div id="filters">
     <div class="count">
       {{ total }} Listings
     </div>
-    <div class="filters">
+    <div class="filters-container">
       <PriceRange :value="priceRange" @input="setSearchParams($event)" />
     </div>
   </div>
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style scoped>
-#picklist-heading {
+#filters {
   display: flex;
   align-items: center;
   padding: .9rem;
