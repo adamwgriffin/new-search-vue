@@ -74,11 +74,12 @@ export default {
 
 <style scoped>
 .text-field {
+  display: inline-block;
   white-space: nowrap;
   align-items: center;
   border: 1px solid rgba(51, 51, 51, 0.38);
   border-radius: 8px;
-  padding: 8px;
+  padding: 10px;
 }
 
 .text-field.has-focus {
@@ -87,6 +88,7 @@ export default {
 
 i {
   font-style: normal;
+  font-size: 16px;
   color: rgba(51, 51, 51, 0.38);
 }
 
@@ -100,6 +102,7 @@ i {
 }
 
 input {
+  width: 10ch;
   border: none;
   font-size: 14px;
   color: inherit;

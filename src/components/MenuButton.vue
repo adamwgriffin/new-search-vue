@@ -51,12 +51,11 @@ export default {
 
 .menu {
   position: absolute;
-  overflow: auto;
   right: 0;
   z-index: 1;
   border-radius: 8px;
   margin-top: 3px;
-  padding: 16px 14px;
+  padding: 26px;
   box-shadow: 0px 9px 12px rgba(0, 0, 0, 0.06), 0px 3px 16px rgba(0, 0, 0, 0.04), 0px 5px 6px rgba(0, 0, 0, 0.06);
   background: #fefefe;
 }
