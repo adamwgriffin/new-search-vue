@@ -5,7 +5,9 @@ const initialState = () => {
     searchParams: {
       location_search_field: "Fremont, Seattle, WA, USA",
       agent_uuid: "f74a3f6d-aeda-4daa-835e-029386152405",
-      pgsize: 20
+      pgsize: 20,
+      pricemin: null,
+      pricemax: null
     },
     listingSearch: {
       pending: false,
