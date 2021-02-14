@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { autocompleteOptions } from '@/config/google'
 import SearchField from '@/components/SearchField'
 
@@ -29,6 +29,10 @@ export default {
 
     ...mapState('listingSearch', [
       'searchParams'
+    ]),
+
+    ...mapGetters('listingSearch', [
+      'searchParamsForListingService'
     ]),
 
     autocompleteOptions: () => autocompleteOptions
@@ -50,7 +54,7 @@ export default {
     async handleAutocompletePlaceChanged(e) {
       this.updateLocationSearchField(e.locationSearchField)
       this.resetListings()
-      this.searchListings(this.searchParams)
+      this.searchListings(this.searchParamsForListingService)
       /* if the dropdown is open, but the user searches without selecting an option, the "place_changed" event can still
       be triggered, but it will not have a geometry. it will only have a "name" property with the current value of the
       input field */
@@ -73,7 +77,7 @@ export default {
 
     async handleSearchButtonClicked() {
       this.resetListings()
-      this.searchListings(this.searchParams)
+      this.searchListings(this.searchParamsForListingService)
       await this.geocodeMap({ address: this.searchParams.location_search_field })
       this.getGeoLayer({
         center_lat: this.location.lat,
