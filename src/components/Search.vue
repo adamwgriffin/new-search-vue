@@ -2,7 +2,7 @@
   <div v-if="googleLoaded" id="search">
     <div class="search-results">
       <SearchForm />
-      <PickListHeading :countEnd="listings.length" :total="listings.length" />
+      <PickListHeading :total="listings.length" />
       <PickList>
         <ListingCards :listings="listings" />
       </PickList>
@@ -105,7 +105,7 @@ export default {
 .search-results {
   display: flex;
   flex-direction: column;
-  width: 65%;
+  width: 60%;
   background: #f6f6f6;
 }
 </style>

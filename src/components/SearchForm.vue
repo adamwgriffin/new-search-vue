@@ -89,7 +89,6 @@ export default {
 
 <style scoped>
 .search-form {
-  background: white;
-  padding: .8rem;
+  padding: .8rem .8rem 0 .8rem;
 }
 </style>

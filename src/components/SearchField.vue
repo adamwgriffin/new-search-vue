@@ -126,6 +126,7 @@ export default {
 
 .mdc-text-field {
   @include textfield.outline-color(lightgray);
+  @include textfield.fill-color(#fefefe);
 }
 
 /* different than mdc-text-field--fullwidth, which doesn't allow the label to display */
