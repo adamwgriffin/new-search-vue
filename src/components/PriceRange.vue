@@ -31,7 +31,6 @@ export default {
 
   methods: {
     updateValue(property, e) {
-      console.log("updateValue()", property, e)
       // propagate the updated input back to the parent component using $emit. other components that are bound to the
       // same model with v-model will get the change
       this.$emit('input', { [property]: (+e || null) })

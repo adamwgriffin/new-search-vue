@@ -81,7 +81,6 @@ export default {
     },
 
     handleEnter(e) {
-      console.log("handleEnter()", e)
       this.$emit('inputChanged', e.target.value)
       // TODO: create a different event for this, so there's no confusion about what's happening here. also add comments
       // to eplain why we're doing it.
