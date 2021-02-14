@@ -125,6 +125,7 @@ export default {
 
 .mdc-text-field {
   @include textfield.outline-color(lightgray);
+  @include textfield.hover-outline-color(silver);
   @include textfield.fill-color(#fefefe);
 }
 
