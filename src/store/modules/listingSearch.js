@@ -1,4 +1,5 @@
 import http from '@/lib/http'
+import pickBy from 'lodash/pickBy'
 
 const initialState = () => {
   return {
@@ -22,6 +23,10 @@ const initialState = () => {
 export const getters = {
   serviceUrl(state, getters, rootState, rootGetters) {
     return `${rootGetters.baseUrl}/listing/search_v2`
+  },
+
+  searchParamsForListingService(state) {
+    return pickBy(state.searchParams)
   }
 }
 
