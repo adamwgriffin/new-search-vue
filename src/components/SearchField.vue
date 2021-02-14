@@ -10,14 +10,17 @@
       <span class="mdc-notched-outline__leading"></span>
       <span class="mdc-notched-outline__trailing"></span>
     </span>
-    <i
-      class="material-icons mdc-text-field__icon mdc-text-field__icon--leading"
+    <button
+      id="submit-button"
+      class="mdc-text-field__icon mdc-text-field__icon--leading"
+      type="submit"
+      form="search-form"
+      value="Submit"
       tabindex="0"
-      role="button"
       @click="handSearchButtonClicked"
     >
-      search
-    </i>
+      <i class="material-icons" aria-hidden="true">search</i>
+    </button>
     <input
       type="text"
       id="location-search-field"
@@ -134,5 +137,11 @@ export default {
   width: 100%;
 
   @include textfield.outline-shape-radius(8px);
+}
+
+#submit-button {
+  border: none;
+  background: none;
+  padding: 0;
 }
 </style>
