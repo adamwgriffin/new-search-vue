@@ -31,6 +31,10 @@ export const getters = {
 
   searchParamsForListingService(state) {
     return pickBy(state.searchParams)
+  },
+
+  priceRange(state) {
+    return { pricemin: state.searchParams.pricemin, pricemax: state.searchParams.pricemax }
   }
 }
 

@@ -7,7 +7,14 @@
       @autocompletePlaceChanged="handleAutocompletePlaceChanged"
       @searchButtonClicked="handleSearchButtonClicked"
     />
-    <Filters :total="totalListings" />
+    <Filters>
+      <div class="listing-count-container">
+        <ListingCount v-if="totalListings" :total="totalListings" />
+      </div>
+      <div class="filters-container">
+        <PriceRange :value="priceRange" @input="setSearchParams($event)" />
+      </div>
+    </Filters>
   </form>
 </template>
 
@@ -16,9 +23,11 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { autocompleteOptions } from '@/config/google'
 import SearchField from '@/components/SearchField'
 import Filters from '@/components/Filters'
+import ListingCount from '@/components/ListingCount'
+import PriceRange from '@/components/PriceRange'
 
 export default {
-  components: { SearchField, Filters },
+  components: { SearchField, Filters, ListingCount, PriceRange },
 
   computed: {
     ...mapState('listingMap', [
@@ -33,7 +42,8 @@ export default {
 
     ...mapGetters('listingSearch', [
       'searchParamsForListingService',
-      'totalListings'
+      'totalListings',
+      'priceRange'
     ]),
 
     autocompleteOptions: () => autocompleteOptions
@@ -42,7 +52,7 @@ export default {
   methods: {
     ...mapMutations('listingMap', ['setGeotype', 'setLocation', 'setViewport']),
 
-    ...mapMutations('listingSearch', ['updateLocationSearchField', 'resetListings']),
+    ...mapMutations('listingSearch', ['updateLocationSearchField', 'setSearchParams', 'resetListings']),
 
     ...mapActions('listingSearch', ['searchListings']),
 
@@ -95,5 +105,9 @@ export default {
 <style scoped>
 #search-form {
   padding: .8rem .8rem 0 .8rem;
+}
+
+.listing-count-container {
+  flex-grow: 1;
 }
 </style>
