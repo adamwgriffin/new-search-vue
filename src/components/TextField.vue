@@ -11,7 +11,7 @@
       @blur="toggleFocus"
       :value="value"
     >
-    <i class="trailing-icon" @click="clearInput">
+    <i class="trailing-icon" @click="clearInput" :class="trailingIconClasses">
       ×
     </i>
   </span>
@@ -47,6 +47,10 @@ export default {
   computed: {
     textFieldClasses() {
       return { 'has-focus': this.hasFocus }
+    },
+
+    trailingIconClasses() {
+      return { visible: this.value }
     }
   },
 
@@ -88,6 +92,11 @@ i {
 
 .trailing-icon {
   cursor: pointer;
+  visibility: hidden;
+}
+
+.trailing-icon.visible {
+  visibility: visible;
 }
 
 input {
