@@ -12,8 +12,12 @@
         <ListingCount v-if="totalListings" :total="totalListings" />
       </div>
       <div class="filters-container">
-        <PriceRange :value="priceRange" @input="setSearchParams($event)" />
-        <BedroomsBathrooms :value="bedsBaths" @input="setSearchParams($event)" />
+        <PriceRange :value="priceRange" @input="setSearchParams($event)" title="Open dropdown to set price range" />
+        <BedroomsBathrooms
+          :value="bedsBaths"
+          @input="setSearchParams($event)"
+          title="Open dropdown to set minimum beds and baths"
+        />
       </div>
     </Filters>
   </form>

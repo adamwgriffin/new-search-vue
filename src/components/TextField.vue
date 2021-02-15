@@ -9,7 +9,7 @@
       @blur="toggleFocus"
       :value="value"
     >
-    <i class="clear-button" @click="clearInput" :class="trailingIconClasses">
+    <i class="clear-button" :class="trailingIconClasses" title="Clear field" @click="clearInput">
       ×
     </i>
   </span>

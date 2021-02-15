@@ -18,6 +18,7 @@
       value="Submit"
       tabindex="0"
       @click="handSearchButtonClicked"
+      title="Apply search"
     >
       <i class="material-icons" aria-hidden="true">search</i>
     </button>
@@ -39,6 +40,7 @@
       tabindex="0"
       role="button"
       @click="clearForm"
+      title="Clear field"
     >
       clear
     </i>
