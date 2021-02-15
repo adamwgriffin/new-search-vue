@@ -1,5 +1,6 @@
 import http from '@/lib/http'
 import pickBy from 'lodash/pickBy'
+import pick from 'lodash/pick'
 
 const initialState = () => {
   return {
@@ -8,7 +9,9 @@ const initialState = () => {
       agent_uuid: "f74a3f6d-aeda-4daa-835e-029386152405",
       pgsize: 20,
       pricemin: null,
-      pricemax: null
+      pricemax: null,
+      bed_min: 0,
+      bath_min: 0
     },
     listingSearch: {
       pending: false,
@@ -35,6 +38,10 @@ export const getters = {
 
   priceRange(state) {
     return { pricemin: state.searchParams.pricemin, pricemax: state.searchParams.pricemax }
+  },
+
+  bedsBaths(state) {
+    return pick(state.searchParams, ['bed_min', 'bath_min'])
   }
 }
 

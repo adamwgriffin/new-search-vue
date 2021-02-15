@@ -13,6 +13,7 @@
       </div>
       <div class="filters-container">
         <PriceRange :value="priceRange" @input="setSearchParams($event)" />
+        <BedroomsBathrooms :value="bedsBaths" @input="setSearchParams($event)" />
       </div>
     </Filters>
   </form>
@@ -25,9 +26,10 @@ import SearchField from '@/components/SearchField'
 import Filters from '@/components/Filters'
 import ListingCount from '@/components/ListingCount'
 import PriceRange from '@/components/PriceRange'
+import BedroomsBathrooms from '@/components/BedroomsBathrooms'
 
 export default {
-  components: { SearchField, Filters, ListingCount, PriceRange },
+  components: { SearchField, Filters, ListingCount, PriceRange, BedroomsBathrooms },
 
   computed: {
     ...mapState('listingMap', [
@@ -43,7 +45,8 @@ export default {
     ...mapGetters('listingSearch', [
       'searchParamsForListingService',
       'totalListings',
-      'priceRange'
+      'priceRange',
+      'bedsBaths'
     ]),
 
     autocompleteOptions: () => autocompleteOptions
