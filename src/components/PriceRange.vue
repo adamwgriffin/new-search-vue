@@ -51,6 +51,6 @@ export default {
 }
 
 .to {
-  padding: 0 1rem;
+  padding: 0 .6rem;
 }
 </style>
