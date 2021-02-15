@@ -53,6 +53,7 @@ export default {
   position: absolute;
   right: 0;
   z-index: 1;
+  min-width: 8rem;
   border-radius: 8px;
   margin-top: 3px;
   padding: 1rem;
