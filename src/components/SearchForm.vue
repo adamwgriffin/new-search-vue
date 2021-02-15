@@ -110,4 +110,8 @@ export default {
 .listing-count-container {
   flex-grow: 1;
 }
+
+.filters-container > * {
+  padding-left: .5rem;
+}
 </style>
