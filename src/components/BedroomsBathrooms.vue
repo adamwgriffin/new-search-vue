@@ -1,5 +1,5 @@
 <template>
-  <MenuButton :label="'Bed + bath'">
+  <MenuButton label="Bed + bath">
     <Fieldset id="bed_min">
       <Legend>Beds</Legend>
       <RadioButtonGroup
