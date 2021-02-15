@@ -39,10 +39,6 @@ export const getters = {
 }
 
 export const mutations = {
-  updateLocationSearchField(state, value) {
-    state.searchParams.location_search_field = value
-  },
-
   setSearchParams(state, newParams) {
     state.searchParams = { ...state.searchParams, ...newParams }
   },

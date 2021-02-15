@@ -59,11 +59,11 @@ export default {
     ...mapActions('listingMap', ['geocodeMap', 'getGeoLayer']),
 
     handleSearchFieldInputChanged(e) {
-      this.updateLocationSearchField(e)
+      this.setSearchParams({ location_search_field: e })
     },
 
     async handleAutocompletePlaceChanged(e) {
-      this.updateLocationSearchField(e.locationSearchField)
+      this.setSearchParams({ location_search_field: e.locationSearchField })
       this.resetListings()
       this.searchListings(this.searchParamsForListingService)
       /* if the dropdown is open, but the user searches without selecting an option, the "place_changed" event can still
