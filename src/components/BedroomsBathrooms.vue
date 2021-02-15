@@ -1,22 +1,23 @@
 <template>
   <MenuButton :label="'Bed + bath'">
-    <fieldset id="bed_min">
+    <Fieldset id="bed_min">
       <legend>Beds</legend>
       <RadioButtonGroup :name="'bed_min'" :options="countOptions" @input="updateValue('bed_min', $event)" :value="value.bed_min" />
-    </fieldset>
-    <fieldset id="bath_min">
+    </Fieldset>
+    <Fieldset id="bath_min">
       <legend>Baths</legend>
       <RadioButtonGroup :name="'bath_min'" :options="countOptions" @input="updateValue('bath_min', $event)" :value="value.bath_min" />
-    </fieldset>
+    </Fieldset>
   </MenuButton>
 </template>
 
 <script>
 import MenuButton from '@/components/MenuButton'
+import Fieldset from '@/components/Fieldset'
 import RadioButtonGroup from '@/components/RadioButtonGroup'
 
 export default {
-  components: { MenuButton, RadioButtonGroup },
+  components: { MenuButton, Fieldset, RadioButtonGroup },
 
   props: {
     countArr: {
@@ -49,19 +50,14 @@ export default {
 </script>
 
 <style scoped>
-fieldset {
-  border: none;
-  margin: 0;
-  padding: 0;
-}
 
 fieldset:first-child {
   margin-bottom: 1rem;
 }
 
 legend {
-  font-weight: bold;
+  font-weight: 700;
   font-size: 18px;
-  margin-bottom: .5rem;
+  margin-bottom: .6rem;
 }
 </style>
