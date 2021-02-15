@@ -1,18 +1,13 @@
 import http from '@/lib/http'
 import pickBy from 'lodash/pickBy'
 import pick from 'lodash/pick'
+import { WEBSITES_SEARCH_PARAMS } from '@/lib/constants/search_param_constants'
 
+// NOTE: Eventually we would want to compose things like state (searchParams), getters, mutations, etc. based on what
+// app is using this module, but for now we are assuming Websites IDX search.
 const initialState = () => {
   return {
-    searchParams: {
-      location_search_field: "Fremont, Seattle, WA, USA",
-      agent_uuid: "f74a3f6d-aeda-4daa-835e-029386152405",
-      pgsize: 20,
-      pricemin: null,
-      pricemax: null,
-      bed_min: 0,
-      bath_min: 0
-    },
+    searchParams: WEBSITES_SEARCH_PARAMS,
     listingSearch: {
       pending: false,
       status: null,
