@@ -37,7 +37,7 @@ export const getters = {
   },
 
   priceRange(state) {
-    return { pricemin: state.searchParams.pricemin, pricemax: state.searchParams.pricemax }
+    return pick(state.searchParams, ['pricemin', 'pricemax'])
   },
 
   bedsBaths(state) {
