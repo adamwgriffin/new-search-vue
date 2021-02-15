@@ -2,11 +2,21 @@
   <MenuButton :label="'Bed + bath'">
     <Fieldset id="bed_min">
       <Legend>Beds</Legend>
-      <RadioButtonGroup :name="'bed_min'" :options="countOptions" @input="updateValue('bed_min', $event)" :value="value.bed_min" />
+      <RadioButtonGroup
+        :name="'bed_min'"
+        :options="countOptions"
+        @input="updateValue('bed_min', $event)"
+        :value="value.bed_min"
+      />
     </Fieldset>
     <Fieldset id="bath_min">
       <Legend>Baths</Legend>
-      <RadioButtonGroup :name="'bath_min'" :options="countOptions" @input="updateValue('bath_min', $event)" :value="value.bath_min" />
+      <RadioButtonGroup
+        :name="'bath_min'"
+        :options="countOptions"
+        @input="updateValue('bath_min', $event)"
+        :value="value.bath_min"
+      />
     </Fieldset>
   </MenuButton>
 </template>
