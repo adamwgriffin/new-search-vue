@@ -11,3 +11,5 @@ export const PROPERTY_STATUS_TYPES = {
   short_sale: 7,
   sold: 9
 }
+
+export const PROPERTY_STATUS_TYPE_IDS = Object.values(PROPERTY_STATUS_TYPES).sort((a, b) => a - b)
