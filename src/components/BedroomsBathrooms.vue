@@ -65,7 +65,7 @@ export default {
     },
 
     updateValue(property, n) {
-      this.$emit('input', { [property]: +n })
+      this.$emit('input', { [property]: n })
     }
   }
 }
