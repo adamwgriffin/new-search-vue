@@ -51,6 +51,8 @@ export default {
 <style scoped>
 fieldset {
   border: none;
+  margin: 0;
+  padding: 0;
 }
 
 fieldset:first-child {
