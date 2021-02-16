@@ -18,6 +18,11 @@
           @input="setSearchParams($event)"
           title="Open dropdown to set minimum beds and baths"
         />
+        <MoreFilters
+          :searchParams="moreFiltersParams"
+          @change="setSearchParams($event)"
+          title="Open dropdown for more filter options"
+        />
       </div>
     </Filters>
   </form>
@@ -31,9 +36,10 @@ import Filters from '@/components/Filters'
 import ListingCount from '@/components/ListingCount'
 import PriceRange from '@/components/PriceRange'
 import BedroomsBathrooms from '@/components/BedroomsBathrooms'
+import MoreFilters from '@/components/MoreFilters'
 
 export default {
-  components: { SearchField, Filters, ListingCount, PriceRange, BedroomsBathrooms },
+  components: { SearchField, Filters, ListingCount, PriceRange, BedroomsBathrooms, MoreFilters },
 
   computed: {
     ...mapState('listingMap', [
@@ -50,7 +56,8 @@ export default {
       'searchParamsForListingService',
       'totalListings',
       'priceRange',
-      'bedsBaths'
+      'bedsBaths',
+      'moreFiltersParams'
     ]),
 
     autocompleteOptions: () => autocompleteOptions
