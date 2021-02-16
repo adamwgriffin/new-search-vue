@@ -31,11 +31,11 @@ export const getters = {
     return pickBy(state.searchParams)
   },
 
-  priceRange(state) {
+  priceRangeParams(state) {
     return pick(state.searchParams, ['pricemin', 'pricemax'])
   },
 
-  bedsBaths(state) {
+  bedBathParams(state) {
     return pick(state.searchParams, ['bed_min', 'bath_min'])
   },
 

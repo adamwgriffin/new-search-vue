@@ -12,9 +12,13 @@
         <ListingCount v-if="totalListings" :total="totalListings" />
       </div>
       <div class="filters-container">
-        <PriceRange :value="priceRange" @input="setSearchParams($event)" title="Open dropdown to set price range" />
+        <PriceRange
+          :value="priceRangeParams"
+          @input="setSearchParams($event)"
+          title="Open dropdown to set price range"
+        />
         <BedroomsBathrooms
-          :value="bedsBaths"
+          :value="bedBathParams"
           @input="setSearchParams($event)"
           title="Open dropdown to set minimum beds and baths"
         />
@@ -55,8 +59,8 @@ export default {
     ...mapGetters('listingSearch', [
       'searchParamsForListingService',
       'totalListings',
-      'priceRange',
-      'bedsBaths',
+      'priceRangeParams',
+      'bedBathParams',
       'moreFiltersParams'
     ]),
 
