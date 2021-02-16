@@ -13,8 +13,8 @@ export const CORE_PARAMS = {
 // params used exclusively for IDX (public) search, e.g., Websites
 export const IDX_PARAMS = {
   status: 'active',
-  ex_pend: null,
-  ex_cs: null
+  ex_pend: true,
+  ex_cs: true
 }
 
 // params used exclusively in CMA
