@@ -9,7 +9,7 @@
           value="active"
           id="active"
           :checked="params.status === 'active'"
-          @change="updateSelections('status', 'active')"
+          @change="updateParams('status', 'active')"
         >
         Active
       </label>
@@ -20,11 +20,10 @@
           value="sold"
           id="sold"
           :checked="params.status === 'sold'"
-          @change="updateSelections('status', 'sold')"
+          @change="updateParams('status', 'sold')"
         >
         Sold
       </label>
-
       <label for="both">
         <input
           type="radio"
@@ -32,7 +31,7 @@
           value="both"
           id="both"
           :checked="params.status === 'both'"
-          @change="updateSelections('status', 'both')"
+          @change="updateParams('status', 'both')"
         >
         All listings
       </label>
@@ -44,7 +43,7 @@
           id="ex_pend"
           name="ex_pend"
           :checked="params.ex_pend"
-          @change="updateSelections('ex_pend', $event.target.checked)"
+          @change="updateParams('ex_pend', $event.target.checked)"
         >
         Exclude pending listings
       </label>
@@ -54,7 +53,7 @@
           id="ex_cs"
           name="ex_cs"
           :checked="params.ex_cs"
-          @change="updateSelections('ex_cs', $event.target.checked)"
+          @change="updateParams('ex_cs', $event.target.checked)"
         >
         Exclude coming soon listings
       </label>
@@ -82,7 +81,7 @@ export default {
   },
 
   methods: {
-    updateSelections(property, v) {
+    updateParams(property, v) {
       this.$emit('change', { [property]: v })
     }
   }
