@@ -37,6 +37,10 @@ export const getters = {
 
   bedsBaths(state) {
     return pick(state.searchParams, ['bed_min', 'bath_min'])
+  },
+
+  moreFiltersParams(state) {
+    return pick(state.searchParams, ['status', 'ex_pend', 'ex_cs'])
   }
 }
 
