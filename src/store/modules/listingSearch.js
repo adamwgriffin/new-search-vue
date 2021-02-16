@@ -1,5 +1,5 @@
 import http from '@/lib/http'
-import pickBy from 'lodash/pickBy'
+import omitBy from 'lodash/omitBy'
 import pick from 'lodash/pick'
 import { WEBSITES_SEARCH_PARAMS } from '@/lib/constants/search_param_constants'
 
@@ -28,7 +28,9 @@ export const getters = {
   },
 
   searchParamsForListingService(state) {
-    return pickBy(state.searchParams)
+    return omitBy(state.searchParams, (value, param) => {
+      return (param === 'sold_days' && state.searchParams.status === 'active') || !value
+    })
   },
 
   priceRangeParams(state) {
@@ -40,7 +42,7 @@ export const getters = {
   },
 
   moreFiltersParams(state) {
-    return pick(state.searchParams, ['status', 'ex_pend', 'ex_cs'])
+    return pick(state.searchParams, ['status', 'ex_pend', 'ex_cs', 'sold_days'])
   }
 }
 

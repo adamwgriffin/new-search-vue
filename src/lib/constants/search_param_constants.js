@@ -7,7 +7,8 @@ export const CORE_PARAMS = {
   pricemin: null,
   pricemax: null,
   bed_min: 0,
-  bath_min: 0
+  bath_min: 0,
+  sold_days: 180
 }
 
 // params used exclusively for IDX (public) search, e.g., Websites

@@ -29,7 +29,7 @@ export default {
 
   computed: {
     listingStatusParams() {
-      return pick(this.searchParams, ['status', 'ex_pend', 'ex_cs'])
+      return pick(this.searchParams, ['status', 'ex_pend', 'ex_cs', 'sold_days'])
     }
   },
 

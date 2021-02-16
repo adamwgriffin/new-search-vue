@@ -35,6 +35,17 @@
         >
         All listings
       </label>
+      <select
+        name="sold_days"
+        id="sold_days"
+        v-show="enableSoldDays"
+        :disabled="!enableSoldDays"
+        @change="updateParams('sold_days', +$event.target.value)"
+      >
+        <option v-for="days in soldDayOptions" :key="days" :value="days" :selected="params.sold_days === days">
+          {{ soldDayLabels[days] }}
+        </option>
+      </select>
     </div>
     <div class="exclude">
       <label for="ex_pend">
@@ -80,6 +91,26 @@ export default {
     }
   },
 
+  computed: {
+    enableSoldDays() {
+      return this.params.status !== 'active'
+    },
+
+    soldDayOptions() {
+      return [30, 90, 180, 365, 730]
+    },
+
+    soldDayLabels() {
+      return {
+        "30": "Sold last 30 days",
+        "90": "Sold last 3 months",
+        "180": "Sold last 6 months",
+        "365": "Sold last 12 months",
+        "730": "Sold last 2 years"
+      }
+    }
+  },
+
   methods: {
     updateParams(property, v) {
       this.$emit('change', { [property]: v })
@@ -95,5 +126,13 @@ export default {
 
 label {
   white-space: nowrap;
+}
+
+#sold_days {
+  margin-left: .4rem;
+}
+
+select, option {
+  font-family: inherit;
 }
 </style>
