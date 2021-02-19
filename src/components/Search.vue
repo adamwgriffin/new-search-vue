@@ -1,10 +1,8 @@
 <template>
   <div v-if="googleLoaded" id="search">
-    <div class="search-results">
+    <div class="search-container">
       <SearchForm />
-      <PickList>
-        <ListingCards :listings="listings" />
-      </PickList>
+      <SearchResults :listings="listings" />
     </div>
     <ListingMap />
   </div>
@@ -20,16 +18,14 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 import { mapLoaderOptions } from '@/config/google'
 import { setGeocoder } from '@/lib/geocode'
 import SearchForm from "@/components/SearchForm"
-import PickList from '@/components/PickList'
+import SearchResults from '@/components/SearchResults'
 import ListingMap from "@/components/ListingMap"
-import ListingCards from '@/components/ListingCards'
 
 export default {
   components: {
     SearchForm,
-    PickList,
+    SearchResults,
     ListingMap,
-    ListingCards
   },
 
   props: {
@@ -99,7 +95,7 @@ export default {
   width: 100%;
 }
 
-.search-results {
+.search-container {
   display: flex;
   flex-direction: column;
   width: 60%;

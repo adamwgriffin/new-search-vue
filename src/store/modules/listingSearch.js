@@ -23,10 +23,6 @@ export const getters = {
     return `${rootGetters.baseUrl}/listing/search_v2`
   },
 
-  totalListings(state) {
-    return state.listings?.length || 0
-  },
-
   searchParamsForListingService(state) {
     return omitBy(state.searchParams, (value, param) => {
       return (param === 'sold_days' && state.searchParams.status === 'active') || !value

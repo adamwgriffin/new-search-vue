@@ -8,9 +8,6 @@
       @searchButtonClicked="handleSearchButtonClicked"
     />
     <Filters>
-      <div class="listing-count-container">
-        <ListingCount v-if="totalListings" :total="totalListings" />
-      </div>
       <div class="filters-container">
         <PriceRange
           :value="priceRangeParams"
@@ -37,13 +34,12 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { autocompleteOptions } from '@/config/google'
 import SearchField from '@/components/SearchField'
 import Filters from '@/components/Filters'
-import ListingCount from '@/components/ListingCount'
 import PriceRange from '@/components/PriceRange'
 import BedroomsBathrooms from '@/components/BedroomsBathrooms'
 import MoreFilters from '@/components/MoreFilters'
 
 export default {
-  components: { SearchField, Filters, ListingCount, PriceRange, BedroomsBathrooms, MoreFilters },
+  components: { SearchField, Filters, PriceRange, BedroomsBathrooms, MoreFilters },
 
   computed: {
     ...mapState('listingMap', [
@@ -58,7 +54,6 @@ export default {
 
     ...mapGetters('listingSearch', [
       'searchParamsForListingService',
-      'totalListings',
       'priceRangeParams',
       'bedBathParams',
       'moreFiltersParams'
@@ -123,10 +118,6 @@ export default {
 <style scoped>
 #search-form {
   padding: .8rem .8rem 0 .8rem;
-}
-
-.listing-count-container {
-  flex-grow: 1;
 }
 
 .filters-container > * {
