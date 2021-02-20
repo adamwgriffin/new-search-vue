@@ -1,8 +1,13 @@
 <template>
   <div v-if="googleLoaded" id="search">
     <div class="search-container">
-      <SearchForm />
-      <SearchResults :listings="listings" />
+      <Header>
+        <Form />
+        <SearchResultsInfo :listings="listings" />
+      </Header>
+      <SearchResults>
+        <ListingCards :listings="listings" />
+      </SearchResults>
     </div>
     <ListingMap />
   </div>
@@ -17,15 +22,21 @@ import { Loader } from '@googlemaps/js-api-loader';
 import { mapState, mapMutations, mapActions } from 'vuex'
 import { mapLoaderOptions } from '@/config/google'
 import { setGeocoder } from '@/lib/geocode'
-import SearchForm from "@/components/SearchForm"
+import Header from '@/components/Header'
+import Form from "@/components/Form"
 import SearchResults from '@/components/SearchResults'
+import SearchResultsInfo from '@/components/SearchResultsInfo'
+import ListingCards from '@/components/ListingCards'
 import ListingMap from "@/components/ListingMap"
 
 export default {
   components: {
-    SearchForm,
+    Form,
+    Header,
     SearchResults,
     ListingMap,
+    SearchResultsInfo,
+    ListingCards,
   },
 
   props: {

@@ -1,5 +1,5 @@
 <template>
-  <form autocomplete="off" @submit.prevent="" id="search-form">
+  <form autocomplete="off" @submit.prevent="">
     <SearchField
       :locationSearchField="searchParams.location_search_field"
       :autocompleteOptions="autocompleteOptions"
@@ -39,7 +39,7 @@ import BedroomsBathrooms from '@/components/BedroomsBathrooms'
 import MoreFilters from '@/components/MoreFilters'
 
 export default {
-  components: { SearchField, Filters, PriceRange, BedroomsBathrooms, MoreFilters },
+  components: { SearchField, Filters, PriceRange, BedroomsBathrooms, MoreFilters, },
 
   computed: {
     ...mapState('listingMap', [
@@ -116,9 +116,8 @@ export default {
 </script>
 
 <style scoped>
-#search-form {
+form {
   display: flex;
-  padding: .8rem .8rem 0 .8rem;
 }
 
 .filters-container > * {
