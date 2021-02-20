@@ -1,6 +1,7 @@
 <template>
   <MenuButton label="Filters">
-    <ListingStatus :params="listingStatusParams" @change="updateValue($event)"  />
+    <ListingStatus :params="listingStatusParams" @change="updateValue($event)" />
+    <OpenHouses :params="openHouseParams" @change="updateValue($event)" />
   </MenuButton>
 </template>
 
@@ -8,9 +9,10 @@
 import pick from 'lodash/pick'
 import MenuButton from '@/components/MenuButton'
 import ListingStatus from '@/components/ListingStatus'
+import OpenHouses from '@/components/OpenHouses'
 
 export default {
-  components: { MenuButton, ListingStatus },
+  components: { MenuButton, ListingStatus, OpenHouses },
 
   /* this is for use with v-model. when used with custom components, the default for v-model is to pass state changes
   down to a prop named "value" and listen for "input" events from the component to propgate it's changes up to the
@@ -30,7 +32,11 @@ export default {
   computed: {
     listingStatusParams() {
       return pick(this.searchParams, ['status', 'ex_pend', 'ex_cs', 'sold_days'])
-    }
+    },
+
+    openHouseParams() {
+      return pick(this.searchParams, ['openhouse', 'openhouse_virtual', 'exopenhouse_in_person_cs'])
+    },
   },
 
   methods: {
