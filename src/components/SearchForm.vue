@@ -117,6 +117,7 @@ export default {
 
 <style scoped>
 #search-form {
+  display: flex;
   padding: .8rem .8rem 0 .8rem;
 }
 

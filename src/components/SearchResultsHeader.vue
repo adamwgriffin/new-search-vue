@@ -33,7 +33,7 @@ export default {
 <style scoped>
 #search-results-header {
   display: flex;
-  padding: .8rem;
+  padding: .8rem 0;
 }
 
 .listing-count-container {

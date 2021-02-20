@@ -1,9 +1,9 @@
 <template>
   <label
+    id="search-field"
     class="mdc-text-field 
       mdc-text-field--outlined 
       mdc-text-field--no-label 
-      full-width-with-label 
       mdc-text-field--with-leading-icon"
   >
     <span class="mdc-notched-outline">
@@ -150,16 +150,12 @@ export default {
 @include icon.icon-core-styles;
 
 .mdc-text-field {
+  @include textfield.outlined-with-leading-icon-height(48px);
   @include textfield.outline-color(lightgray);
   @include textfield.hover-outline-color(silver);
   @include textfield.fill-color(#fefefe);
-}
-
-/* different than mdc-text-field--fullwidth, which doesn't allow the label to display */
-.full-width-with-label {
-  width: 100%;
-
   @include textfield.outline-shape-radius(8px);
+  flex-grow: 1;
 }
 
 #submit-button {
