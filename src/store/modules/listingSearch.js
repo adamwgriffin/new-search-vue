@@ -1,7 +1,7 @@
 import http from '@/lib/http'
 import omitBy from 'lodash/omitBy'
 import pick from 'lodash/pick'
-import { WEBSITES_SEARCH_PARAMS } from '@/lib/constants/search_param_constants'
+import { WEBSITES_SEARCH_PARAMS, WEBSITES_MORE_FILTERS_PARAMS } from '@/lib/constants/search_param_constants'
 
 // NOTE: Eventually we would want to compose things like state (searchParams), getters, mutations, etc. based on what
 // app is using this module, but for now we are assuming Websites IDX search.
@@ -38,7 +38,7 @@ export const getters = {
   },
 
   moreFiltersParams(state) {
-    return pick(state.searchParams, ['status', 'ex_pend', 'ex_cs', 'sold_days'])
+    return pick(state.searchParams, WEBSITES_MORE_FILTERS_PARAMS)
   }
 }
 

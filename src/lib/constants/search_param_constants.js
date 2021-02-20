@@ -8,7 +8,10 @@ export const CORE_PARAMS = {
   pricemax: null,
   bed_min: 0,
   bath_min: 0,
-  sold_days: 180
+  sold_days: 180,
+  openhouse: null,
+  openhouse_virtual: false,
+  openhouse_in_person: false,
 }
 
 // params used exclusively for IDX (public) search, e.g., Websites
@@ -29,3 +32,13 @@ export const WEBSITES_SEARCH_PARAMS = {
   ...CORE_PARAMS,
   ...IDX_PARAMS
 }
+
+export const WEBSITES_MORE_FILTERS_PARAMS = [
+  'status',
+  'ex_pend',
+  'ex_cs',
+  'sold_days',
+  'openhouse',
+  'openhouse_virtual',
+  'exopenhouse_in_person_cs',
+]
