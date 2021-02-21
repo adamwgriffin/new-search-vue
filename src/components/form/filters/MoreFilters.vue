@@ -7,9 +7,9 @@
 
 <script>
 import pick from 'lodash/pick'
-import MenuButton from '@/components/MenuButton'
-import ListingStatus from '@/components/ListingStatus'
-import OpenHouses from '@/components/OpenHouses'
+import MenuButton from '@/components/shared/MenuButton'
+import ListingStatus from '@/components/form/filters/ListingStatus'
+import OpenHouses from '@/components/form/filters/OpenHouses'
 
 export default {
   components: { MenuButton, ListingStatus, OpenHouses },

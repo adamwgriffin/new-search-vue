@@ -22,10 +22,10 @@
 </template>
 
 <script>
-import MenuButton from '@/components/MenuButton'
-import Fieldset from '@/components/Fieldset'
-import Legend from '@/components/Legend'
-import RadioButtonGroup from '@/components/RadioButtonGroup'
+import MenuButton from '@/components/shared/MenuButton'
+import Fieldset from '@/components/shared/Fieldset'
+import Legend from '@/components/shared/Legend'
+import RadioButtonGroup from '@/components/shared/RadioButtonGroup'
 
 export default {
   components: { MenuButton, Fieldset, Legend, RadioButtonGroup },

@@ -1,45 +1,56 @@
 <template>
   <form autocomplete="off" @submit.prevent="">
-    <SearchField
-      :locationSearchField="searchParams.location_search_field"
-      :autocompleteOptions="autocompleteOptions"
-      @inputChanged="handleSearchFieldInputChanged"
-      @autocompletePlaceChanged="handleAutocompletePlaceChanged"
-      @searchButtonClicked="handleSearchButtonClicked"
-    />
-    <Filters>
-      <div class="filters-container">
-        <PriceRange
-          :value="priceRangeParams"
-          @input="setSearchParams($event)"
-          title="Open dropdown to set price range"
-        />
-        <BedroomsBathrooms
-          :value="bedBathParams"
-          @input="setSearchParams($event)"
-          title="Open dropdown to set minimum beds and baths"
-        />
-        <MoreFilters
-          :searchParams="moreFiltersParams"
-          @change="setSearchParams($event)"
-          title="Open dropdown for more filter options"
-        />
-      </div>
-    </Filters>
+    <div class="search-field-and-filters">
+      <SearchField
+        :locationSearchField="searchParams.location_search_field"
+        :autocompleteOptions="autocompleteOptions"
+        @inputChanged="handleSearchFieldInputChanged"
+        @autocompletePlaceChanged="handleAutocompletePlaceChanged"
+        @searchButtonClicked="handleSearchButtonClicked"
+      />
+      <Filters>
+        <div class="filters-container">
+          <PriceRange
+            :value="priceRangeParams"
+            @input="setSearchParams($event)"
+            title="Open dropdown to set price range"
+          />
+          <BedroomsBathrooms
+            :value="bedBathParams"
+            @input="setSearchParams($event)"
+            title="Open dropdown to set minimum beds and baths"
+          />
+          <MoreFilters
+            :searchParams="moreFiltersParams"
+            @change="setSearchParams($event)"
+            title="Open dropdown for more filter options"
+          />
+        </div>
+      </Filters>
+    </div>
+    <SearchResultsInfo :listings="listings" />
   </form>
 </template>
 
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { autocompleteOptions } from '@/config/google'
-import SearchField from '@/components/SearchField'
-import Filters from '@/components/Filters'
-import PriceRange from '@/components/PriceRange'
-import BedroomsBathrooms from '@/components/BedroomsBathrooms'
-import MoreFilters from '@/components/MoreFilters'
+import SearchField from '@/components/form/SearchField'
+import Filters from '@/components/form/filters/Filters'
+import PriceRange from '@/components/form/filters/PriceRange'
+import BedroomsBathrooms from '@/components/form/filters/BedroomsBathrooms'
+import MoreFilters from '@/components/form/filters/MoreFilters'
+import SearchResultsInfo from '@/components/form/SearchResultsInfo'
 
 export default {
-  components: { SearchField, Filters, PriceRange, BedroomsBathrooms, MoreFilters, },
+  components: {
+    SearchField,
+    Filters,
+    PriceRange,
+    BedroomsBathrooms,
+    MoreFilters,
+    SearchResultsInfo,
+  },
 
   computed: {
     ...mapState('listingMap', [
@@ -49,7 +60,8 @@ export default {
     ]),
 
     ...mapState('listingSearch', [
-      'searchParams'
+      'searchParams',
+      'listings'
     ]),
 
     ...mapGetters('listingSearch', [
@@ -117,6 +129,10 @@ export default {
 
 <style scoped>
 form {
+  padding: .8rem;
+}
+
+.search-field-and-filters {
   display: flex;
 }
 

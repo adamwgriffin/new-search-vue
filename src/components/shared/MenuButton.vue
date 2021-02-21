@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import ContainedButton from './ContainedButton'
-import { ClickOutside } from '../directives/ClickOutsideDirective'
+import ContainedButton from '@/components/shared/ContainedButton'
+import { ClickOutside } from '@/directives/ClickOutsideDirective'
 
 export default {
   components: { ContainedButton },

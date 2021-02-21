@@ -4,12 +4,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  
-}
-</script>
-
 <style scoped>
 .search-results {
   flex: 1;

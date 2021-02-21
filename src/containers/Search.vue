@@ -1,10 +1,7 @@
 <template>
   <div v-if="googleLoaded" id="search">
-    <div class="search-container">
-      <Header>
-        <Form />
-        <SearchResultsInfo :listings="listings" />
-      </Header>
+    <div class="form-and-search-results">
+      <Form />
       <SearchResults>
         <ListingCards :listings="listings" />
       </SearchResults>
@@ -13,8 +10,7 @@
   </div>
   <!-- NOTE: we could render a skeletal layout here in a v-else block when googleLoaded is false so that the user sees
   something on first paint if google takes a noticeable amount of time to load, but so far it's pretty much
-  instantaneous
-  -->
+  instantaneous -->
 </template>
 
 <script>
@@ -22,21 +18,17 @@ import { Loader } from '@googlemaps/js-api-loader';
 import { mapState, mapMutations, mapActions } from 'vuex'
 import { mapLoaderOptions } from '@/config/google'
 import { setGeocoder } from '@/lib/geocode'
-import Header from '@/components/Header'
-import Form from "@/components/Form"
+import Form from "@/containers/Form"
 import SearchResults from '@/components/SearchResults'
-import SearchResultsInfo from '@/components/SearchResultsInfo'
-import ListingCards from '@/components/ListingCards'
-import ListingMap from "@/components/ListingMap"
+import ListingCards from '@/components/listings/ListingCards'
+import ListingMap from "@/containers/ListingMap"
 
 export default {
   components: {
     Form,
-    Header,
     SearchResults,
-    ListingMap,
-    SearchResultsInfo,
     ListingCards,
+    ListingMap,
   },
 
   props: {
@@ -106,7 +98,7 @@ export default {
   width: 100%;
 }
 
-.search-container {
+.form-and-search-results {
   display: flex;
   flex-direction: column;
   width: 60%;

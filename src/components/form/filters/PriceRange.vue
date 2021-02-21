@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import MenuButton from './MenuButton'
-import TextField from './TextField'
+import MenuButton from '@/components/shared/MenuButton'
+import TextField from '@/components/shared/TextField'
 
 export default {
   components: { MenuButton, TextField },

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import ListingCard from '@/components/ListingCard'
+import ListingCard from '@/components/listings/ListingCard'
 
 export default {
   components: { ListingCard },

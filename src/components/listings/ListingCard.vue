@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { listingCardMetaInfo } from '../lib/helpers/listing_helpers'
+import { listingCardMetaInfo } from '@/lib/helpers/listing_helpers'
 
 export default {
   props: {

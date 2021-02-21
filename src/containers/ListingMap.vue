@@ -27,9 +27,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import GoogleMap from '@/components/GoogleMap'
-import ListingMarker from '@/components/ListingMarker'
-import GeoLayerPolygon from '@/components/GeoLayerPolygon'
+import GoogleMap from '@/components/map/GoogleMap'
+import ListingMarker from '@/components/map/ListingMarker'
+import GeoLayerPolygon from '@/components/map/GeoLayerPolygon'
 import { getGeoLayerBounds } from '@/lib/polygon'
 import { geoLayerPolygonOptions } from '@/config'
 import { mapOptions } from '@/config/google'

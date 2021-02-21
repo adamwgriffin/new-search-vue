@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import ListingCount from '@/components/ListingCount'
-import SortMenu from '@/components/SortMenu'
+import ListingCount from '@/components/form/ListingCount'
+import SortMenu from '@/components/form/SortMenu'
 
 export default {
   components: { ListingCount, SortMenu, },
@@ -35,7 +35,7 @@ export default {
 #search-results-info {
   display: flex;
   justify-content: space-between;
-  padding: .8rem 0;
+  padding: .8rem .3rem .1rem .2rem;
 }
 
 .no-listings {

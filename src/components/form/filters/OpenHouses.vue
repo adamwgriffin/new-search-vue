@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import Fieldset from '@/components/Fieldset'
-import Legend from '@/components/Legend'
+import Fieldset from '@/components/shared/Fieldset'
+import Legend from '@/components/shared/Legend'
 
 export default {
   components: { Fieldset, Legend },
