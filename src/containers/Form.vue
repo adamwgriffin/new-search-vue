@@ -4,6 +4,7 @@
       <SearchField
         :locationSearchField="searchParams.location_search_field"
         :autocompleteOptions="autocompleteOptions"
+        :bounds="viewportBounds"
         @inputChanged="handleSearchFieldInputChanged"
         @autocompletePlaceChanged="handleAutocompletePlaceChanged"
         @searchButtonClicked="handleSearchButtonClicked"
@@ -59,7 +60,8 @@ export default {
     ]),
 
     ...mapGetters('listingMap', [
-      'geotype'
+      'geotype',
+      'viewportBounds'
     ]),
 
     ...mapState('listingSearch', [
@@ -74,7 +76,9 @@ export default {
       'moreFiltersParams'
     ]),
 
-    autocompleteOptions: () => autocompleteOptions
+    autocompleteOptions() {
+      return { ...autocompleteOptions, bounds: this.viewportBounds }
+    },
   },
 
   methods: {

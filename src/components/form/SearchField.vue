@@ -51,7 +51,19 @@
 import { MDCTextField } from '@material/textfield'
 
 export default {
-  props: ['locationSearchField', 'autocompleteOptions'],
+  props: {
+    locationSearchField: {
+      type: String,
+    },
+
+    autocompleteOptions: {
+      type: Object
+    },
+
+    bounds: {
+      type: Object
+    }
+  },
 
   data() {
     return {
@@ -70,6 +82,14 @@ export default {
 
   destroyed() {
     this.autocompleteListener?.remove()
+  },
+
+  watch: {
+    bounds(newBounds) {
+      // sets the preferred area within which to return place results. results are biased towards, but not restricted
+      // to, this area. we are passing the viewportBounds for the bounds to bias results to the map viewport
+      this.autocomplete.setBounds(newBounds)
+    }
   },
 
   methods: {
