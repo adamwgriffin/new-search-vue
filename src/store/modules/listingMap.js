@@ -82,7 +82,7 @@ export const mutations = {
     const { location, viewport } = result.geometry
     state.geocoderResult = {
       type: result.types[0],
-      location,
+      location: location.toJSON(), // calling toJSON() returns the LatLngBounds instance as a POJO
       viewport
     }
   },
