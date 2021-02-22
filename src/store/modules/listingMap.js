@@ -46,10 +46,9 @@ export const getters = {
 
   /* viewportBounds is used to adjust the map so that the content we want to display is inside its viewport. this is
   accomplished by the map calling map.fitBounds(LatLngBounds). viewportBounds is also used to bias autocomplete results
-  to be within the area described by these bounds. we want the viewport to fit the geospatial boundary polygon we
-  display on the map, which is why we get its bounds using getGeoLayerBounds here. if for some reason we didn't get
-  geojson.coordinates for the boundary from the service, we fallback to the viewport bounds from the geocoder instead,
-  just in case. */
+  to be within the bounds. we want the viewport to fit the geospatial boundary polygon we display on the map, which is
+  why we get its bounds using getGeoLayerBounds here. if for some reason we didn't get geojson.coordinates for the
+  boundary from the service, we fallback to the viewport bounds from the geocoder instead. */
   viewportBounds(state) {
     return state.geoLayerCoordinates.length ?
       getGeoLayerBounds(state.geoLayerCoordinates) :
