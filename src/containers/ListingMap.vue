@@ -7,8 +7,7 @@
   if you create a <slot> with no name then it's name implicitly becomes "default". -->
   <GoogleMap
     v-slot:default="slotProps"
-    :location="location"
-    :bounds="bounds"
+    :viewportBounds="viewportBounds"
     :mapOptions="mapOptions"
   >
     <ListingMarker
@@ -26,11 +25,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import GoogleMap from '@/components/map/GoogleMap'
 import ListingMarker from '@/components/map/ListingMarker'
 import GeoLayerPolygon from '@/components/map/GeoLayerPolygon'
-import { getGeoLayerBounds } from '@/lib/polygon'
 import { geoLayerPolygonOptions } from '@/config'
 import { mapOptions } from '@/config/google'
 
@@ -45,17 +43,13 @@ export default {
   computed: {
     mapOptions: () => mapOptions,
 
-    bounds() {
-      return this.geoLayerCoordinates.length ? getGeoLayerBounds(this.geoLayerCoordinates) : this.viewport
-    },
-
     geoLayerPolygonOptions,
 
     ...mapState('listingMap', [
-      'location',
-      'viewport',
       'geoLayerCoordinates'
     ]),
+
+    ...mapGetters('listingMap', ['viewportBounds']),
 
     ...mapState('listingSearch', ['listings'])
   }

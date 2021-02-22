@@ -54,9 +54,12 @@ export default {
 
   computed: {
     ...mapState('listingMap', [
-      'location',
-      'geotype',
-      'buffer_miles'
+      'buffer_miles',
+      'geocoderResult'
+    ]),
+
+    ...mapGetters('listingMap', [
+      'geotype'
     ]),
 
     ...mapState('listingSearch', [
@@ -75,7 +78,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations('listingMap', ['setGeotype', 'setLocation', 'setViewport']),
+    ...mapMutations('listingMap', ['setGeocoderResult']),
 
     ...mapMutations('listingSearch', ['updateLocationSearchField', 'setSearchParams', 'resetListings']),
 
@@ -96,15 +99,13 @@ export default {
       input field */
       const { address_components, geometry } = e.autocompletePlace
       if (address_components && geometry) {
-        this.setGeotype(address_components[0].types[0])
-        this.setLocation(geometry.location)
-        this.setViewport(geometry.viewport)
+        this.setGeocoderResult({ types: address_components[0].types, geometry })
       } else {
         await this.geocodeMap({ address: this.searchParams.location_search_field })
       }
       this.getGeoLayer({
-        center_lat: this.location.lat,
-        center_lon: this.location.lng,
+        center_lat: this.geocoderResult.location.lat,
+        center_lon: this.geocoderResult.location.lng,
         geotype: this.geotype,
         buffer_miles: this.buffer_miles,
         source: 'agent website'
@@ -116,8 +117,8 @@ export default {
       this.searchListings(this.searchParamsForListingService)
       await this.geocodeMap({ address: this.searchParams.location_search_field })
       this.getGeoLayer({
-        center_lat: this.location.lat,
-        center_lon: this.location.lng,
+        center_lat: this.geocoderResult.location.lat,
+        center_lon: this.geocoderResult.location.lng,
         geotype: this.geotype,
         buffer_miles: this.buffer_miles,
         source: 'agent website'

@@ -1,6 +1,6 @@
 import http from '@/lib/http'
 import { geocode, googleToServiceAddressTypeMapping } from '@/lib/geocode'
-import { convertGeojsonCoordinatesToPolygonPaths } from '@/lib/polygon'
+import { convertGeojsonCoordinatesToPolygonPaths, getGeoLayerBounds } from '@/lib/polygon'
 
 const initialState = () => {
   return {
@@ -12,16 +12,23 @@ const initialState = () => {
       status: null,
       error: null,
     },
+    geocoderResult: {
+      // this is first type returned from the geocoder result. the orignal is stored here. it needs to be mapped to a
+      // name that the Listing service understands when using it as the geotype param for a geolayer request
+      type: null,
+      // we're only using location for the geolayer request to the listing service
+      location: null,
+      // viewport bounds are only used as a fallback if something goes with the geolayer request from the service
+      viewport: null
+    },
     geoLayer: {
       pending: false,
       request: null,
       results: null,
       status: null
     },
-    // a.k.a, "address type"
-    geotype: null,
-    location: null,
-    viewport: null,
+    // an array with one or more arrays of LatLngLiterals, e.g., [[{ lat: 47.228309, lng: -122.510645 },],], used for
+    // Polygon paths as well as viewport bounds
     geoLayerCoordinates: []
   }
 }
@@ -29,6 +36,24 @@ const initialState = () => {
 export const getters = {
   geoLayerServiceUrl(state, getters, rootState, rootGetters) {
     return `${rootGetters.baseUrl}/listing/geo/layer/search`
+  },
+
+  // geotype getter for geolayer request to Listing Service. the name of the type returned by the google geocoder may 
+  // be different from what the service expects for legacy reasons
+  geotype(state) {
+    return googleToServiceAddressTypeMapping[state.geocoderResult.type]
+  },
+
+  /* viewportBounds is used to adjust the map so that the content we want to display is inside its viewport. this is
+  accomplished by the map calling map.fitBounds(LatLngBounds). viewportBounds is also used to bias autocomplete results
+  to be within the area described by these bounds. we want the viewport to fit the geospatial boundary polygon we
+  display on the map, which is why we get its bounds using getGeoLayerBounds here. if for some reason we didn't get
+  geojson.coordinates for the boundary from the service, we fallback to the viewport bounds from the geocoder instead,
+  just in case. */
+  viewportBounds(state) {
+    return state.geoLayerCoordinates.length ?
+      getGeoLayerBounds(state.geoLayerCoordinates) :
+      state.geocoderResult.viewport
   }
 }
 
@@ -54,17 +79,13 @@ export const mutations = {
     state.geocode.pending = false
   },
 
-  setLocation(state, location) {
-    // we're saving location as a plain object in the store because saving complex objects is discouraged in vuex
-    state.location = { lat: location.lat(), lng: location.lng() }
-  },
-
-  setViewport(state, payload) {
-    state.viewport = payload
-  },
-
-  setGeotype(state, type) {
-    state.geotype = googleToServiceAddressTypeMapping[type]
+  setGeocoderResult(state, result) {
+    const { location, viewport } = result.geometry
+    state.geocoderResult = {
+      type: result.types[0],
+      location,
+      viewport
+    }
   },
 
   setGeoLayerPending(state) {
@@ -95,10 +116,7 @@ export const actions = {
       commit('setGeocodePending')
       const res = await geocode(payload)
       commit('setGeocodeSuccess', { request: payload, results: res.results, status: res.status })
-      const { types, geometry } = res.results[0]
-      commit('setGeotype', types[0])
-      commit('setLocation', geometry.location)
-      commit('setViewport', geometry.viewport)
+      commit('setGeocoderResult', res.results[0])
       return res
     } catch (error) {
       commit('setGeocodeFailure', { request: payload, error: error, status: error.status })

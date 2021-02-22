@@ -15,7 +15,7 @@
 
 <script>
 import { Loader } from '@googlemaps/js-api-loader';
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import { mapLoaderOptions } from '@/config/google'
 import { setGeocoder } from '@/lib/geocode'
 import Form from "@/containers/Form"
@@ -51,7 +51,6 @@ export default {
 
   computed: {
     ...mapState('listingSearch', [
-      'searchParams',
       'listings'
     ])
   },
@@ -66,16 +65,10 @@ export default {
     /* we have to set the geocoder in the geocode module after google is loaded. we can't create the geocoder instance
     inside of the store that uses this because it loads before this mounted hook can load the google api */
     setGeocoder(new google.maps.Geocoder())
-    // this.searchListings(this.searchParams)
-    // this.geocodeMap({ address: this.searchParams.location_search_field })
   },
 
   methods: {
     ...mapMutations(['setServiceBase', 'setServiceVersion']),
-
-    ...mapActions('listingMap', ['geocodeMap']),
-
-    ...mapActions('listingSearch', ['searchListings']),
 
     /* there is no npm module for the google maps api. you have to load it via a script tag. @googlemaps/js-api-loader
     just creates a nice interface that you can use to create the script tag dynamically, and returns a promise that will
