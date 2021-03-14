@@ -1,12 +1,21 @@
 <template>
   <div class="sort-menu">
-    Sort: Distance ▾
+    Sort: Distance <MenuOpenIcon :open="open" />
   </div>
 </template>
 
 <script>
-export default {
+import MenuOpenIcon from '@/components/shared/MenuOpenIcon'
 
+export default {
+  components: { MenuOpenIcon },
+
+  props: {
+    open: {
+      type: Boolean,
+      default: false
+    }
+  },
 }
 </script>
 

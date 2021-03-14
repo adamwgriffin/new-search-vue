@@ -1,7 +1,7 @@
 <template>
   <div class="menu-button" v-click-outside="closeMenu">
     <ContainedButton @click="toggleMenu" :highlighted="open">
-      {{ label }}
+      {{ label }} <MenuOpenIcon :open="open" />
     </ContainedButton>
     <div v-show="open" class="menu">
       <slot></slot>
@@ -11,10 +11,11 @@
 
 <script>
 import ContainedButton from '@/components/shared/ContainedButton'
+import MenuOpenIcon from '@/components/shared/MenuOpenIcon'
 import { ClickOutside } from '@/directives/ClickOutsideDirective'
 
 export default {
-  components: { ContainedButton },
+  components: { ContainedButton, MenuOpenIcon },
 
   directives: { ClickOutside },
 
