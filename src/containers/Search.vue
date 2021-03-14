@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { Loader } from '@googlemaps/js-api-loader';
+import { Loader } from '@googlemaps/js-api-loader'
 import { mapState, mapMutations } from 'vuex'
 import { mapLoaderOptions } from '@/config/google'
 import { setGeocoder } from '@/lib/geocode'
