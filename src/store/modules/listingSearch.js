@@ -2,6 +2,7 @@ import http from '@/lib/http'
 import omitBy from 'lodash/omitBy'
 import pick from 'lodash/pick'
 import { WEBSITES_SEARCH_PARAMS, WEBSITES_MORE_FILTERS_PARAMS } from '@/lib/constants/search_param_constants'
+import { getPropertyTypes } from '@/lib/helpers/search_params'
 
 // NOTE: Eventually we would want to compose things like state (searchParams), getters, mutations, etc. based on what
 // app is using this module, but for now we are assuming Websites IDX search.
@@ -44,7 +45,11 @@ export const getters = {
 
 export const mutations = {
   setSearchParams(state, newParams) {
-    state.searchParams = { ...state.searchParams, ...newParams }
+    state.searchParams = {
+      ...state.searchParams,
+      ...newParams,
+      ptype: getPropertyTypes(newParams.ptype, state.searchParams.ptype)
+    }
   },
 
   setSearchListingsPending(state) {

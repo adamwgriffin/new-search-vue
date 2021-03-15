@@ -12,6 +12,8 @@ export const CORE_PARAMS = {
   openhouse: null,
   openhouse_virtual: false,
   openhouse_in_person: false,
+  // a.k.a., "property type"
+  ptype: [1, 2, 9],
 }
 
 // params used exclusively for IDX (public) search, e.g., Websites
@@ -30,9 +32,10 @@ export const CMA_PARAMS = {
 
 export const WEBSITES_SEARCH_PARAMS = {
   ...CORE_PARAMS,
-  ...IDX_PARAMS
+  ...IDX_PARAMS,
 }
 
+// these are only the search params that are needed for the "(More) Filters" part of the Websites form
 export const WEBSITES_MORE_FILTERS_PARAMS = [
   'status',
   'ex_pend',
@@ -41,4 +44,5 @@ export const WEBSITES_MORE_FILTERS_PARAMS = [
   'openhouse',
   'openhouse_virtual',
   'exopenhouse_in_person_cs',
+  'ptype'
 ]

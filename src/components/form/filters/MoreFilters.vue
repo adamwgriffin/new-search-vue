@@ -1,7 +1,10 @@
 <template>
   <MenuButton label="Filters">
-    <ListingStatus :params="listingStatusParams" @change="updateValue($event)" />
-    <OpenHouses :params="openHouseParams" @change="updateValue($event)" />
+    <div class="more-filters-container">
+      <ListingStatus :params="listingStatusParams" @change="updateValue($event)" />
+      <OpenHouses :params="openHouseParams" @change="updateValue($event)" />
+      <PropertyTypes :params="propertyTypeParams" @change="updateValue($event)" :propertyTypes="propertyTypes" />
+    </div>
   </MenuButton>
 </template>
 
@@ -10,9 +13,11 @@ import pick from 'lodash/pick'
 import MenuButton from '@/components/shared/MenuButton'
 import ListingStatus from '@/components/form/filters/ListingStatus'
 import OpenHouses from '@/components/form/filters/OpenHouses'
+import PropertyTypes from '@/components/form/filters/PropertyTypes'
+import { propertyTypes } from '@/lib/constants/property_types'
 
 export default {
-  components: { MenuButton, ListingStatus, OpenHouses },
+  components: { MenuButton, ListingStatus, OpenHouses, PropertyTypes },
 
   /* this is for use with v-model. when used with custom components, the default for v-model is to pass state changes
   down to a prop named "value" and listen for "input" events from the component to propgate it's changes up to the
@@ -37,6 +42,14 @@ export default {
     openHouseParams() {
       return pick(this.searchParams, ['openhouse', 'openhouse_virtual', 'exopenhouse_in_person_cs'])
     },
+
+    propertyTypes() {
+      return propertyTypes
+    },
+
+    propertyTypeParams() {
+      return this.searchParams.ptype
+    }
   },
 
   methods: {
@@ -48,4 +61,11 @@ export default {
 </script>
 
 <style scoped>
+.more-filters-container {
+  width: 55vw;
+}
+
+.more-filters-container > * {
+  margin-bottom: .5rem;
+}
 </style>
