@@ -32,7 +32,7 @@
       :value="locationSearchField"
       @input="handleLocationInput"
       @keydown.enter="handleEnter"
-      placeholder="City, neighborhood, ZIP"
+      :placeholder="$t('location_placeholder.websites')"
     >
     <i
       v-show="locationSearchField"

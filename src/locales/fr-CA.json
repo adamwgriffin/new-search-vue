@@ -1,0 +1,518 @@
+{
+  "exit": "Sortie",
+  "cancel": "Annuler",
+  "close": "Fermer",
+  "apply": "Appliquer",
+  "ok": "D'accord",
+  "save": "sauver",
+  "price": "Prix",
+  "bed_and_bath": "CAC + SDB",
+  "bed": "CAC",
+  "beds_heading": "Chambre(s) à coucher",
+  "beds_abbrev": "CAC",
+  "bath": "Salle de bains",
+  "baths_heading": "Salle(s) de bains",
+  "baths_abbrev": "SDB",
+  "check_all": "Vérifie tout",
+  "uncheck_all": "Décocher tout",
+  "none": "Aucun",
+  "to": "à",
+  "min": "Min",
+  "max": "Max",
+  "no_min": "Aucun minimum",
+  "no_max": "Aucun maximum",
+  "filters": "Filtrer",
+  "minutes_abbrev": "Min",
+  "miles_abbrev": "m",
+  "favorited": "Favoris",
+  "n/a": "N / A",
+  "include_all": "Tout inclure",
+  "exclude_all": "Tout exclure",
+  "month_abbrev": "Mo",
+  "contact_me_btn": "Contactez moi",
+  "error": "Erreur",
+  "mobile_state": {
+    "map": "Carte",
+    "list": "Liste"
+  },
+  "mobile_draw_dialogue": {
+    "title": "Pour une Meilleure Précision",
+    "message": "Assurez-vous que votre écran est propre."
+  },
+  "contact_vacasa_dialogue": {
+    "success": {
+      "title": "Merci!",
+      "message": "Votre message a été envoyé. Un représentant vous contactera sous peu."
+    },
+    "error": {
+      "title": "Erreur",
+      "message": "Un problème est survenu. Veuillez réessayer plus tard."
+    }
+  },
+  "unable_to_find_location_dialogue": {
+    "title": "Nous N'Avons pas pu Trouver Votre Position",
+    "message": "Veuillez choisir «Autoriser» lorsque vous êtes invité à indiquer votre emplacement et assurez-vous que votre navigateur est autorisé à accéder à votre emplacement."
+  },
+  "location_placeholder": {
+    "websites": "Ville, adresse, quartier, code postal, ou numéro MLS®",
+    "cma_or_neighborhood_news": "Ville, adresse, quartier, code postal",
+    "mls_search": "Entrez les numéros MLS®"
+  },
+  "cma_info_pop_up": {
+    "heading": "Sélection simplifiée",
+    "msg": "Appuyez simplement sur une inscription pour l'inclure dans votre présentation. Appuyez à nouveau pour exclure.",
+    "dismiss_btn": "Je l'ai"
+  },
+  "no_results": {
+    "heading": "Aucun résultat",
+    "msg": "Essayez de faire un zoom avant ou arrière ou",
+    "reset_filters": "réinitialisation des filtres",
+    "vacasa": {
+      "heading": "Où sont toutes les annonces?",
+      "or": "ou",
+      "contact_msg": "Les agents Vacasa ne desservent peut-être pas encore directement cette zone, mais nos partenaires locaux le font! Remplissez le court formulaire ci-dessous et nous demanderons à l'un de nos experts de vous contacter sous peu."
+    }
+  },
+  "over_threshold": {
+    "heading": "La recherche a renvoyé plus de 10000 résultats"
+  },
+  "long_running_query": {
+    "heading": "Problème de service - Requête de longue durée possible",
+    "msg": "Essayez d'ajuster vos paramètres de recherche ou"
+  },
+  "mls_max_limit": {
+    "heading": "Limite MLS®",
+    "msg1": "En raison des règles MLS® définies par {0}, nous ne pouvons pas afficher les annonces tant que les résultats renvoyés ne sont pas inférieurs à {1} fiches. Veuillez zoomer sur la carte ou ajuster vos filtres pour affiner cette recherche.",
+    "msg2": "Entre vos filtres actuels et la vue de la carte, {0} fiches sont disponibles."
+  },
+  "no_results_special": {
+    "saved_searches": "Aucune recherche enregistrée",
+    "hidden_listings": "Aucune annonce masquée",
+    "favorites": "Pas de favoris"
+  },
+  "drive_time": {
+    "heading": "Recherche DriveTime",
+    "tooltip": "Rechercher en utilisant le temps de conduite",
+    "from_location_btn": "De l'emplacement",
+    "to_location_btn": "Vers l'emplacement",
+    "drive_time_label": "En arrivant",
+    "drive_duration_label": "Dans",
+    "drive_avoid_ferry_label": "Évitez le ferry?",
+    "search_btn": "Trouver des annonces",
+    "validation": {
+      "empty_location": "Veuillez saisir une valeur dans le champ de recherche d'emplacement pour lancer une recherche valide.",
+      "mls_search_type": "Il semble que vous essayez d'exécuter une recherche de temps de trajet avec un # MLS. Veuillez mettre à jour le champ de localisation de manière appropriée et relancer votre recherche."
+    }
+  },
+  "email_frequency": {
+    "label": "Fréquence des e-mails",
+    "options": {
+      "once_per_day": "Une fois par jour",
+      "hourly": "À l'heure",
+      "weekly": "Hebdomadaire",
+      "never": "Jamais"
+    }
+  },
+  "saved_search": {
+    "save_search_btn": "Sauver",
+    "create_heading": "Sauvegarder la recherche",
+    "ss_description_label": "Nom",
+    "ss_send_zero_result_label": "Envoyez-moi des e-mails lorsque 0 annonces.",
+    "update_heading": "Mettre à jour les notifications pour «{name}»",
+    "validation": {
+      "no_search_name": "Donnez un nom à votre recherche sauvegardée.",
+      "name_already_used": "{name} est un nom que vous avez déjà utilisé. Veuillez renommer votre recherche enregistrée."
+    },
+    "success_msg": "Recherche enregistrée!",
+    "notifications_setting": {
+      "message": {
+        "0": "{0} {1}",
+        "1": "{0} Plusieurs e-mails envoyés quotidiennement {1}",
+        "7": "{0} E-mails envoyés chaque semaine {1}",
+        "40": "{0} E-mails envoyés quotidiennement {1}"
+      },
+      "action": {
+        "0": "Configurer les notifications",
+        "1": "modifier",
+        "7": "modifier",
+        "40": "modifier"
+      }
+    },
+    "delete_confirmation": {
+      "title": "Êtes-vous sûr?",
+      "message": "La confirmation de cette action supprimera votre recherche enregistrée."
+    },
+    "run_search_btn": "Lancer la recherche"
+  },
+  "reset_filters": {
+    "btn": "Réinitialiser les filtres",
+    "to_defaults": "Aux valeurs par défaut",
+    "to_subject_property_values": "Pour soumettre les valeurs de propriété"
+  },
+  "listing_status": {
+    "heading": "Statut de la inscription",
+    "all_listings": "Toutes les inscriptions",
+    "exclude_pending": "Exclure les annonces en attente",
+    "exclude_coming_soon": "Exclure les annonces à venir"
+  },
+  "time_on_mls": {
+    "heading": "Heure sur MLS®",
+    "placeholder": "Ex: 10",
+    "days": "Journée | Journées"
+  },
+  "time_on_mls_in_days": {
+    "heading": "Durée sur MLS® (en jours)",
+    "placeholder": "Ex: 10"
+  },
+  "mls_area": {
+    "heading": "Zone MLS®",
+    "placeholder": "Exemple: 705, 710"
+  },
+  "status_key_heading": "Clé d'état:",
+  "status_type": {
+    "active": "En vigueur",
+    "sold": "Vendu",
+    "pending": "En attente",
+    "coming_soon": "Bientôt disponible",
+    "off_market": "Hors marché",
+    "contingent": "Contingent",
+    "expired": "Expiré",
+    "sale_fail": "Échec de la vente",
+    "canceled": "Annulé",
+    "other": "Autre"
+  },
+  "change_days": {
+    "1": "Un jour",
+    "7": "7 jours",
+    "14": "14 jours",
+    "30": "30 jours",
+    "60": "60 jours",
+    "90": "90 jours",
+    "180": "180 jours",
+    "365": "365 jours",
+    "730": "730 jours",
+    "999": "999 jours",
+    "heading": "Modifié en dernier",
+    "custom": "Douane"
+  },
+  "property_types_heading": "Types de propriété",
+  "property_types": {
+    "residential": "Unifamiliale",
+    "condo": "Condo",
+    "co_op": "Coopérative",
+    "condo_co_op": "@:property_types.condo",
+    "townhouse": "Maison de ville",
+    "manufactured": "Préusiné",
+    "land": "Terrain",
+    "farm_and_ranch": "Ferme et ranch",
+    "multi_family": "Multifamiliale",
+    "rental": "Location"
+  },
+  "property_info_heading": "Informations sur la propriété",
+  "size": {
+    "unit": {
+      "large": "Acres",
+      "small": "Pieds carré",
+      "small_abbrev": "pi. ca.",
+      "small_abbrev_short": "pi. ca."
+    }
+  },
+  "interior_size": {
+    "name": "Superficie habitable",
+    "validation_label": {
+      "min": "pi. ca. min",
+      "max": "pi. ca. max"
+    }
+  },
+  "lot_size_heading": "Superficie du terrain",
+  "year_built_heading": "Année de construction",
+  "waterfront_dry_lot": {
+    "heading": "Bord de l'eau / terrain sec",
+    "options": {
+      "neither": "Ni",
+      "waterfront": "Bord de l'eau",
+      "dry_lot": "Lot sec"
+    }
+  },
+  "features_heading": "Traits",
+  "view_label": "Vue panoramique",
+  "onestory_label": "Maisons à un étage",
+  "has_garage_label": "Garage",
+  "new_const_label": "Nouvelle construction",
+  "virtual_tour_label": "Tour vittuelles",
+  "luxury_label": "Propriétés de luxe",
+  "destinations_label": "Destinations",
+  "has_pool_label": "Piscine",
+  "senior_community_label": "Communauté senior",
+  "property_management": {
+    "heading": "Gestion de la propriété",
+    "vacasa_managed": "Géré par Vacasa",
+    "verified_rental": "Location vérifiée"
+  },
+  "sale_types": {
+    "heading": "Types de vente",
+    "short_sale": "Vente flash",
+    "bank_owned": "Propriété de la banque"
+  },
+  "open_house": {
+    "heading": "Portes ouvertes",
+    "in_person": "En personne",
+    "virtual": "Vittuelles",
+    "card_label": "Ouvert",
+    "times": {
+      "none": "@:none",
+      "this_weekend": "Cette fin de semaine",
+      "this_saturday": "Ce samedi",
+      "this_sunday": "Ce dimanche",
+      "this_week": "Cette semaine",
+      "today": "Aujourd'hui",
+      "tomorrow": "Demain"
+    }
+  },
+  "sold_days": {
+    "30": "Vendu les 30 derniers jours",
+    "90": "Vendu les 3 derniers mois",
+    "180": "Vendu les 6 derniers mois",
+    "365": "Vendu les 12 derniers mois",
+    "730": "Vendu les 2 dernières années"
+  },
+  "price_range": {
+    "heading": "Échelle des prix",
+    "banner_label": {
+      "min": "Prix minimum",
+      "max": "Prix maximum"
+    },
+    "validation": {
+      "max_too_price_low": "Le prix maximum doit être supérieur à {minPrice}"
+    }
+  },
+  "building_styles_heading": "Styles de construction",
+  "annualized_revenue": {
+    "heading": "Revenu annuel",
+    "validation": {
+      "min": "Champ minimum de revenu annualisé",
+      "max": "Champ de revenu maximal annualisé"
+    }
+  },
+  "cap_rate": {
+    "heading": "Taux de capitalisation",
+    "validation": {
+      "min": "Champ min du taux plafond '",
+      "max": "Champ maximum de taux plafond '"
+    }
+  },
+  "subdivisions": {
+    "heading": "Subdivision MLS®",
+    "placeholder": "Rechercher une subdivision MLS®",
+    "loading_msg": "Chargement des résultats ..."
+  },
+  "search_mode": {
+    "location": "Emplacement",
+    "mls": "N ° MLS®"
+  },
+  "mls_areas_heading": "Zones MLS®:",
+  "sort": {
+    "label": "Trier:",
+    "by": {
+      "recommended": "conseillé",
+      "status": "Statut",
+      "price": "Prix",
+      "annual_revenue": "Revenu annuel",
+      "cap_rate": "Taux de capitalisation",
+      "vacasa_managed": "Géré par Vacasa",
+      "time_on_market": "Durée sur le marché (en jours)",
+      "date_listed": "Date répertoriée",
+      "beds": "Des CAC",
+      "baths": "Des SDB",
+      "date_sold": "Date de vente",
+      "interior_size": "Pieds carré",
+      "distance": "Distance"
+    },
+    "direction": {
+      "active_to_sold": "En vigueur à Vendu",
+      "sold_to_active": "Vendu à En vigueur",
+      "low_to_high": "De bas en haut",
+      "high_to_low": "Haut en bas",
+      "no_to_yes": "Non à Oui",
+      "yes_to_no": "Oui à non",
+      "old_to_new": "De l'ancien au nouveau",
+      "new_to_old": "Du nouveau au vieux"
+    },
+    "listing_count_text": "Affichage de 1 - {count} SUR {total} inscriptions"
+  },
+  "neighborhood_news_report_msg": "TOUTES LES ANNONCES ICI RÉPONDENT AUX CRITÈRES DE RECHERCHE ET APPARAÎTRONT DANS LE RAPPORT COMPLET",
+  "remove_boundary_msg": "Cliquez pour voir toutes les annonces",
+  "boundary_removed": {
+    "heading": "Limite supprimée",
+    "msg": "Relancez votre recherche pour la redessiner"
+  },
+  "schools_outside_zoom_msg": "Les écoles ne s'affichent qu'aux niveaux de zoom appropriés. Zoomez pour voir les écoles.",
+  "days_on_market": {
+    "new": "Nouveau",
+    "days_ago": "Listé il y a {n} jour"
+  },
+  "listing_overlay_options": {
+    "contact": "Plus d'infos",
+    "hide_listing": "Masquer l'annonce",
+    "login_msg": "Pour contacter l'agent inscripteur, vous devez être connecté à un compte consommateur."
+  },
+  "favorites": {
+    "placeholder": "Qu'est-ce que vous aimez à ce sujet?",
+    "add_comment": "Ajouter un commentaire",
+    "save_comments": "Enregistrer les commentaires",
+    "unfavorite": "Défavorable",
+    "close_popover_aria_label": "",
+    "icon_aria_label": {
+      "manage": "Gérer la inscriptions des favoris",
+      "add": "Ajouter une inscriptions aux favoris"
+    }
+  },
+  "address_unavailable_msg": "Adresse non disponible",
+  "courtesy_of": "Annonce gracieuseté de:",
+  "estimate": {
+    "annual_revenue": "Vacasa Est. Annual Revenue",
+    "cap_rate": "Vacasa Est. Cap Rate"
+  },
+  "school_btn": {
+    "label": "Écoles",
+    "public_schools": "Écoles publiques",
+    "private_schools": "Écoles privées"
+  },
+  "draw_btn": {
+    "label": "Dessiner",
+    "quick_draw": "Dégainer rapidement",
+    "multi_draw": "Tirage multiple"
+  },
+  "radius_btn": {
+    "label": "Rayon"
+  },
+  "map_type_btn": {
+    "label": "Carte",
+    "default": "Défaut",
+    "satellite": "Satellite",
+    "terrain": "Terrain"
+  },
+  "draw_banner": {
+    "msg": "Vous pouvez commencer à dessiner sur la carte.",
+    "clear": "Clair"
+  },
+  "drive_time_banner": {
+    "heading": "Résultats DriveTime",
+    "msg": "{time} Arrivée, {duration} {durationUnit}"
+  },
+  "mls_banner_heading": "Résultats MLS® #",
+  "radius_banner": {
+    "msg": {
+      "radius_drawn": "{distance} {distanceUnit} rayon",
+      "radius_not_drawn": "Appuyez pour placer votre point central, puis faites glisser."
+    },
+    "run_search_btn": "Lancer la recherche",
+    "clear_btn": "Effacer et redessiner"
+  },
+  "school_banner": {
+    "header": {
+      "high_schools": "Écoles secondaires dans le district",
+      "middle_schools": "Écoles intermédiaires dans le district",
+      "elementary_schools": "Écoles élémentaires dans le district",
+      "other_schools": "Autres écoles dans le district"
+    }
+  },
+  "school_markers": {
+    "overlay": {
+      "view_homes_within": "Afficher les maisons uniquement dans:",
+      "school_boundaries": "Limites scolaires",
+      "district_boundaries": "Limites de district",
+      "no_boundary_msg": "Aucune information sur les limites de cette école"
+    }
+  },
+  "screen_reader_listing_summary": "{favorited} {status} fiche {price} {metaInfo} {address}",
+  "contact_agent_btn": {
+    "label": "Plus d'infos",
+    "logged_in_msg": "Pour contacter l'agent inscripteur, vous devez être connecté à un compte consommateur."
+  },
+  "luxuryType": {
+    "w_collection": "Collection W",
+    "premier": "Propriétés Premier"
+  },
+  "pickList_columns": {
+    "list_price": "Prix",
+    "property_type": "Type de propriété",
+    "price_per_size_unit": "$ / @: size.unit.small_abbrev",
+    "dom": "JUGEMENT",
+    "status": "Statut",
+    "sold_price": "Prix vendu",
+    "sold_date": "Date de vente"
+  },
+  "cma_listing_card": {
+    "details": "Détails",
+    "mls_number": "N ° MLS®"
+  },
+  "state_navigation": {
+    "favorites": "Favoris",
+    "saved_searches": "Recherches sauvegardées",
+    "hidden_listings": "Annonces masquées"
+  },
+  "state_listing_card": {
+    "field_label": {
+      "lot_size": "La taille du lot",
+      "days_on_market": "Jours sur le marché",
+      "property_type": "Type de propriété",
+      "year_built": "Année de construction",
+      "mls_number": "N ° MLS®",
+      "rented_for": "Loué pour",
+      "sold_price": "Prix vendu",
+      "rented_date": "Date de location",
+      "sold_date": "Date de vente",
+      "add_comment": "Ajouter un commentaire"
+    },
+    "unfavorite_btn": "Défavorable",
+    "unhide_btn": "Afficher",
+    "comment_saved_msg": "Commentaire enregistré!"
+  },
+  "error_modal": {
+    "default_msg": "Une erreur s'est produite ..."
+  },
+  "contact_vacasa_header": "Connectez-vous avec un expert",
+  "printable": {
+    "heading": "Impression de {count} inscriptions à partir de la recherche «{search}»",
+    "mls_number": "N ° MLS®",
+    "field_label": {
+      "pricemin_formatted": "Prix Min",
+      "pricemax_formatted": "Prix Max",
+      "bed_min": "CAC Min",
+      "bath_min": "SDB Min",
+      "sqft_min": "Pieds carré min",
+      "sqft_max": "Peids carré max",
+      "lotsize_min": "Taille du lot Min",
+      "lotsize_max": "Taille maximale du lot",
+      "ls_conversion": "Conversion de taille de lot",
+      "yearblt_min": "Année de construction min",
+      "yearblt_max": "Année de construction max",
+      "days_indb": "Heure sur MLS®",
+      "water": "Bord de l'eau",
+      "view": "Vue panoramique",
+      "onestory": "Maison à un étage",
+      "has_garage": "A un garage",
+      "new_const": "Nouvelle construction",
+      "luxury": "Propriétés de luxe",
+      "destinations": "Destinations",
+      "has_pool": "Piscine"
+    }
+  },
+  "undo_hide_listing_btn": "Annuler masquer la inscription",
+  "current_location_marker_title": "Votre emplacement",
+  "neighborhood_news_product_name": "Nouvelles du quartier",
+  "csm_dialogue": {
+    "title": "{csm} Chercher",
+    "message": "Pour commencer votre recherche, entrez simplement votre emplacement souhaité dans le champ de recherche ci-dessus. Pour modifier vos critères de recherche, cliquez sur la flèche déroulante pour afficher des options supplémentaires."
+  },
+  "validation": {
+    "min_price_greater_than_max_price": "Le prix minimum est supérieur au prix maximum. Essayez de corriger ce filtre pour obtenir des résultats!",
+    "sqft_min_greater_than_sqft_max": "Le minimum pi. ca. est supérieur au maximum pi. ca. Essayez de corriger ce filtre pour obtenir des résultats!",
+    "lot_size_min_greater_than_lot_size_max": "La taille minimale du lot est supérieure à la taille maximale du lot. Essayez de corriger ce filtre pour obtenir des résultats!",
+    "year_built_min_greater_than_year_built_max": "L'année de construction minimum est supérieure à l'année de construction maximum. Essayez de corriger ce filtre pour obtenir des résultats!",
+    "annual_revenue_min_greater_than_annual_revenue_max": "Le revenu minimum annuel est supérieur au revenu maximum annuel. Essayez de corriger ce filtre pour obtenir des résultats!",
+    "cap_rate_min_greater_than_cap_rate_max": "Le taux plafond minimum est supérieur au taux plafond maximum. Essayez de corriger ce filtre pour obtenir des résultats!"
+  },
+  "mls_number": "N ° MLS® {0}"
+}

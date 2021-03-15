@@ -1,0 +1,46 @@
+{
+  "location_placeholder": {
+    "websites": "City, Address, Neighbourhood, Postal Code, or MLS® #",
+    "cma_or_neighborhood_news": "City, Address, Neighbourhood, Postal Code",
+    "mls_search": "Enter MLS® Numbers"
+  },
+  "mls_max_limit": {
+    "heading": "MLS® Limit",
+    "msg1": "Due to MLS® rules set by {0}, we are unable to display listings until the results returned are less than {1} listings. Please zoom in on the map or adjust your filters to refine this search."
+  },
+  "time_on_mls": {
+    "heading": "Time on MLS®"
+  },
+  "time_on_mls_in_days": {
+    "heading": "Time on MLS® (In Days)"
+  },
+  "mls_area": {
+    "heading": "MLS® Area"
+  },
+  "onestory_label": "Single-Storey Homes",
+  "subdivisions": {
+    "heading": "MLS® Subdivision",
+    "placeholder": "Search MLS® Subdivision"
+  },
+  "search_mode": {
+    "mls": "MLS®#"
+  },
+  "mls_areas_heading": "MLS® Areas:",
+  "mls_banner_heading": "MLS® # Results",
+  "cma_listing_card": {
+    "mls_number": "MLS® #"
+  },
+  "state_listing_card": {
+    "field_label": {
+      "mls_number": "MLS® #"
+    }
+  },
+  "printable": {
+    "mls_number": "MLS® #",
+    "field_label": {
+      "onestory": "Single-Storey Home"
+    }
+  },
+  "neighborhood_news_product_name": "Neighbourhood News",
+  "mls_number": "MLS® # {0}" 
+}

@@ -1,0 +1,518 @@
+{
+  "exit": "Exit",
+  "cancel": "Cancel",
+  "close": "Close",
+  "apply": "Apply",
+  "ok": "OK",
+  "save": "Save",
+  "price": "Price",
+  "bed_and_bath": "Bed + Bath",
+  "bed": "Bed",
+  "beds_heading": "Beds",
+  "beds_abbrev": "BR",
+  "bath": "Bath",
+  "baths_heading": "Baths",
+  "baths_abbrev": "BA",
+  "check_all": "Check All",
+  "uncheck_all": "Uncheck All",
+  "none": "None",
+  "to": "to",
+  "min": "Min",
+  "max": "Max",
+  "no_min": "No Min",
+  "no_max": "No Max",
+  "filters": "Filters",
+  "minutes_abbrev": "Min",
+  "miles_abbrev": "m",
+  "favorited": "Favorited",
+  "n/a": "N/A",
+  "include_all": "Include All",
+  "exclude_all": "Exclude All",
+  "month_abbrev": "Mo",
+  "contact_me_btn": "Contact Me",
+  "error": "Error",
+  "mobile_state": {
+    "map": "Map",
+    "list": "List"
+  },
+  "mobile_draw_dialogue": {
+    "title": "For Best Accuracy",
+    "message": "Please make sure your screen is clean."
+  },
+  "contact_vacasa_dialogue": {
+    "success": {
+      "title": "Thank You!",
+      "message": "Your message has been sent. A representative will contact you shortly."
+    },
+    "error": {
+      "title": "Error",
+      "message": "Something went wrong. Please try again later."
+    }
+  },
+  "unable_to_find_location_dialogue": {
+    "title": "We Were Unable to Find Your Location",
+    "message": "Please choose \"Allow\" when prompted for you location and make sure your browser has permission to access your location."
+  },
+  "location_placeholder": {
+    "websites": "City, Address, Neighborhood, ZIP, or MLS #",
+    "cma_or_neighborhood_news": "City, Address, Neighborhood, ZIP",
+    "mls_search": "Enter MLS Numbers"
+  },
+  "cma_info_pop_up": {
+    "heading": "Streamlined Selection",
+    "msg": "Simply tap a listing to include it in your presentation. Tap again to exclude.",
+    "dismiss_btn": "Got It"
+  },
+  "no_results": {
+    "heading": "No Results",
+    "msg": "Try zooming in or out or",
+    "reset_filters": "resetting filters",
+    "vacasa": {
+      "heading": "Where are all the listings?",
+      "or": "or",
+      "contact_msg": "Vacasa agents may not directly serve this area yet—but our local partners do! Complete the short form below, and we'll have one of our experts reach out to you shortly."
+    }
+  },
+  "over_threshold": {
+    "heading": "Search Returned over 10,000 Results"
+  },
+  "long_running_query": {
+    "heading": "Service Issue - Possible Long Running Query",
+    "msg": "Try adjusting your search parameters or"
+  },
+  "mls_max_limit": {
+    "heading": "MLS Limit",
+    "msg1": "Due to MLS rules set by {0}, we are unable to display listings until the results returned are less than {1} listings. Please zoom in on the map or adjust your filters to refine this search.",
+    "msg2": "Between your current filters and the map view, there are {0} listings available."
+  },
+  "no_results_special": {
+    "saved_searches": "No Saved Searches",
+    "hidden_listings": "No Hidden Listings",
+    "favorites": "No Favorites"
+  },
+  "drive_time": {
+    "heading": "DriveTime Search",
+    "tooltip": "Search using drive time",
+    "from_location_btn": "From Location",
+    "to_location_btn": "To Location",
+    "drive_time_label": "Arriving",
+    "drive_duration_label": "In",
+    "drive_avoid_ferry_label": "Avoid Ferry?",
+    "search_btn": "Find listings",
+    "validation": {
+      "empty_location": "Please enter a value into the location search field to run a valid search.",
+      "mls_search_type": "It looks like you're trying to run a drive time search with an MLS #. Please update the location field appropriately and run your search again."
+    }
+  },
+  "email_frequency": {
+    "label": "Email Frequency",
+    "options": {
+      "once_per_day": "Once Per Day",
+      "hourly": "Hourly",
+      "weekly": "Weekly",
+      "never": "Never"
+    }
+  },
+  "saved_search": {
+    "save_search_btn": "Save Search",
+    "create_heading": "Save Search",
+    "ss_description_label": "Name",
+    "ss_send_zero_result_label": "Send me emails when 0 listings.",
+    "update_heading": "Update Notifications for \"{name}\"",
+    "validation": {
+      "no_search_name": "Please name your saved search.",
+      "name_already_used": "{name} is a name you've already used. Please rename your saved search."
+    },
+    "success_msg": "Search Saved!",
+    "notifications_setting": {
+      "message": {
+        "0": "{0} {1}",
+        "40": "{0} Emails sent daily {1}",
+        "1": "{0} Multiple emails sent daily {1}",
+        "7": "{0} Emails sent weekly {1}"
+      },
+      "action": {
+        "0": "Set up notifications",
+        "40": "modify",
+        "1": "modify",
+        "7": "modify"
+      }
+    },
+    "delete_confirmation": {
+      "title": "Are you sure?",
+      "message": "Confirming this action will delete your saved search."
+    },
+    "run_search_btn": "Run Search"
+  },
+  "reset_filters": {
+    "btn": "Reset Filters", 
+    "to_defaults": "To Defaults",
+    "to_subject_property_values": "To Subject Property Values"
+  },
+  "listing_status": {
+    "heading": "Listing Status",
+    "all_listings": "All Listings",
+    "exclude_pending": "Exclude Pending Listings",
+    "exclude_coming_soon": "Exclude Coming Soon Listings"
+  },
+  "time_on_mls": {
+    "heading": "Time on MLS",
+    "placeholder": "Ex: 10",
+    "days": "Day | Days"
+  },
+  "time_on_mls_in_days": {
+    "heading": "Time on MLS (In Days)",
+    "placeholder": "Ex: 10"
+  },
+  "mls_area": {
+    "heading": "MLS Area",
+    "placeholder": "Ex: 705, 710"
+  },
+  "status_key_heading": "Status Key:",
+  "status_type": {
+    "active": "Active",
+    "sold": "Sold",
+    "pending": "Pending",
+    "coming_soon": "Coming Soon",
+    "temp_off_market": "Off Market",
+    "contingent": "Contingent",
+    "expired": "Expired",
+    "sale_fail": "Sale Fail",
+    "canceled": "Canceled",
+    "other": "Other"
+  },
+  "change_days": {
+    "heading": "Changed in Last",
+    "1": "1 Day",
+    "7": "7 Days",
+    "14": "14 Days",
+    "30": "30 Days",
+    "60": "60 Days",
+    "90": "90 Days",
+    "180": "180 Days",
+    "365": "365 Days",
+    "730": "730 Days",
+    "999": "999 Days",
+    "custom": "Custom" 
+  },
+  "property_types_heading": "Property Types",
+  "property_types": {
+    "residential": "Single-Family",
+    "condo": "Condo",
+    "co_op": "Co-Op",
+    "condo_co_op": "@:property_types.condo",
+    "townhouse": "Townhouse",
+    "manufactured": "Manufactured",
+    "land": "Land",
+    "farm_and_ranch": "Farm & Ranch",
+    "multi_family": "Multi-Family",
+    "rental": "Rentals"
+  },
+  "property_info_heading": "Property Info",
+  "size": {
+    "unit": {
+      "large": "Acres",
+      "small": "Square Feet",
+      "small_abbrev": "Sqft",
+      "small_abbrev_short": "SF"
+    }
+  },
+  "interior_size": {
+    "name": "Square Feet",
+    "validation_label": {
+      "min": "SQFT Min field",
+      "max": "SQFT Max field"
+    }
+  },
+  "lot_size_heading": "Lot Size",
+  "year_built_heading": "Year Built",
+  "waterfront_dry_lot": {
+    "heading": "Waterfront / Dry Lot",
+    "options": {
+      "neither": "Neither",
+      "waterfront": "Waterfront",
+      "dry_lot": "Dry Lot"
+    }
+  },
+  "features_heading": "Features",
+  "view_label": "Views",
+  "onestory_label": "Single-Story Homes",
+  "has_garage_label": "Garage",
+  "new_const_label": "New Construction",
+  "virtual_tour_label": "Virtual Tour",
+  "luxury_label": "Luxury Properties",
+  "destinations_label": "Destinations",
+  "has_pool_label": "Pool",
+  "senior_community_label": "Senior Community",
+  "property_management": {
+    "heading": "Property Management",
+    "vacasa_managed": "Vacasa-managed",
+    "verified_rental": "Verified Rental"
+  },
+  "sale_types": {
+    "heading": "Sale Types",
+    "short_sale": "Short Sale",
+    "bank_owned": "Bank Owned"
+  },
+  "open_house": {
+    "heading": "Open Houses",
+    "in_person": "In Person",
+    "virtual": "Virtual",
+    "card_label": "Open",
+    "times": {
+      "none": "@:none",
+      "this_weekend": "This Weekend",
+      "this_saturday": "This Saturday",
+      "this_sunday": "This Sunday",
+      "this_week": "This Week",
+      "today": "Today",
+      "tomorrow": "Tomorrow"
+    }
+  },
+  "sold_days": {
+    "30": "Sold last 30 days",
+    "90": "Sold last 3 months",
+    "180": "Sold last 6 months",
+    "365": "Sold last 12 months",
+    "730": "Sold last 2 years"
+  },
+  "price_range": {
+    "heading": "Price Range",
+    "banner_label": {
+      "min": "Minimum Price",
+      "max": "Maximum Price"
+    },
+    "validation": {
+      "max_too_price_low": "Maximum price needs to be over {minPrice}"
+    }
+  },
+  "building_styles_heading": "Building Styles",
+  "annualized_revenue": {
+    "heading": "Annual Revenue",
+    "validation": {
+      "min": "Annualized Revenue Min Field",
+      "max": "Annualized Revenue Max Field"
+    }
+  },
+  "cap_rate": {
+    "heading": "Cap Rate",
+    "validation": {
+      "min": "Cap Rate Min Field'",
+      "max": "Cap Rate Max Field'"
+    }
+  },
+  "subdivisions": {
+    "heading": "MLS Subdivision",
+    "placeholder": "Search MLS Subdivision",
+    "loading_msg": "Loading results..."
+  },
+  "search_mode": {
+    "location": "Location",
+    "mls": "MLS#"
+  },
+  "mls_areas_heading": "MLS Areas:",
+  "sort": {
+    "label": "Sort:",
+    "by": {
+      "recommended": "Recommended",
+      "status": "Status",
+      "price": "Price",
+      "annual_revenue": "Annual Revenue",
+      "cap_rate": "Cap Rate",
+      "vacasa_managed": "Vacasa-managed",
+      "time_on_market": "Time On Market",
+      "date_listed": "Date Listed",
+      "beds": "Beds",
+      "baths": "Baths",
+      "date_sold": "Date Sold",
+      "interior_size": "SQFT",
+      "distance": "Distance"
+    },
+    "direction": {
+      "active_to_sold": "Active To Sold",
+      "sold_to_active": "Sold to Active",
+      "low_to_high": "Low to High",
+      "high_to_low": "High to Low",
+      "no_to_yes": "No to Yes",
+      "yes_to_no": "Yes to No",
+      "old_to_new": "Old to New",
+      "new_to_old": "New to Old"
+    },
+    "listing_count_text": "Showing 1 - {count} OF {total} LISTINGS"
+  },
+  "neighborhood_news_report_msg": "ALL LISTINGS HERE MEET SEARCH CRITERIA AND WILL APPEAR IN FULL REPORT",
+  "remove_boundary_msg": "Click to see all listings",
+  "boundary_removed": {
+    "heading": "Boundary Removed",
+    "msg": "Re-run your search to re-draw it"
+  },
+  "schools_outside_zoom_msg": "Schools only show at appropriate zoom levels. Zoom in to see schools.",
+  "days_on_market": {
+    "new": "New",
+    "days_ago": "Listed {n} Day Ago"
+  },
+  "listing_overlay_options": {
+    "contact": "Contact Agent",
+    "hide_listing": "Hide Listing",
+    "login_msg": "To contact the listing agent you must be logged into a consumer account."
+  },
+  "favorites": {
+    "placeholder": "What do you like about it?",
+    "add_comment": "Add Comment",
+    "save_comments": "Save Comments",
+    "unfavorite": "Unfavorite",
+    "close_popover_aria_label": "",
+    "icon_aria_label": {
+      "manage": "Manage Favorited Listing",
+      "add": "Add Listing to Favorites"
+    }
+  },
+  "address_unavailable_msg": "Address Not Available",
+  "courtesy_of": "Listing Courtesy of:",
+  "estimate": {
+    "annual_revenue": "Vacasa Est. Annual Revenue",
+    "cap_rate": "Vacasa Est. Cap Rate"
+  },
+  "school_btn": {
+    "label": "Schools",
+    "public_schools": "Public Schools",
+    "private_schools": "Private Schools"
+  },
+  "draw_btn": {
+    "label": "Draw",
+    "quick_draw": "Quick Draw",
+    "multi_draw": "Multi-Draw"
+  },
+  "radius_btn": {
+    "label": "Radius"
+  },
+  "map_type_btn": {
+    "label": "Map",
+    "default": "Default",
+    "satellite": "Satellite",
+    "terrain": "Terrain"
+  },
+  "draw_banner": {
+    "msg": "You may begin drawing on the map.",
+    "clear": "Clear"
+  },
+  "drive_time_banner": {
+    "heading": "DriveTime Results",
+    "msg": "{time} Arrival, {duration} {durationUnit}"
+  },
+  "mls_banner_heading": "MLS # Results",
+  "radius_banner": {
+    "msg": {
+      "radius_drawn": "{distance}{distanceUnit} radius",
+      "radius_not_drawn": "Tap to place your center point, then drag."
+    },
+    "run_search_btn": "Run Search",
+    "clear_btn": "Clear and Redraw"
+  },
+  "school_banner": {
+    "header": {
+      "high_schools": "High Schools Within District",
+      "middle_schools": "Middle Schools Within District",
+      "elementary_schools": "Elementary Schools Within District",
+      "other_schools": "Other Schools Within District"
+    }
+  },
+  "school_markers": {
+    "overlay": {
+      "view_homes_within": "View homes only within:",
+      "school_boundaries": "School Boundaries",
+      "district_boundaries": "District Boundaries",
+      "no_boundary_msg": "No boundary information for this school"
+    }
+  },
+  "screen_reader_listing_summary": "{favorited} {status} listing {price} {metaInfo} {address}",
+  "contact_agent_btn": {
+    "label": "Contact Agent",
+    "logged_in_msg": "To contact the listing agent you must be logged into a consumer account."
+  },
+  "luxuryType": {
+    "w_collection": "W Collection",
+    "premier": "Premier Properties"
+  },
+  "pickList_columns": {
+    "list_price": "List Price",
+    "property_type": "Property Type",
+    "price_per_size_unit": "$/@:size.unit.small_abbrev",
+    "dom": "DOM",
+    "status": "Status",
+    "sold_price": "Sold Price",
+    "sold_date": "Sold Date"
+  },
+  "cma_listing_card": {
+    "details": "Details",
+    "mls_number": "MLS #"
+  },
+  "state_navigation": {
+    "favorites": "Favorites",
+    "saved_searches": "Saved Searches",
+    "hidden_listings": "Hidden Listings"
+  },
+  "state_listing_card": {
+    "field_label": {
+      "lot_size": "Lot Size",
+      "days_on_market": "Days on Market",
+      "property_type": "Property Type",
+      "year_built": "Year Built",
+      "mls_number": "MLS #",
+      "rented_for": "Rented For",
+      "sold_price": "Sold Price",
+      "rented_date": "Rented Date",
+      "sold_date": "Sold Date",
+      "add_comment": "Add Comment"
+    },
+    "unfavorite_btn": "Unfavorite",
+    "unhide_btn": "Unhide",
+    "comment_saved_msg": "Comment Saved!"
+  },
+  "error_modal": {
+    "default_msg": "Something went wrong..."
+  },
+  "contact_vacasa_header": "Connect with an expert",
+  "printable": {
+    "heading": "Printing {count} Listings from \"{search}\" Search",
+    "mls_number": "MLS #",
+    "field_label": {
+      "pricemin_formatted": "Price Min",
+      "pricemax_formatted": "Price Max",
+      "bed_min": "Bed Min",
+      "bath_min": "Bath Min",
+      "sqft_min": "SQFT Min",
+      "sqft_max": "SQFT Max",
+      "lotsize_min": "Lot Size Min",
+      "lotsize_max": "Lot Size Max",
+      "ls_conversion": "Lot Size Conversion",
+      "yearblt_min": "Year Built Min",
+      "yearblt_max": "Year Built Max",
+      "days_indb": "Time on MLS",
+      "water": "Waterfront",
+      "view": "View",
+      "onestory": "Single-Story Home",
+      "has_garage": "Has Garage",
+      "new_const": "New Construction",
+      "luxury": "Luxury Properties",
+      "destinations": "Destinations",
+      "has_pool": "Pool"
+    }
+  },
+  "undo_hide_listing_btn": "Undo Hide Listing",
+  "current_location_marker_title": "Your Location",
+  "neighborhood_news_product_name": "Neighborhood News",
+  "csm_dialogue": {
+    "title": "{csm} Search",
+    "message": "To start your search, simply enter your desired location in the search field above. To modify your search criteria, click the drop-down arrow for additional options."
+  },
+  "validation": {
+    "min_price_greater_than_max_price": "The price minimum is larger than the price maximum. Try fixing this filter for results!",
+    "sqft_min_greater_than_sqft_max": "The SQFT minimum is larger than the SQFT maximum. Try fixing this filter for results!",
+    "lot_size_min_greater_than_lot_size_max": "The lot size minimum is larger than the lot size maximum. Try fixing this filter for results!",
+    "year_built_min_greater_than_year_built_max": "The year built minimum is larger than the year built maximum. Try fixing this filter for results!",
+    "annual_revenue_min_greater_than_annual_revenue_max": "The annual revenue minimum is larger than the annual revenue maximum. Try fixing this filter for results!",
+    "cap_rate_min_greater_than_cap_rate_max": "The cap rate minimum is larger than the cap rate maximum. Try fixing this filter for results!"
+  },
+  "mls_number": "MLS # {0}" 
+}
