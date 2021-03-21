@@ -1,13 +1,22 @@
 <template>
   <div id="google-map">
-    <!-- using scoped slots. binding the "map" data attribute here makes it available to the slot content in the parent
-    component (in this case Search) via the v-slot directive -->
-    <slot v-if="map" :map="map"></slot>
+    <slot v-if="map"></slot>
   </div>
 </template>
 
 <script>
+import { ReactiveProvideMixin } from 'vue-reactive-provide'
+
 export default {
+  mixins: [
+    /* this mixin allows Vue's provide/inject bindings to be reactive. this is needed because the initial value of
+    this.map is null until we create the map in the mounted() hook. if map isn't reactive it will always be null in the
+    child components that use it via inject */
+    ReactiveProvideMixin({
+      name: 'GoogleMap',
+      include: ['map'],
+    })
+  ],
 
   props: {
     viewportBounds: {

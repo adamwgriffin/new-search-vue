@@ -3,12 +3,10 @@
 
 <script>
 export default {
-  props: {
-    map: {
-      type: Object,
-      required: true
-    },
+  // allows us to access the map from the GoogleMap component made available via ReactiveProvideMixin
+  inject: ['GoogleMap'],
 
+  props: {
     paths: {
       type: Array,
       default: () => []
@@ -47,7 +45,7 @@ export default {
         paths: this.paths,
         ...this.options
       })
-      this.polygon.setMap(this.map)
+      this.polygon.setMap(this.GoogleMap.map)
     },
 
     updatePolygon() {
