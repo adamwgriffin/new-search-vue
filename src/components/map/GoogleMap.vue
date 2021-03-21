@@ -32,7 +32,7 @@ export default {
     }
   },
 
-  async mounted() {
+  mounted() {
     // TODO: viewport props should maybe be set in the options of the map when creating it too
     this.map = new google.maps.Map(this.$el, this.mapOptions)
   },
