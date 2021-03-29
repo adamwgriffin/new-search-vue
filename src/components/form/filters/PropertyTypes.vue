@@ -9,9 +9,10 @@
         :value="id"
         :checked="params.includes(id)"
         @change="updateParams($event.target)"
-        :key="`checkbox-button-input-${id}`"
+        :key="`checkbox-input-${id}`"
+        :ref="`checkbox${id}`"
       >
-      <label :for="name" :key="`checkbox-button-label-${id}`">
+      <label :for="name" :key="`checkbox-label-${id}`" @click="setFocus(id)">
         {{ $t(`property_types.${name}`) }}
       </label>
     </template>
@@ -47,12 +48,23 @@ export default {
 
     updateParams(target) {
       this.$emit('change', { ptype: this.addOrRemoveParams(target.checked, +target.value) })
+    },
+
+    // Firefox and Safari will not display the focus ring on the checkbox button unless we set focus manually when the
+    // label is clicked
+    setFocus(id) {
+      this.$refs[`checkbox${id}`][0].focus()
     }
   }
 }
 </script>
 
 <style scoped>
+input {
+  position: absolute;
+  opacity: 0;
+}
+
 label {
   display: inline-block;
   cursor: pointer;
@@ -65,16 +77,19 @@ label {
   margin: 0 0 4px 4px;
 }
 
-
-input[type=checkbox] {
-  position: absolute;
-  visibility: hidden;
-  opacity: 0;
+input:checked + label {
+  background: #0773f8;
+  border: #0773f8;
+  color: white;
 }
 
-input[type=checkbox]:checked + label {
-  background: #0773f8;
-  color: white;
-  border: #0773f8;
+/* both of these are necessary in order for the focus ring to appear on the checkbox button in all browsers */
+input:focus + label {
+  outline: 3px auto Highlight;
+}
+@media (-webkit-min-device-pixel-ratio:0) {
+  input:focus + label {
+    outline-color: -webkit-focus-ring-color;
+  }
 }
 </style>
