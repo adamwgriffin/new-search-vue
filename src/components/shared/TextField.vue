@@ -7,7 +7,7 @@
       @input="updateValue($event.target.value)"
       :value="value"
     >
-    <i class="clear-button" :class="trailingIconClasses" title="Clear field" @click="clearInput">
+    <i class="clear-button" aria-role="button" :class="trailingIconClasses" title="Clear field" @click="clearInput">
       ×
     </i>
   </span>
