@@ -73,7 +73,7 @@ export default {
 
 .text-field:focus-within {
   margin: 0;
-  border: 2px solid #0457AF;
+  border: 2px solid #0773f8;
 }
 
 i {
