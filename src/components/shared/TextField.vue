@@ -1,12 +1,10 @@
 <template>
-  <span class="text-field" :class="textFieldClasses">
+  <span class="text-field">
     <i><slot></slot></i>
     <input
       type="text"
       :placeholder="placeholder"
       @input="updateValue($event.target.value)"
-      @focus="toggleFocus"
-      @blur="toggleFocus"
       :value="value"
     >
     <i class="clear-button" :class="trailingIconClasses" title="Clear field" @click="clearInput">
@@ -43,10 +41,6 @@ export default {
   },
 
   computed: {
-    textFieldClasses() {
-      return { 'has-focus': this.hasFocus }
-    },
-
     trailingIconClasses() {
       return { visible: this.value }
     }
@@ -61,10 +55,6 @@ export default {
 
     clearInput() {
       this.$emit('input', null);
-    },
-    
-    toggleFocus() {
-      this.hasFocus = !this.hasFocus
     }
   }
 }
@@ -80,8 +70,9 @@ export default {
   padding: 10px;
 }
 
-.text-field.has-focus {
-  border: 1px solid #0457AF;
+.text-field:focus-within {
+  margin: 0;
+  border: 2px solid #0457AF;
 }
 
 i {
