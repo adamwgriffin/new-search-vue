@@ -66,7 +66,7 @@ export default {
   white-space: nowrap;
   align-items: center;
   border: 1px solid rgba(51, 51, 51, 0.38);
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 10px;
 }
 
