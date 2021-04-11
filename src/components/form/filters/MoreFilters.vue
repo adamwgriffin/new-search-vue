@@ -4,6 +4,7 @@
       <ListingStatus :params="listingStatusParams" @change="updateValue($event)" />
       <OpenHouses :params="openHouseParams" @change="updateValue($event)" />
       <PropertyTypes :params="propertyTypeParams" @change="updateValue($event)" :propertyTypes="propertyTypes" />
+      <PropertyInfo />
     </div>
   </MenuButton>
 </template>
@@ -14,10 +15,17 @@ import MenuButton from '@/components/shared/MenuButton'
 import ListingStatus from '@/components/form/filters/ListingStatus'
 import OpenHouses from '@/components/form/filters/OpenHouses'
 import PropertyTypes from '@/components/form/filters/PropertyTypes'
+import PropertyInfo from '@/components/form/filters/PropertyInfo'
 import { propertyTypes } from '@/lib/constants/property_types'
 
 export default {
-  components: { MenuButton, ListingStatus, OpenHouses, PropertyTypes },
+  components: {
+    MenuButton,
+    ListingStatus,
+    OpenHouses,
+    PropertyTypes,
+    PropertyInfo
+  },
 
   /* this is for use with v-model. when used with custom components, the default for v-model is to pass state changes
   down to a prop named "value" and listen for "input" events from the component to propgate it's changes up to the
