@@ -4,7 +4,7 @@
       <ListingStatus :params="listingStatusParams" @change="updateValue($event)" />
       <OpenHouses :params="openHouseParams" @change="updateValue($event)" />
       <PropertyTypes :params="propertyTypeParams" @change="updateValue($event)" :propertyTypes="propertyTypes" />
-      <PropertyInfo />
+      <PropertyInfo :params="propertyInfoParams" @change="updateValue($event)" />
     </div>
   </MenuButton>
 </template>
@@ -57,6 +57,10 @@ export default {
 
     propertyTypeParams() {
       return this.searchParams.ptype
+    },
+
+    propertyInfoParams() {
+      return pick(this.searchParams, ['sqft_min', 'sqft_max'])
     }
   },
 

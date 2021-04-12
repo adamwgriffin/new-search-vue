@@ -17,4 +17,6 @@ export const WEBSITES_SEARCH_PARAMS = {
   status: 'active',
   ex_pend: true,
   ex_cs: true,
+  sqft_min: null,
+  sqft_max: null,
 }

@@ -5,7 +5,8 @@
       <ListComboBox
         name="sqft_min"
         placeholder="No Min"
-        v-model="params.sqft_min"
+        @input="updateValue('sqft_min', $event)"
+        :value="params.sqft_min" 
         :options="squareFeetOptions"
         :numericOnly="true"
       />
@@ -13,7 +14,8 @@
       <ListComboBox
         name="sqft_max"
         placeholder="No Max"
-        v-model="params.sqft_max"
+        @input="updateValue('sqft_max', $event)"
+        :value="params.sqft_max" 
         :options="squareFeetOptions"
         :numericOnly="true"
       />
