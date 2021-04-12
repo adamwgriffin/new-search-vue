@@ -18,15 +18,3 @@ export const WEBSITES_SEARCH_PARAMS = {
   ex_pend: true,
   ex_cs: true,
 }
-
-// these are only the search params that are needed for the "(More) Filters" part of the Websites form
-export const WEBSITES_MORE_FILTERS_PARAMS = [
-  'status',
-  'ex_pend',
-  'ex_cs',
-  'sold_days',
-  'openhouse',
-  'openhouse_virtual',
-  'exopenhouse_in_person_cs',
-  'ptype'
-]

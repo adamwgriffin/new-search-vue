@@ -1,7 +1,8 @@
 import http from '@/lib/http'
 import omitBy from 'lodash/omitBy'
+import omit from 'lodash/omit'
 import pick from 'lodash/pick'
-import { WEBSITES_SEARCH_PARAMS, WEBSITES_MORE_FILTERS_PARAMS } from '@/lib/constants/search_param_constants'
+import { WEBSITES_SEARCH_PARAMS } from '@/lib/constants/search_param_constants'
 import { getPropertyTypes } from '@/lib/helpers/search_params'
 
 // NOTE: Eventually we would want to compose things like state (searchParams), getters, mutations, etc. based on what
@@ -39,7 +40,15 @@ export const getters = {
   },
 
   moreFiltersParams(state) {
-    return pick(state.searchParams, WEBSITES_MORE_FILTERS_PARAMS)
+    return omit(state.searchParams, [
+      'location_search_field',
+      'agent_uuid',
+      'pgsize',
+      'pricemin',
+      'pricemax',
+      'bed_min',
+      'bath_min'
+    ])
   }
 }
 
