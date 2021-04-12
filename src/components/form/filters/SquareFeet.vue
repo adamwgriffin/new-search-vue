@@ -24,13 +24,12 @@
 <script>
 import Fieldset from '@/components/shared/Fieldset'
 import Legend from '@/components/shared/Legend'
-import EditableDropdown from '@/components/shared/EditableDropdown'
 import ListComboBox from '@/components/shared/ListComboBox'
 import { sqftOptionRanges } from '@/lib/constants/filter_constants'
 import { numericOptions } from '@/lib/helpers/filters_helpers'
 
 export default {
-  components: { Fieldset, Legend, EditableDropdown, ListComboBox },
+  components: { Fieldset, Legend, ListComboBox },
 
   model: {
     prop: 'params',
