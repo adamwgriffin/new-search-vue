@@ -14,17 +14,14 @@
           <PriceRange
             :value="priceRangeParams"
             @input="setSearchParams($event)"
-            title="Open dropdown to set price range"
           />
           <BedroomsBathrooms
             :value="bedBathParams"
             @input="setSearchParams($event)"
-            title="Open dropdown to set minimum beds and baths"
           />
           <MoreFilters
             :searchParams="moreFiltersParams"
             @change="setSearchParams($event)"
-            title="Open dropdown for more filter options"
           />
         </div>
       </Filters>
