@@ -28,7 +28,7 @@ import Fieldset from '@/components/shared/Fieldset'
 import Legend from '@/components/shared/Legend'
 import ListComboBox from '@/components/shared/ListComboBox'
 import { sqftOptionRanges } from '@/lib/constants/filter_constants'
-import { numericOptions } from '@/lib/helpers/filters_helpers'
+import { optionsFromNumberRanges } from '@/lib/helpers/filters_helpers'
 
 export default {
   components: { Fieldset, Legend, ListComboBox },
@@ -47,7 +47,7 @@ export default {
 
   computed: {
     squareFeetOptions() {
-      return numericOptions(sqftOptionRanges)
+      return optionsFromNumberRanges(sqftOptionRanges)
     }
   },
 

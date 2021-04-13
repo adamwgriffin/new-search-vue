@@ -1,5 +1,5 @@
 import range from 'lodash/range'
 
-export const numericOptions = (numericOptionsRanges) => {
+export const optionsFromNumberRanges = (numericOptionsRanges) => {
   return numericOptionsRanges.reduce((numbers, numberRange) => numbers.concat(range(...numberRange)), [])
 }
