@@ -4,20 +4,18 @@
     <div class="square-feet">
       <ListComboBox
         name="sqft_min"
-        placeholder="No Min"
-        @input="updateValue('sqft_min', $event)"
+        :placeholder="$t('no_min')"
         :value="params.sqft_min" 
         :options="squareFeetOptions"
-        :numericOnly="true"
+        @input="updateValue('sqft_min', $event)"
       />
       to
       <ListComboBox
         name="sqft_max"
-        placeholder="No Max"
-        @input="updateValue('sqft_max', $event)"
+        :placeholder="$t('no_max')"
         :value="params.sqft_max" 
         :options="squareFeetOptions"
-        :numericOnly="true"
+        @input="updateValue('sqft_max', $event)"
       />
     </div>
   </Fieldset>
