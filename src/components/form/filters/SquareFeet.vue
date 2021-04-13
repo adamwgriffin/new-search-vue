@@ -39,7 +39,7 @@ export default {
   props: {
     params: {
       type: Object,
-      default: () => ({ sqft_min: 0, sqft_max: 0 })
+      default: () => ({ sqft_min: null, sqft_max: null })
     }
   },
 
