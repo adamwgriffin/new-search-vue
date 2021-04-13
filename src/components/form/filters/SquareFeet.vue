@@ -1,6 +1,8 @@
 <template>
   <Fieldset>
-    <Legend :level="2">Square Feet</Legend>
+    <Legend :level="2">
+      {{ $t('interior_size.name') }}
+    </Legend>
     <div class="square-feet">
       <ListComboBox
         name="sqft_min"
