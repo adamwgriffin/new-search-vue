@@ -60,7 +60,16 @@ export default {
     },
 
     propertyInfoParams() {
-      return pick(this.searchParams, ['sqft_min', 'sqft_max'])
+      return pick(
+        this.searchParams,
+        [
+          'sqft_min',
+          'sqft_max',
+          'ls_conversion',
+          'lotsize_min',
+          'lotsize_max',
+        ]
+      )
     }
   },
 

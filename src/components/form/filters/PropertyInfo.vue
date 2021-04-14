@@ -1,7 +1,10 @@
 <template>
   <Fieldset>
     <Legend>Property Info</Legend>
-    <SquareFeet :params="squareFeetParams" @change="updateValue($event)" />
+    <div class="row">
+      <SquareFeet :params="squareFeetParams" @change="updateValue($event)" />
+      <LotSize :params="lotSizeParams" @change="updateValue($event)" />
+    </div>
   </Fieldset>
 </template>
 
@@ -10,6 +13,7 @@ import pick from 'lodash/pick'
 import Fieldset from '@/components/shared/Fieldset'
 import Legend from '@/components/shared/Legend'
 import SquareFeet from '@/components/form/filters/SquareFeet'
+import LotSize from '@/components/form/filters/LotSize'
 
 export default {
   model: {
@@ -17,7 +21,7 @@ export default {
     event: 'change'
   },
 
-  components: { Fieldset, Legend, SquareFeet },
+  components: { Fieldset, Legend, SquareFeet, LotSize },
 
   props: {
     params: {
@@ -28,6 +32,10 @@ export default {
   computed: {
     squareFeetParams() {
       return pick(this.params, ['sqft_min', 'sqft_max'])
+    },
+
+    lotSizeParams() {
+      return pick(this.params, ['ls_conversion', 'lotsize_min', 'lotsize_max'])
     }
   },
 
@@ -40,5 +48,11 @@ export default {
 </script>
 
 <style scoped>
+.row {
+  display: flex;
+}
 
+.row > *:first-child {
+  margin-right: 6px;;
+}
 </style>

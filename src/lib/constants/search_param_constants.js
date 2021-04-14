@@ -19,4 +19,7 @@ export const WEBSITES_SEARCH_PARAMS = {
   ex_cs: true,
   sqft_min: null,
   sqft_max: null,
+  ls_conversion: 'acres',
+  lotsize_min: null,
+  lotsize_max: null,
 }

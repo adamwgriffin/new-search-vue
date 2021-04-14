@@ -11,7 +11,7 @@
         :options="squareFeetOptions"
         @input="updateValue('sqft_min', $event)"
       />
-      to
+      <div class="to">to</div>
       <ListComboBox
         name="sqft_max"
         :placeholder="$t('no_max')"
@@ -63,7 +63,9 @@ export default {
 .square-feet {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  max-width: 27rem;
+}
+
+.to {
+  margin: 0 4px;
 }
 </style>
