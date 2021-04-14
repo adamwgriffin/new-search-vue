@@ -161,6 +161,7 @@ export default {
 }
 
 .combobox-input {
+  display: flex;
   border-radius: 6px;
   margin: 1px;
   border: 1px solid rgba(51, 51, 51, 0.38);
@@ -173,6 +174,8 @@ export default {
 }
 
 input {
+  /* need to set width: 100% otherwise input will not shrink in flex container */
+  width: 100%;
   border: none;
   padding: 0;
 }
