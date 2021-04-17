@@ -22,4 +22,6 @@ export const WEBSITES_SEARCH_PARAMS = {
   ls_conversion: 'acres',
   lotsize_min: null,
   lotsize_max: null,
+  yearblt_min: null,
+  yearblt_max: null,
 }

@@ -5,6 +5,9 @@
       <SquareFeet :params="squareFeetParams" @change="updateValue($event)" />
       <LotSize :params="lotSizeParams" @change="updateValue($event)" />
     </div>
+    <div class="row">
+      <YearBuilt :params="yearBuiltPararms" @change="updateValue($event)" />
+    </div>
   </Fieldset>
 </template>
 
@@ -14,6 +17,7 @@ import Fieldset from '@/components/shared/Fieldset'
 import Legend from '@/components/shared/Legend'
 import SquareFeet from '@/components/form/filters/SquareFeet'
 import LotSize from '@/components/form/filters/LotSize'
+import YearBuilt from '@/components/form/filters/YearBuilt'
 
 export default {
   model: {
@@ -21,7 +25,7 @@ export default {
     event: 'change'
   },
 
-  components: { Fieldset, Legend, SquareFeet, LotSize },
+  components: { Fieldset, Legend, SquareFeet, LotSize, YearBuilt },
 
   props: {
     params: {
@@ -36,6 +40,10 @@ export default {
 
     lotSizeParams() {
       return pick(this.params, ['ls_conversion', 'lotsize_min', 'lotsize_max'])
+    },
+
+    yearBuiltPararms() {
+      return pick(this.params, ['yearblt_min', 'yearblt_max'])
     }
   },
 
@@ -50,6 +58,7 @@ export default {
 <style scoped>
 .row {
   display: flex;
+  margin-bottom: .6rem;
 }
 
 .row > *:first-child {
