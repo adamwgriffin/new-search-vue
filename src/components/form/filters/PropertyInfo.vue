@@ -7,6 +7,7 @@
     </div>
     <div class="row">
       <YearBuilt :params="yearBuiltPararms" @change="updateValue($event)" />
+      <TimeOnMLS :value="params.days_indb" @input="updateValue($event)" />
     </div>
   </Fieldset>
 </template>
@@ -18,6 +19,7 @@ import Legend from '@/components/shared/Legend'
 import SquareFeet from '@/components/form/filters/SquareFeet'
 import LotSize from '@/components/form/filters/LotSize'
 import YearBuilt from '@/components/form/filters/YearBuilt'
+import TimeOnMLS from '@/components/form/filters/TimeOnMLS'
 
 export default {
   model: {
@@ -25,7 +27,7 @@ export default {
     event: 'change'
   },
 
-  components: { Fieldset, Legend, SquareFeet, LotSize, YearBuilt },
+  components: { Fieldset, Legend, SquareFeet, LotSize, YearBuilt, TimeOnMLS },
 
   props: {
     params: {

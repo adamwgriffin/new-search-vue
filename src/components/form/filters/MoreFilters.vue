@@ -70,6 +70,7 @@ export default {
           'lotsize_max',
           'yearblt_min',
           'yearblt_max',
+          'days_indb',
         ]
       )
     }

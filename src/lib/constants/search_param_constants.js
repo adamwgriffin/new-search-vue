@@ -24,4 +24,5 @@ export const WEBSITES_SEARCH_PARAMS = {
   lotsize_max: null,
   yearblt_min: null,
   yearblt_max: null,
+  days_indb: null,
 }
