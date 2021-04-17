@@ -9,6 +9,9 @@
       <YearBuilt :params="yearBuiltPararms" @change="updateValue($event)" />
       <TimeOnMLS :value="params.days_indb" @input="updateValue($event)" />
     </div>
+    <div class="row">
+      <WaterfrontDryLot :params="params.water" @change="updateValue($event)" />
+    </div>
   </Fieldset>
 </template>
 
@@ -20,6 +23,7 @@ import SquareFeet from '@/components/form/filters/SquareFeet'
 import LotSize from '@/components/form/filters/LotSize'
 import YearBuilt from '@/components/form/filters/YearBuilt'
 import TimeOnMLS from '@/components/form/filters/TimeOnMLS'
+import WaterfrontDryLot from '@/components/form/filters/WaterfrontDryLot'
 
 export default {
   model: {
@@ -27,7 +31,7 @@ export default {
     event: 'change'
   },
 
-  components: { Fieldset, Legend, SquareFeet, LotSize, YearBuilt, TimeOnMLS },
+  components: { Fieldset, Legend, SquareFeet, LotSize, YearBuilt, TimeOnMLS, WaterfrontDryLot },
 
   props: {
     params: {

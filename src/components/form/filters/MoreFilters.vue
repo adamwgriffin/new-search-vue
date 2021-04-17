@@ -71,6 +71,7 @@ export default {
           'yearblt_min',
           'yearblt_max',
           'days_indb',
+          'water',
         ]
       )
     }

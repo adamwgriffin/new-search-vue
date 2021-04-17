@@ -25,4 +25,5 @@ export const WEBSITES_SEARCH_PARAMS = {
   yearblt_min: null,
   yearblt_max: null,
   days_indb: null,
+  water: null,
 }
