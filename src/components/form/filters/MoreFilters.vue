@@ -5,6 +5,7 @@
       <OpenHouses :params="openHouseParams" @change="updateValue($event)" />
       <PropertyTypes :params="propertyTypeParams" @change="updateValue($event)" :propertyTypes="propertyTypes" />
       <PropertyInfo :params="propertyInfoParams" @change="updateValue($event)" />
+      <Features :params="featuresParams" @change="updateValue($event)" />
     </div>
   </MenuButton>
 </template>
@@ -16,6 +17,7 @@ import ListingStatus from '@/components/form/filters/ListingStatus'
 import OpenHouses from '@/components/form/filters/OpenHouses'
 import PropertyTypes from '@/components/form/filters/PropertyTypes'
 import PropertyInfo from '@/components/form/filters/PropertyInfo'
+import Features from '@/components/form/filters/Features'
 import { propertyTypes } from '@/lib/constants/property_types'
 
 export default {
@@ -24,7 +26,8 @@ export default {
     ListingStatus,
     OpenHouses,
     PropertyTypes,
-    PropertyInfo
+    PropertyInfo,
+    Features,
   },
 
   /* this is for use with v-model. when used with custom components, the default for v-model is to pass state changes
@@ -72,6 +75,21 @@ export default {
           'yearblt_max',
           'days_indb',
           'water',
+        ]
+      )
+    },
+
+    featuresParams() {
+      return pick(
+        this.searchParams,
+        [
+          'view',
+          'onestory',
+          'has_garage',
+          'new_const',
+          'virtual_tour',
+          'has_pool',
+          'senior_community',
         ]
       )
     }

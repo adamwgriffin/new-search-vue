@@ -25,4 +25,11 @@ export const WEBSITES_SEARCH_PARAMS = {
   // a.k.a, Time on MLS
   days_indb: null,
   water: null,
+  view: null,
+  onestory: null,
+  has_garage: null,
+  new_const: null,
+  virtual_tour: null,
+  has_pool: null,
+  senior_community: null,
 }
