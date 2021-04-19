@@ -19,10 +19,7 @@
             :value="bedBathParams"
             @input="setSearchParams($event)"
           />
-          <MoreFilters
-            :searchParams="moreFiltersParams"
-            @change="setSearchParams($event)"
-          />
+          <MoreFilters />
         </div>
       </Filters>
     </div>
@@ -37,7 +34,7 @@ import SearchField from '@/components/form/SearchField'
 import Filters from '@/components/form/filters/Filters'
 import PriceRange from '@/components/form/filters/PriceRange'
 import BedroomsBathrooms from '@/components/form/filters/BedroomsBathrooms'
-import MoreFilters from '@/components/form/filters/MoreFilters'
+import MoreFilters from '@/containers/MoreFilters'
 import SearchResultsInfo from '@/components/form/SearchResultsInfo'
 
 export default {
@@ -70,7 +67,6 @@ export default {
       'searchParamsForListingService',
       'priceRangeParams',
       'bedBathParams',
-      'moreFiltersParams'
     ]),
 
     autocompleteOptions() {
