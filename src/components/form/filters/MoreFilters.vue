@@ -74,7 +74,6 @@ export default {
           'yearblt_min',
           'yearblt_max',
           'days_indb',
-          'water',
         ]
       )
     },
@@ -83,6 +82,7 @@ export default {
       return pick(
         this.searchParams,
         [
+          'water',
           'view',
           'onestory',
           'has_garage',

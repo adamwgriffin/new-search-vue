@@ -226,15 +226,8 @@
   },
   "lot_size_heading": "Lot Size",
   "year_built_heading": "Year Built",
-  "waterfront_dry_lot": {
-    "heading": "Waterfront / Dry Lot",
-    "options": {
-      "neither": "Neither",
-      "waterfront": "Waterfront",
-      "dry_lot": "Dry Lot"
-    }
-  },
   "features_heading": "Features",
+  "water_label": "Waterfront",
   "view_label": "Views",
   "onestory_label": "Single-Story Homes",
   "has_garage_label": "Garage",

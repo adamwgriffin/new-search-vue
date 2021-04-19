@@ -9,9 +9,6 @@
       <YearBuilt :params="yearBuiltPararms" @change="updateValue($event)" />
       <TimeOnMLS :value="params.days_indb" @input="updateValue($event)" />
     </div>
-    <div class="row">
-      <WaterfrontDryLot :params="params.water" @change="updateValue($event)" />
-    </div>
   </Fieldset>
 </template>
 
