@@ -22,6 +22,7 @@ export const WEBSITES_SEARCH_PARAMS = {
   lotsize_max: null,
   yearblt_min: null,
   yearblt_max: null,
+  // a.k.a, Time on MLS
   days_indb: null,
   water: null,
 }
