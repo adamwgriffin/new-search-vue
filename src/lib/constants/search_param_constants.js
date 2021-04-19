@@ -11,7 +11,7 @@ export const WEBSITES_SEARCH_PARAMS = {
   openhouse_virtual: false,
   openhouse_in_person: false,
   // a.k.a., "property type"
-  ptype: [1, 2, 9],
+  ptype: [1, 2, 8, 9],
   status: 'active',
   ex_pend: true,
   ex_cs: true,
