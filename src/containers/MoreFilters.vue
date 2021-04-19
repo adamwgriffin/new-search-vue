@@ -1,8 +1,10 @@
 <template>
   <MenuButton label="Filters">
     <div class="more-filters-container">
-      <ListingStatus :params="listingStatusParams" @change="setSearchParams($event)" />
-      <OpenHouses :params="openHouseParams" @change="setSearchParams($event)" />
+      <div class="row">
+        <ListingStatus :params="listingStatusParams" @change="setSearchParams($event)" />
+        <OpenHouses :params="openHouseParams" @change="setSearchParams($event)" />
+      </div>
       <PropertyTypes :params="propertyTypeParams" @change="setSearchParams($event)" :propertyTypes="propertyTypes" />
       <PropertyInfo :params="propertyInfoParams" @change="setSearchParams($event)" />
       <Features :params="featuresParams" @change="setSearchParams($event)" />
@@ -98,5 +100,15 @@ export default {
 
 .more-filters-container > * {
   margin-bottom: .5rem;
+}
+
+@media (min-width: 1025px) {
+  .row {
+    display: flex;
+  }
+
+  .row > *:last-child {
+    margin-left: 10rem;
+  }
 }
 </style>

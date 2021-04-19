@@ -95,6 +95,16 @@ export default {
 }
 </script>
 
-<style scope>
+<style scoped>
 
+@media (min-width: 1025px) {
+  label,
+  select {
+    display: block;
+  }
+
+  select {
+    margin-top: .4rem;
+  }
+}
 </style>

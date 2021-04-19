@@ -135,4 +135,10 @@ label {
 select, option {
   font-family: inherit;
 }
+
+@media (min-width: 1025px) {
+  .exclude label {
+    display: block;
+  }
+}
 </style>
