@@ -1,5 +1,3 @@
-import { PROPERTY_STATUS_TYPE_IDS } from '@/lib/constants/listing_constants'
-
 export const WEBSITES_SEARCH_PARAMS = {
   location_search_field: '',
   agent_uuid: 'f74a3f6d-aeda-4daa-835e-029386152405',
