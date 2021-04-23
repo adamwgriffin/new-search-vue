@@ -23,7 +23,11 @@
         </div>
       </Filters>
     </div>
-    <SearchResultsInfo :listings="listings" />
+    <SearchResultsInfo
+      :listings="listings"
+      :params="searchResultsInfoParams"
+      @change="setSearchParams($event)"
+    />
   </form>
 </template>
 
@@ -72,6 +76,10 @@ export default {
     autocompleteOptions() {
       return { ...autocompleteOptions, bounds: this.viewportBounds }
     },
+
+    searchResultsInfoParams() {
+      return { sort_by: this.searchParams.sort_by }
+    }
   },
 
   methods: {

@@ -307,19 +307,17 @@
   "sort": {
     "label": "Sort:",
     "by": {
-      "recommended": "Recommended",
-      "status": "Status",
-      "price": "Price",
-      "annual_revenue": "Annual Revenue",
-      "cap_rate": "Cap Rate",
-      "vacasa_managed": "Vacasa-managed",
-      "time_on_market": "Time On Market",
-      "date_listed": "Date Listed",
-      "beds": "Beds",
-      "baths": "Baths",
-      "date_sold": "Date Sold",
-      "interior_size": "SQFT",
-      "distance": "Distance"
+      "price_desc": "Price (high-low)",
+      "price_asc": "Pice (low-High)",
+      "listing_date_desc": "Time on market (new-old)",
+      "listing_date_asc": "Time on market, (old-new)",
+      "beds_desc": "Beds (high-low)",
+      "beds_asc": "Beds (low-high)",
+      "baths_desc": "Baths (high-low)",
+      "baths_asc": "Baths (low-high)",
+      "total_square_footage_desc": "SQFT (high-low)",
+      "total_square_footage_asc": "SQFT (low-high)",
+      "distance_from_user_lat_lon_asc": "Distance"
     },
     "direction": {
       "active_to_sold": "Active To Sold",
