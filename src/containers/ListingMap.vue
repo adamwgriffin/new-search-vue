@@ -3,11 +3,7 @@
     :viewportBounds="viewportBounds"
     :mapOptions="mapOptions"
   >
-    <ListingMarker
-      v-for="(l, i) in listings"
-      :key="l.listingid"
-      :position="{ lat: +l.location.latitude, lng: +l.location.longitude }"
-    />
+    <ClusteredMarkers :coordinates="listingCoordinates" />
     <GeoLayerPolygon
       :paths="geoLayerCoordinates"
       :options="geoLayerPolygonOptions"
@@ -18,7 +14,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import GoogleMap from '@/components/map/GoogleMap'
-import ListingMarker from '@/components/map/ListingMarker'
+import ClusteredMarkers from '@/components/map/ClusteredMarkers'
 import GeoLayerPolygon from '@/components/map/GeoLayerPolygon'
 import { geoLayerPolygonOptions } from '@/config'
 import { mapOptions } from '@/config/google'
@@ -27,8 +23,8 @@ export default {
 
   components: {
     GoogleMap,
-    ListingMarker,
-    GeoLayerPolygon
+    GeoLayerPolygon,
+    ClusteredMarkers,
   },
 
   computed: {
@@ -42,7 +38,11 @@ export default {
 
     ...mapGetters('listingMap', ['viewportBounds']),
 
-    ...mapState('listingSearch', ['listings'])
+    ...mapState('listingSearch', ['listings', 'mapListings']),
+
+    listingCoordinates() {
+      return this.mapListings.map(l => ({ lat: l.lat, lng: l.lng }))
+    }
   }
 
 }
