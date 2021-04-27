@@ -32,4 +32,5 @@ export const WEBSITES_SEARCH_PARAMS = {
   virtual_tour: null,
   has_pool: null,
   senior_community: null,
+  sort_by: 1,
 }
