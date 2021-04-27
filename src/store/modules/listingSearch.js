@@ -14,7 +14,6 @@ import {
 const initialState = () => {
   return {
     cluster_threshold: 200,
-    company_uuid: 1234567,
     searchParams: WEBSITES_SEARCH_PARAMS,
     dedupeRequest: {
       pending: false,
@@ -223,12 +222,12 @@ export const actions = {
     }
   },
 
-  searchListingsIds: async ({ commit, getters, state }, listingIds) => {
+  searchListingsIds: async ({ commit, getters, rootState }, listingIds) => {
     try {
       commit('setListingIdRequestPending')
       const res = await http({
         url: `${getters.listingIdEndpoint}/${listingIds.join('|')}`,
-        params: { company_uuid: state.company_uuid }
+        params: { company_uuid: rootState.env.company_uuid }
       })
       const { data } = res.data
       if (res.data.status !== 'fail') {

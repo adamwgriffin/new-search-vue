@@ -1,7 +1,8 @@
 const initialState = () => {
   return {
-    serviceBase: '',
-    serviceVersion: '',
+    serviceBase: null,
+    serviceVersion: null,
+    company_uuid: null,
   }
 }
 
@@ -12,13 +13,12 @@ export const getters = {
 }
 
 export const mutations = {
-  setServiceBase(state, value) {
-    state.serviceBase = value
+  setEnvironment(state, environmentObj) {
+    const { serviceBase, serviceVersion, company_uuid } = environmentObj
+    state.serviceBase = serviceBase
+    state.serviceVersion = serviceVersion
+    state.company_uuid = company_uuid
   },
-
-  setServiceVersion(state, value) {
-    state.serviceVersion = value
-  }
 }
 
 export default {

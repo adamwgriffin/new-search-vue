@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Search :serviceBase="serviceBase" :serviceVersion="serviceVersion" />
+    <Search :environment="environment"/>
   </div>
 </template>
 
@@ -11,9 +11,13 @@ export default {
   components: { Search },
 
   computed: {
-    serviceBase: () => process.env.VUE_APP_SERVICE_BASE,
-
-    serviceVersion: () => process.env.VUE_APP_SERVICE_VERSION
+    environment() {
+      return {
+        serviceBase: process.env.VUE_APP_SERVICE_BASE,
+        serviceVersion: process.env.VUE_APP_SERVICE_VERSION,
+        company_uuid: +process.env.VUE_APP_COMPANY_UUID,
+      }
+    },
   }
 }
 </script>

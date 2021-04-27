@@ -32,15 +32,10 @@ export default {
   },
 
   props: {
-    serviceBase: {
-      type: String,
+    environment: {
+      type: Object,
       required: true
     },
-
-    serviceVersion: {
-      type: String,
-      required: true
-    }
   },
 
   data() {
@@ -56,8 +51,7 @@ export default {
   },
 
   async mounted() {
-    this.setServiceBase(this.serviceBase)
-    this.setServiceVersion(this.serviceVersion)
+    this.setEnvironment(this.environment)
     /* we wait to render the content in the view that depends on the google maps api until the api is loaded, that way
     the "google" variable will be defined for any of the components need to create instances of google maps classes,
     e.g., `new google.maps.Map()` */
@@ -68,7 +62,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['setServiceBase', 'setServiceVersion']),
+    ...mapMutations(['setEnvironment']),
 
     /* there is no npm module for the google maps api. you have to load it via a script tag. @googlemaps/js-api-loader
     just creates a nice interface that you can use to create the script tag dynamically, and returns a promise that will
