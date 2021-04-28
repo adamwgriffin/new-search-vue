@@ -1,6 +1,10 @@
 <template>
   <div id="search-results-info">
-    <ListingCount :class="listingCountClasses" :total="totalListings" />
+    <ListingCount
+      :class="listingCountClasses"
+      :listingsLoaded="listingsLoaded"
+      :availableListings="availableListings"
+    />
     <SortMenu :sortOptions="sortOptions" :params="params" @change="updateParams($event)" />
   </div>
 </template>
@@ -14,9 +18,14 @@ export default {
   components: { ListingCount, SortMenu, },
 
   props: {
-    listings: {
-      type: Array,
-      default: () => []
+    listingsLoaded: {
+      type: Number,
+      default: 0,
+    },
+
+    availableListings: {
+      type: Number,
+      default: 0,
     },
 
     params: {
@@ -25,12 +34,8 @@ export default {
   },
 
   computed: {
-    totalListings() {
-      return this.listings?.length || 0
-    },
-
     listingCountClasses() {
-      return { 'no-listings': !this.totalListings }
+      return { 'no-listings': !this.listingsLoaded || !this.availableListings }
     },
 
     sortOptions() {

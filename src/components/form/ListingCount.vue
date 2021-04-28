@@ -1,16 +1,20 @@
 <template>
   <div class="listing-count">
-    {{ total }} Listings
+    Showing {{ listingsLoaded }} of {{ availableListings }} Listings
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    total: {
+    listingsLoaded: {
       type: Number
-    }
-  }
+    },
+
+    availableListings: {
+      type: Number
+    },
+  },
 }
 </script>
 

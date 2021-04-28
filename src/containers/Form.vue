@@ -24,7 +24,8 @@
       </Filters>
     </div>
     <SearchResultsInfo
-      :listings="listings"
+      :listingsLoaded="listings.length"
+      :availableListings="mapListings.length"
       :params="searchResultsInfoParams"
       @change="setSearchParams($event)"
     />
@@ -64,7 +65,8 @@ export default {
 
     ...mapState('listingSearch', [
       'searchParams',
-      'listings'
+      'listings',
+      'mapListings'
     ]),
 
     ...mapGetters('listingSearch', [
