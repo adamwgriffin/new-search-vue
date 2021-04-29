@@ -2,8 +2,15 @@
   <div v-if="googleLoaded" id="search">
     <div class="form-and-search-results">
       <Form />
-      <SearchResults>
+      <SearchResults
+        :listingsLoaded="listings.length"
+        :availableListings="mapListings.length"
+        @loadMoreListings="getMoreListings"
+      >
         <ListingCards :listings="listings" />
+        <div class="listings-loading">
+          <DotIndicator v-if="getMoreListingsPending" />
+        </div>
       </SearchResults>
     </div>
     <ListingMap />
@@ -15,13 +22,14 @@
 
 <script>
 import { Loader } from '@googlemaps/js-api-loader'
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import { mapLoaderOptions } from '@/config/google'
 import { setGeocoder } from '@/lib/geocode'
 import Form from '@/containers/Form'
 import SearchResults from '@/components/SearchResults'
 import ListingCards from '@/components/listings/ListingCards'
 import ListingMap from '@/containers/ListingMap'
+import DotIndicator from '@/components/shared/DotIndicator'
 
 export default {
   components: {
@@ -29,6 +37,7 @@ export default {
     SearchResults,
     ListingCards,
     ListingMap,
+    DotIndicator,
   },
 
   props: {
@@ -46,7 +55,9 @@ export default {
 
   computed: {
     ...mapState('listingSearch', [
-      'listings'
+      'listings',
+      'mapListings',
+      'getMoreListingsPending'
     ])
   },
 
@@ -63,6 +74,8 @@ export default {
 
   methods: {
     ...mapMutations(['setEnvironment']),
+
+    ...mapActions('listingSearch', ['getMoreListings']),
 
     /* there is no npm module for the google maps api. you have to load it via a script tag. @googlemaps/js-api-loader
     just creates a nice interface that you can use to create the script tag dynamically, and returns a promise that will
@@ -90,5 +103,12 @@ export default {
   flex-direction: column;
   width: 60%;
   background: #f6f6f6;
+}
+
+.listings-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4rem;
 }
 </style>

@@ -14,6 +14,7 @@ import {
 // app is using this module, but for now we are assuming Websites IDX search.
 const initialState = () => {
   return {
+    listingsPageIndex: 0,
     cluster_threshold: 200,
     searchParams: WEBSITES_SEARCH_PARAMS,
     dedupeRequest: {
@@ -34,6 +35,7 @@ const initialState = () => {
       error: null,
       results: {}
     },
+    getMoreListingsPending: false,
     listings: [],
     mapListings: [],
   }
@@ -136,8 +138,16 @@ export const mutations = {
     state.listingIdRequest.pending = false
   },
 
+  setGetMoreListingsPending(state, status) {
+    state.getMoreListingsPending = status
+  },
+
   setListings(state, listings) {
     state.listings = listings
+  },
+
+  setListingsPageIndex(state, index) {
+    state.listingsPageIndex = index
   },
   
   setMapListings(state, listings) {
@@ -145,8 +155,10 @@ export const mutations = {
   },
 
   resetListings(state) {
-    state.listings = initialState().listings
-    state.mapListings = initialState().mapListings
+    const { listingsPageIndex, listings, mapListings } = initialState()
+    state.listingsPageIndex = listingsPageIndex
+    state.listings = listings
+    state.mapListings = mapListings
   }
 }
 
@@ -189,6 +201,17 @@ export const actions = {
     } else {
       console.error("No conditions were met for searchListings() response")
     }
+  },
+
+  getMoreListings: async ({ dispatch, commit, state }) => {
+    commit('setGetMoreListingsPending', true)
+    const { pgsize } = state.searchParams
+    const newPageIndex = state.listingsPageIndex + pgsize
+    const listingIds = state.mapListings.slice(newPageIndex, newPageIndex+pgsize).map(l => l.listingid)
+    const newListings = await dispatch('searchListingsIds', listingIds)
+    commit('setListings', state.listings.concat(newListings.result_list))
+    commit('setGetMoreListingsPending', false)
+    commit('setListingsPageIndex', newPageIndex)
   },
 
   searchListingsDedupe: async ({ commit, getters }, params) => {
