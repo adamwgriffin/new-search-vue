@@ -1,0 +1,14 @@
+{
+	"folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "../../search"
+    },
+    {
+      "path": "../../GoogleMapsPointClusterD3"
+    }
+  ],
+  "settings": {}
+}
