@@ -3,7 +3,7 @@
     :viewportBounds="viewportBounds"
     :mapOptions="mapOptions"
   >
-    <ClusteredMarkers :coordinates="listingCoordinates" />
+    <ClusteredMarkers :coordinates="listingCoordinates" :clusterThreshold="cluster_threshold" />
     <GeoLayerPolygon
       :paths="geoLayerCoordinates"
       :options="geoLayerPolygonOptions"
@@ -38,7 +38,11 @@ export default {
 
     ...mapGetters('listingMap', ['viewportBounds']),
 
-    ...mapState('listingSearch', ['listings', 'mapListings']),
+    ...mapState('listingSearch', [
+      'listings',
+      'mapListings',
+      'cluster_threshold'
+    ]),
 
     listingCoordinates() {
       return this.mapListings.map(l => ({ lat: l.lat, lng: l.lng }))

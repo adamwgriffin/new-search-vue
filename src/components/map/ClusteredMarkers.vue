@@ -16,6 +16,11 @@ export default {
       default: []
     },
 
+    clusterThreshold: {
+      type: Number,
+      default: 200
+    },
+
     iconFill: {
       type: String,
       default: '#0f2b59'
@@ -35,10 +40,10 @@ export default {
   },
 
   watch: {
-    coordinates() {
-      this.destroyMarkers()
-      this.createMarkers()
-      this.updateMarkerClusterer()
+    coordinates(newCoordinates) {
+      newCoordinates.length >= this.clusterThreshold ?
+        this.updateMarkerClusterer() :
+        this.declusterMarkers()
     }
   },
 
@@ -47,7 +52,8 @@ export default {
   },
 
   destroyed() {
-    this.markerClusterer.setMap(null)
+    this.destroyMarkers()
+    this.destroyMarkerClusterer()
   },
   
   methods: {
@@ -55,16 +61,23 @@ export default {
       this.markerClusterer = new MarkerClusterer (
         this.GoogleMap.map,
         this.markers,
-        {
-          minimumClusterSize: 20,
-          styles: getClusterStyles()
-        }
+        { styles: getClusterStyles() }
       )
     },
 
-    async updateMarkerClusterer() {
+    updateMarkerClusterer() {
+      this.updateMarkers()
       this.markerClusterer.clearMarkers()
       this.markerClusterer.addMarkers(this.markers)
+    },
+
+    destroyMarkerClusterer() {
+      this.markerClusterer.setMap(null)
+    },
+
+    declusterMarkers() {
+      this.markerClusterer.clearMarkers()
+      this.updateMarkers()
     },
 
     createMarker(position) {
@@ -78,6 +91,11 @@ export default {
 
     createMarkers() {
       this.markers = this.coordinates.map(c => this.createMarker(c))
+    },
+
+    updateMarkers() {
+      this.destroyMarkers()
+      this.createMarkers()
     },
 
     destroyMarkers() {
