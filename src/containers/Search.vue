@@ -18,10 +18,10 @@ import { Loader } from '@googlemaps/js-api-loader'
 import { mapState, mapMutations } from 'vuex'
 import { mapLoaderOptions } from '@/config/google'
 import { setGeocoder } from '@/lib/geocode'
-import Form from "@/containers/Form"
+import Form from '@/containers/Form'
 import SearchResults from '@/components/SearchResults'
 import ListingCards from '@/components/listings/ListingCards'
-import ListingMap from "@/containers/ListingMap"
+import ListingMap from '@/containers/ListingMap'
 
 export default {
   components: {
