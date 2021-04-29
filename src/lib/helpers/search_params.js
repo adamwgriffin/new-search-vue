@@ -22,3 +22,8 @@ export const formatListingDataForMapListings = (listings) => {
 export const searchParamsForMapClusters = (params, cluster_threshold) => {
   return omit({ ...params, cluster_allow: true, cluster_threshold }, ['pgsize'])
 }
+
+export const mapOrder = (source, order, key) => {
+  const map = order.reduce((acc, v, i) => ((acc[v] = i), acc), {})
+  return source.sort((a, b) => map[a[key]] - map[b[key]])
+}

@@ -6,7 +6,8 @@ import { WEBSITES_SEARCH_PARAMS } from '@/lib/constants/search_param_constants'
 import {
   getPropertyTypes,
   formatListingDataForMapListings,
-  searchParamsForMapClusters
+  searchParamsForMapClusters,
+  mapOrder,
 } from '@/lib/helpers/search_params'
 
 // NOTE: Eventually we would want to compose things like state (searchParams), getters, mutations, etc. based on what
@@ -177,8 +178,12 @@ export const actions = {
       /* we need to get the remaining listings. since the number_found in the request is less than cluster_threshold we
       can get them by listing id, which will return all listing data for each listing. we will then merge the first 20
       with the remaining listings. */
-      const remainingListingData = await dispatch('searchListingsIds', data.result_listing_ids)
-      const allListingData = data.result_list.concat(remainingListingData.result_list)
+      const remainingListings = await dispatch('searchListingsIds', data.result_listing_ids)
+      /* currenlty the service doesn't return the listings sorted in the same order you request them, which causes them
+      to be sorted incorrectly in the response, so we have to sort them based on the original result_listing_ids since
+      it's in the correct order. */
+      const remainingListingsSorted = mapOrder(remainingListings.result_list, data.result_listing_ids, 'listingid')
+      const allListingData = data.result_list.concat(remainingListingsSorted)
       commit('setListings', allListingData)
       commit('setMapListings', formatListingDataForMapListings(allListingData))
     } else {
