@@ -1,10 +1,12 @@
 <template>
   <div class="listing-count">
-    Showing {{ listingsLoaded }} of {{ availableListings }} Listings
+    Showing {{ listingsLoaded | formatNumber }} of {{ availableListings | formatNumber }} Listings
   </div>
 </template>
 
 <script>
+import { formatNumber } from '@/lib/helpers/number_formatters'
+
 export default {
   props: {
     listingsLoaded: {
@@ -15,6 +17,8 @@ export default {
       type: Number
     },
   },
+
+  filters: { formatNumber }
 }
 </script>
 
