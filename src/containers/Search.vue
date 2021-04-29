@@ -113,6 +113,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 4rem;
+  height: 2rem;
 }
 </style>
