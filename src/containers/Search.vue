@@ -1,6 +1,7 @@
 <template>
   <div v-if="googleLoaded" id="search">
     <div class="form-and-search-results">
+      <ProgressBar :active="searchResultsPending" />
       <Form />
       <SearchResults
         :listingsLoaded="listings.length"
@@ -25,6 +26,7 @@ import { Loader } from '@googlemaps/js-api-loader'
 import { mapState, mapMutations, mapActions } from 'vuex'
 import { mapLoaderOptions } from '@/config/google'
 import { setGeocoder } from '@/lib/geocode'
+import ProgressBar from '@/components/ProgressBar'
 import Form from '@/containers/Form'
 import SearchResults from '@/components/SearchResults'
 import ListingCards from '@/components/listings/ListingCards'
@@ -38,6 +40,7 @@ export default {
     ListingCards,
     ListingMap,
     DotIndicator,
+    ProgressBar,
   },
 
   props: {
@@ -57,6 +60,7 @@ export default {
     ...mapState('listingSearch', [
       'listings',
       'mapListings',
+      'searchResultsPending',
       'getMoreListingsPending'
     ])
   },

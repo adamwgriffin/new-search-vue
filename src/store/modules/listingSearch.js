@@ -16,6 +16,7 @@ const initialState = () => {
   return {
     listingsPageIndex: 0,
     cluster_threshold: 200,
+    searchResultsPending: false,
     searchParams: WEBSITES_SEARCH_PARAMS,
     dedupeRequest: {
       pending: false,
@@ -159,11 +160,16 @@ export const mutations = {
     state.listingsPageIndex = listingsPageIndex
     state.listings = listings
     state.mapListings = mapListings
+  },
+
+  setSearchResultsPending(state, status) {
+    state.searchResultsPending = status
   }
 }
 
 export const actions = {
   searchListings: async ({ dispatch, commit, state }, searchParams) => {
+    commit('setSearchResultsPending', true)
     const data = await dispatch('searchListingsDedupe', searchParams)
     if (!data.result_list) {
       return
@@ -201,6 +207,7 @@ export const actions = {
     } else {
       console.error("No conditions were met for searchListings() response")
     }
+    commit('setSearchResultsPending', false)
   },
 
   getMoreListings: async ({ dispatch, commit, state }) => {
