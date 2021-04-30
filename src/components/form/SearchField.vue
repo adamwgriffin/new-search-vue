@@ -87,7 +87,7 @@ export default {
   watch: {
     bounds(newBounds) {
       // sets the preferred area within which to return place results. results are biased towards, but not restricted
-      // to, this area. we are passing the viewportBounds for the bounds to bias results to the map viewport
+      // to, this area. we are passing the mapBounds for the bounds to bias results to the map viewport
       this.autocomplete.setBounds(newBounds)
     }
   },

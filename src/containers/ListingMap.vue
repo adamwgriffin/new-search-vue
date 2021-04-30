@@ -1,7 +1,8 @@
 <template>
   <GoogleMap
-    :viewportBounds="viewportBounds"
+    :bounds="apiResponseBounds"
     :mapOptions="mapOptions"
+    @boundsChanged="setMapBounds"
   >
     <ClusteredMarkers :coordinates="listingCoordinates" :clusterThreshold="cluster_threshold" />
     <GeoLayerPolygon
@@ -12,7 +13,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 import GoogleMap from '@/components/map/GoogleMap'
 import ClusteredMarkers from '@/components/map/ClusteredMarkers'
 import GeoLayerPolygon from '@/components/map/GeoLayerPolygon'
@@ -33,10 +34,11 @@ export default {
     geoLayerPolygonOptions,
 
     ...mapState('listingMap', [
-      'geoLayerCoordinates'
+      'geoLayerCoordinates',
+      'mapBounds'
     ]),
 
-    ...mapGetters('listingMap', ['viewportBounds']),
+    ...mapGetters('listingMap', ['apiResponseBounds']),
 
     ...mapState('listingSearch', [
       'listings',
@@ -47,7 +49,11 @@ export default {
     listingCoordinates() {
       return this.mapListings.map(l => ({ lat: l.lat, lng: l.lng }))
     }
-  }
+  },
+
+  methods: {
+    ...mapMutations('listingMap', ['setMapBounds'])
+  },
 
 }
 </script>

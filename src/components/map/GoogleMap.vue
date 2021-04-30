@@ -19,7 +19,7 @@ export default {
   ],
 
   props: {
-    viewportBounds: {
+    bounds: {
       type: Object,
     },
 
@@ -31,31 +31,36 @@ export default {
 
   data() {
     return {
-      map: null
+      map: null,
+      boundsChangedListener: null,
     }
   },
 
   watch: {
-    viewportBounds(newBounds, oldBounds) {
-      newBounds && this.updateViewportMapPosition(newBounds)
+    bounds(newBounds) {
+      newBounds && this.updateMapPosition(newBounds)
     }
   },
 
   mounted() {
     // TODO: viewport props should maybe be set in the options of the map when creating it too
     this.map = new google.maps.Map(this.$el, this.mapOptions)
+    this.boundsChangedListener = google.maps.event.addListener(this.map, 'bounds_changed', this.handleBoundsChanged)
+  },
+
+  destroyed() {
+    google.maps.event.removeListener(this.boundsChangedListener)
   },
 
   methods: {
-    /* calling setCenter() with bounds.getCenter(), then calling fitBounds() right after seems to make for the best
-    user experience with the map. before we were using a seprate location object from the geocoder results, and
-    setting each of these separately when the different props updated. that method caused the map to move then zoom in
-    kind of a jarring way if the viewport needed to be adjusted for the new polygon bounds. doing it this way looks
-    much more smooth. not sure why. */
-    updateViewportMapPosition(bounds) {
+    updateMapPosition(bounds) {
       this.map.setCenter(bounds.getCenter())
       // sets the viewport to contain the given bounds
       this.map.fitBounds(bounds)
+    },
+
+    handleBoundsChanged() {
+      this.$emit('boundsChanged', this.map.getBounds().toJSON())
     }
   }
 }

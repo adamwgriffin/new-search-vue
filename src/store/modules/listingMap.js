@@ -5,6 +5,7 @@ import { convertGeojsonCoordinatesToPolygonPaths, getGeoLayerBounds } from '@/li
 const initialState = () => {
   return {
     buffer_miles: 0,
+    mapBounds: null,
     geocode: {
       pending: false,
       request: null,
@@ -44,12 +45,12 @@ export const getters = {
     return googleToServiceAddressTypeMapping[state.geocoderResult.type]
   },
 
-  /* viewportBounds is used to adjust the map so that the content we want to display is inside its viewport. this is
-  accomplished by the map calling map.fitBounds(LatLngBounds). viewportBounds is also used to bias autocomplete results
-  to be within the bounds. we want the viewport to fit the geospatial boundary polygon we display on the map, which is
-  why we get its bounds using getGeoLayerBounds here. if for some reason we didn't get geojson.coordinates for the
-  boundary from the service, we fallback to the viewport bounds from the geocoder instead. */
-  viewportBounds(state) {
+  /* apiResponseBounds is used to adjust the map so that the content we want to display is inside its viewport. this is
+  accomplished by the map calling map.fitBounds(LatLngBounds). we want the viewport to fit the geospatial boundary
+  polygon we display on the map, which is why we get its bounds using getGeoLayerBounds here. if for some reason we
+  didn't get geojson.coordinates for the boundary from the service, we fallback to the viewport bounds from the geocoder
+  instead. */
+  apiResponseBounds(state) {
     return state.geoLayerCoordinates.length ?
       getGeoLayerBounds(state.geoLayerCoordinates) :
       state.geocoderResult.viewport
@@ -57,6 +58,10 @@ export const getters = {
 }
 
 export const mutations = {
+
+  setMapBounds(state, bounds) {
+    state.mapBounds = bounds
+  },
 
   setGeocodePending(state) {
     state.geocode = { ...initialState().geocode, pending: true }
