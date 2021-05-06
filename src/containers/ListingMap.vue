@@ -2,7 +2,9 @@
   <GoogleMap
     :bounds="apiResponseBounds"
     :mapOptions="mapOptions"
-    @boundsChanged="setMapBounds"
+    @dragend="handleUserAdjustedMap"
+    @userChangedZoom="handleUserAdjustedMap"
+    @idle="setMapState"
   >
     <ClusteredMarkers :coordinates="listingCoordinates" :clusterThreshold="cluster_threshold" />
     <GeoLayerPolygon
@@ -13,7 +15,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import GoogleMap from '@/components/map/GoogleMap'
 import ClusteredMarkers from '@/components/map/ClusteredMarkers'
 import GeoLayerPolygon from '@/components/map/GeoLayerPolygon'
@@ -35,15 +37,15 @@ export default {
 
     ...mapState('listingMap', [
       'geoLayerCoordinates',
-      'mapBounds'
     ]),
 
-    ...mapGetters('listingMap', ['apiResponseBounds']),
+    ...mapGetters('listingMap', ['apiResponseBounds',]),
+
+    ...mapGetters('listingSearch', ['searchParamsForListingService', 'boundsParams']),
 
     ...mapState('listingSearch', [
-      'listings',
       'mapListings',
-      'cluster_threshold'
+      'cluster_threshold',
     ]),
 
     listingCoordinates() {
@@ -52,7 +54,23 @@ export default {
   },
 
   methods: {
-    ...mapMutations('listingMap', ['setMapBounds'])
+    ...mapMutations('listingMap', [
+      'setMapState',
+    ]),
+
+    ...mapMutations('listingSearch', ['resetListings']),
+
+    ...mapActions('listingSearch', ['searchListings']),
+
+
+    handleUserAdjustedMap(e) {
+      this.setMapState(e)
+      this.resetListings()
+      this.searchListings({
+        ...this.searchParamsForListingService,
+        ...this.boundsParams,
+      })
+    }
   },
 
 }

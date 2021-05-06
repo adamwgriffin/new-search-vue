@@ -1,6 +1,4 @@
 export const WEBSITES_SEARCH_PARAMS = {
-  // "location_search_field" is a synonym for "street"
-  location_search_field: '',
   agent_uuid: 'f74a3f6d-aeda-4daa-835e-029386152405',
   pgsize: 20,
   pricemin: null,

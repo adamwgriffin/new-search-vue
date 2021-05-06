@@ -17,6 +17,11 @@ const initialState = () => {
     listingsPageIndex: 0,
     cluster_threshold: 200,
     listingSearchPending: false,
+    // "location_search_field" is a synonym for "street" in listing service. it is a valid search param but we don't
+    // include it in "searchParams" because we are using it to geocode on the front end to get the center_lat &
+    // center_lon coordinates. those coordinates are all that's really necessary to send the service if you already have
+    // them.
+    location_search_field: '',
     searchParams: WEBSITES_SEARCH_PARAMS,
     dedupeRequest: {
       pending: false,
@@ -55,10 +60,31 @@ export const getters = {
     return `${rootGetters.baseUrl}/listing/ids`
   },
 
-  searchParamsForListingService(state) {
-    return omitBy(state.searchParams, (value, param) => {
+  boundsParams(state, getters, rootState) {
+    const { north, east, south, west, } = rootState.listingMap.mapState.bounds
+    return {
+      bounds_north: north,
+      bounds_east: east,
+      bounds_south: south,
+      bounds_west: west,
+    }
+  },
+
+  centerLatLonParams(state, getters, rootState) {
+    // const coords = rootState.listingMap.geocoderResult.location || rootState.listingMap.mapState.center
+    const coords = rootState.listingMap.geocoderResult.location
+    return { center_lat: coords.lat, center_lon: coords.lng }
+  },
+
+  searchParamsForListingService(state, getters, rootState, rootGetters) {
+    const params = {
+      ...state.searchParams,
+      ...getters.centerLatLonParams,
+      geotype: rootGetters['listingMap/geotype']
+    }
+    return omitBy(params, (value, param) => {
       return (param === 'sold_days' && state.searchParams.status === 'active') || !value
-    })
+    }) 
   },
 
   priceRangeParams(state) {
@@ -71,7 +97,6 @@ export const getters = {
 
   moreFiltersParams(state) {
     return omit(state.searchParams, [
-      'location_search_field',
       'agent_uuid',
       'pgsize',
       'pricemin',
@@ -89,6 +114,10 @@ export const mutations = {
       ...newParams,
       ptype: getPropertyTypes(newParams.ptype, state.searchParams.ptype)
     }
+  },
+
+  setLocationSearchField(state, location) {
+    state.location_search_field = location
   },
 
   setDedupeRequestPending(state) {
@@ -177,6 +206,7 @@ export const actions = {
     const data = await dispatch('searchListingsDedupe', searchParams)
     if (!data.result_list) {
       commit('setListingSearchComplete')
+      // TODO: need to publish some kind of no results message here
       return
     } else if (data.number_found === data.number_returned) {
       // we have all listings, so just set them on the store

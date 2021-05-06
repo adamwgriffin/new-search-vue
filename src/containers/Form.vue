@@ -2,10 +2,10 @@
   <form autocomplete="off" @submit.prevent="">
     <div class="search-field-and-filters">
       <SearchField
-        :locationSearchField="searchParams.location_search_field"
+        :locationSearchField="location_search_field"
         :autocompleteOptions="autocompleteOptions"
         :bounds="mapBounds"
-        @inputChanged="handleSearchFieldInputChanged"
+        @inputChanged="setLocationSearchField"
         @autocompletePlaceChanged="handleAutocompletePlaceChanged"
         @searchButtonClicked="handleSearchButtonClicked"
       />
@@ -65,6 +65,7 @@ export default {
 
     ...mapState('listingSearch', [
       'searchParams',
+      'location_search_field',
       'listings',
       'mapListings'
     ]),
@@ -87,20 +88,19 @@ export default {
   methods: {
     ...mapMutations('listingMap', ['setGeocoderResult']),
 
-    ...mapMutations('listingSearch', ['updateLocationSearchField', 'setSearchParams', 'resetListings']),
+    ...mapMutations('listingSearch', [
+      'setLocationSearchField',
+      'setSearchParams',
+      'resetListings'
+    ]),
 
     ...mapActions('listingSearch', ['searchListings']),
 
     ...mapActions('listingMap', ['geocodeMap', 'getGeoLayer']),
 
-    handleSearchFieldInputChanged(e) {
-      this.setSearchParams({ location_search_field: e })
-    },
-
     async handleAutocompletePlaceChanged(e) {
-      this.setSearchParams({ location_search_field: e.locationSearchField })
+      this.setLocationSearchField(e.locationSearchField)
       this.resetListings()
-      this.searchListings(this.searchParamsForListingService)
       /* if the dropdown is open, but the user searches without selecting an option, the "place_changed" event can still
       be triggered, but it will not have a geometry. it will only have a "name" property with the current value of the
       input field */
@@ -108,8 +108,9 @@ export default {
       if (address_components && geometry) {
         this.setGeocoderResult({ types: address_components[0].types, geometry })
       } else {
-        await this.geocodeMap({ address: this.searchParams.location_search_field })
+        await this.geocodeMap({ address: this.location_search_field })
       }
+      this.searchListings(this.searchParamsForListingService)
       this.getGeoLayer({
         center_lat: this.geocoderResult.location.lat,
         center_lon: this.geocoderResult.location.lng,
@@ -121,8 +122,8 @@ export default {
 
     async handleSearchButtonClicked() {
       this.resetListings()
+      await this.geocodeMap({ address: this.location_search_field })
       this.searchListings(this.searchParamsForListingService)
-      await this.geocodeMap({ address: this.searchParams.location_search_field })
       this.getGeoLayer({
         center_lat: this.geocoderResult.location.lat,
         center_lon: this.geocoderResult.location.lng,

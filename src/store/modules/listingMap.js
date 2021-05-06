@@ -5,7 +5,19 @@ import { convertGeojsonCoordinatesToPolygonPaths, getGeoLayerBounds } from '@/li
 const initialState = () => {
   return {
     buffer_miles: 0,
-    mapBounds: null,
+    mapState: {
+      bounds: {
+        north: null,
+        east: null,
+        south: null,
+        west: null,
+      },
+      center: {
+        lat: null,
+        lng: null,
+      },
+      zoom: null,
+    },
     geocode: {
       pending: false,
       request: null,
@@ -19,7 +31,6 @@ const initialState = () => {
       type: null,
       // we're only using location for the geolayer request to the listing service
       location: null,
-      // viewport bounds are only used as a fallback if something goes with the geolayer request from the service
       viewport: null
     },
     geoLayer: {
@@ -58,9 +69,8 @@ export const getters = {
 }
 
 export const mutations = {
-
-  setMapBounds(state, bounds) {
-    state.mapBounds = bounds
+  setMapState(state, newMapState) {
+    state.mapState = { ...state.mapState, ...newMapState }
   },
 
   setGeocodePending(state) {
