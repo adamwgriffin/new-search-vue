@@ -71,8 +71,6 @@ export default {
     },
 
     updateMapPosition(bounds) {
-      // not sure that setCenter() is actually necessary when using fitBounds()
-      // this.map.setCenter(bounds.getCenter())
       this.userChangedZoom = false
       // sets the viewport to contain the given bounds
       this.map.fitBounds(bounds)
