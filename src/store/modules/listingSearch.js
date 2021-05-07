@@ -71,7 +71,6 @@ export const getters = {
   },
 
   centerLatLonParams(state, getters, rootState) {
-    // const coords = rootState.listingMap.geocoderResult.location || rootState.listingMap.mapState.center
     const coords = rootState.listingMap.geocoderResult.location
     return { center_lat: coords.lat, center_lon: coords.lng }
   },
