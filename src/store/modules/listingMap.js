@@ -5,17 +5,9 @@ import { convertGeojsonCoordinatesToPolygonPaths, getGeoLayerBounds } from '@/li
 const initialState = () => {
   return {
     buffer_miles: 0,
-    mapState: {
-      bounds: {
-        north: null,
-        east: null,
-        south: null,
-        west: null,
-      },
-      center: {
-        lat: null,
-        lng: null,
-      },
+    mapData: {
+      bounds: null,
+      center: null,
       zoom: null,
     },
     geocode: {
@@ -69,8 +61,8 @@ export const getters = {
 }
 
 export const mutations = {
-  setMapState(state, newMapState) {
-    state.mapState = { ...state.mapState, ...newMapState }
+  setMapData(state, newMapData) {
+    state.mapData = { ...state.mapData, ...newMapData }
   },
 
   setGeocodePending(state) {

@@ -4,7 +4,7 @@
     :mapOptions="mapOptions"
     @dragend="handleUserAdjustedMap"
     @userChangedZoom="handleUserAdjustedMap"
-    @idle="setMapState"
+    @idle="setMapData"
   >
     <ClusteredMarkers :coordinates="listingCoordinates" :clusterThreshold="cluster_threshold" />
     <GeoLayerPolygon
@@ -55,7 +55,7 @@ export default {
 
   methods: {
     ...mapMutations('listingMap', [
-      'setMapState',
+      'setMapData',
     ]),
 
     ...mapMutations('listingSearch', ['resetListings']),
@@ -64,12 +64,12 @@ export default {
 
 
     handleUserAdjustedMap(e) {
-      this.setMapState(e)
       this.resetListings()
       this.searchListings({
         ...this.searchParamsForListingService,
         ...this.boundsParams,
       })
+      this.setMapData(e)
     }
   },
 

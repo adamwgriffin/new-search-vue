@@ -61,7 +61,7 @@ export const getters = {
   },
 
   boundsParams(state, getters, rootState) {
-    const { north, east, south, west, } = rootState.listingMap.mapState.bounds
+    const { north, east, south, west, } = rootState.listingMap.mapData.bounds
     return {
       bounds_north: north,
       bounds_east: east,

@@ -81,7 +81,7 @@ export default {
       // calling map.fitBounds(). we only want to handle user generated zoom events, so we set the userChangedZoom flag
       // to false before calling fitBounds then set it back to true after the zoom event from that action is triggered.
       if (this.userChangedZoom) {
-        this.$emit('userChangedZoom', this.getMapState())
+        this.$emit('userChangedZoom', this.getMapData())
       } else {
         // flag was false so set it back to true for next time
         this.userChangedZoom = true
@@ -93,14 +93,14 @@ export default {
     },
 
     handleDragend() {
-      this.$emit('dragend', this.getMapState())
+      this.$emit('dragend', this.getMapData())
     },
 
     handleIdle() {
-      this.$emit('idle', this.getMapState())
+      this.$emit('idle', this.getMapData())
     }, 
 
-    getMapState() {
+    getMapData() {
       return {
         bounds: this.map.getBounds().toJSON(),
         center: this.map.getCenter().toJSON(),
