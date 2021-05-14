@@ -9,6 +9,7 @@ import {
   searchParamsForMapClusters,
   mapOrder,
   modifyParam,
+  listingsFilteredByBounds,
 } from '@/lib/helpers/search_params'
 
 // NOTE: Eventually we would want to compose things like state (searchParams), getters, mutations, etc. based on what
@@ -118,7 +119,15 @@ export const getters = {
       'bed_min',
       'bath_min'
     ])
-  }
+  },
+
+  listingsFilteredByMapBounds(state, getters, rootState) {
+    return listingsFilteredByBounds(rootState.listingMap.mapData.bounds, state.listings)
+  },
+
+  mapListingsFilteredByMapBounds(state, getters, rootState) {
+    return listingsFilteredByBounds(rootState.listingMap.mapData.bounds, state.mapListings)
+  },
 }
 
 export const mutations = {

@@ -25,8 +25,8 @@
       <SaveSearchButton />
     </div>
     <SearchResultsInfo
-      :listingsLoaded="listings.length"
-      :availableListings="mapListings.length"
+      :listingsLoaded="listingsFilteredByMapBounds.length"
+      :availableListings="mapListingsFilteredByMapBounds.length"
       :params="searchResultsInfoParams"
       @change="setSearchParams($event)"
     />
@@ -69,14 +69,14 @@ export default {
     ...mapState('listingSearch', [
       'searchParams',
       'location_search_field',
-      'listings',
-      'mapListings'
     ]),
 
     ...mapGetters('listingSearch', [
       'searchParamsForListingService',
       'priceRangeParams',
       'bedBathParams',
+      'listingsFilteredByMapBounds',
+      'mapListingsFilteredByMapBounds',
     ]),
 
     searchResultsInfoParams() {

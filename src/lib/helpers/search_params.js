@@ -2,6 +2,8 @@ import difference from 'lodash/difference'
 import omit from 'lodash/omit'
 import { propertyTypes } from '@/lib/constants/property_types'
 import { sortByDistanceValues } from '@/lib/constants/search_param_constants'
+import { latLngBoundsLiteralToClass } from '@/lib/google_maps_utils'
+import { getListingCoordinates } from '@/lib/helpers/listing_helpers'
 
 // for IDX search you can either choose rental or non-rental property types, but not both
 export const toggleRentalOrNonRentalTypes = (newPropertyTypes, oldPropertyTypes) => {
@@ -48,4 +50,10 @@ export const modifyParam = {
       return { sold_days: null }
     }
   }
+}
+
+export const listingsFilteredByBounds = (latLngBoundsLiteral, listings) => {
+  if (!latLngBoundsLiteral || !listings.length) return listings
+  const mapBounds = latLngBoundsLiteralToClass(latLngBoundsLiteral)
+  return listings.filter(l => mapBounds.contains(getListingCoordinates(l)))
 }

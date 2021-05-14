@@ -7,7 +7,10 @@
     @idle="setMapData"
   >
     <MapToolsControl :position="mapToolsPosition" />
-    <ClusteredMarkers :coordinates="listingCoordinates" :clusterThreshold="cluster_threshold" />
+    <ClusteredListingMarkers
+      :listingData="mapListingsFilteredByMapBounds"
+      :clusterThreshold="cluster_threshold"
+    />
     <GeoLayerPolygon
       :paths="geoLayerCoordinates"
       :options="geoLayerPolygonOptions"
@@ -19,7 +22,7 @@
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import GoogleMap from '@/components/map/GoogleMap'
-import ClusteredMarkers from '@/components/map/ClusteredMarkers'
+import ClusteredListingMarkers from '@/components/map/ClusteredListingMarkers'
 import GeoLayerPolygon from '@/components/map/GeoLayerPolygon'
 import MapTypeControl from '@/components/map/MapTypeControl'
 import MapToolsControl from '@/components/map/MapToolsControl'
@@ -31,9 +34,9 @@ export default {
   components: {
     GoogleMap,
     GeoLayerPolygon,
-    ClusteredMarkers,
     MapTypeControl,
-    MapToolsControl
+    MapToolsControl,
+    ClusteredListingMarkers
   },
 
   computed: {
@@ -43,11 +46,16 @@ export default {
 
     ...mapState('listingMap', [
       'geoLayerCoordinates',
+      'mapData'
     ]),
 
     ...mapGetters('listingMap', ['apiResponseBounds',]),
 
-    ...mapGetters('listingSearch', ['searchParamsForListingService', 'boundsParams']),
+    ...mapGetters('listingSearch', [
+      'searchParamsForListingService',
+      'boundsParams',
+      'mapListingsFilteredByMapBounds',
+    ]),
 
     ...mapState('listingSearch', [
       'mapListings',
@@ -72,17 +80,11 @@ export default {
       'setMapData',
     ]),
 
-    ...mapMutations('listingSearch', ['resetListings']),
+    ...mapMutations('listingSearch', ['resetListings', 'setMapListings']),
 
     ...mapActions('listingSearch', ['searchListings']),
 
-
     handleUserAdjustedMap(e) {
-      this.resetListings()
-      this.searchListings({
-        ...this.searchParamsForListingService,
-        ...this.boundsParams,
-      })
       this.setMapData(e)
     }
   },

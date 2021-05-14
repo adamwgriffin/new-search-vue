@@ -1,6 +1,5 @@
 const defaultMetaInfoLabels = { beds: 'BR', baths: 'BA', size: 'SQFT' }
 
-
 export const getBathrooms = (listing) => {
   return listing.bathroom_details.bathrooms_display ||
     listing.bathroom_details.total_bathrooms ||
@@ -29,4 +28,13 @@ export const listingCardMetaInfo = (listing, labels=defaultMetaInfoLabels, separ
     .filter(m => m.value)
     .map(m => `${m.value} ${m.label}`)
     .join(separator)
+}
+
+// the name and path for coordinates are different depending on the service call
+export const getListingCoordinates = (listing) => {
+  const l = listing.location || listing
+  return {
+    lat: +(l.latitude || l.lat),
+    lng: +(l.longitude || l.lng)
+  }
 }

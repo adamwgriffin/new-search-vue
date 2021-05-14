@@ -4,11 +4,9 @@
       <ProgressBar :active="listingSearchPending" />
       <Form />
       <SearchResults
-        :listingsLoaded="listings.length"
-        :availableListings="mapListings.length"
         @loadMoreListings="getMoreListings"
       >
-        <ListingCards :listings="listings" />
+        <ListingCards :listings="listingsFilteredByMapBounds" />
         <div class="listings-loading">
           <DotIndicator v-if="getMoreListingsPending" />
         </div>
@@ -22,7 +20,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 import { loadGoogle } from '@/lib/google'
 import ProgressBar from '@/components/ProgressBar'
 import Form from '@/containers/Form'
@@ -59,8 +57,16 @@ export default {
       'listings',
       'mapListings',
       'listingSearchPending',
-      'getMoreListingsPending'
-    ])
+      'getMoreListingsPending',
+    ]),
+
+    ...mapState('listingMap', [
+      'mapData'
+    ]),
+
+    ...mapGetters('listingSearch', [
+      'listingsFilteredByMapBounds',
+    ]),
   },
 
   async mounted() {
