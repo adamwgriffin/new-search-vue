@@ -1,6 +1,5 @@
 import difference from 'lodash/difference'
 import omit from 'lodash/omit'
-import orderBy from 'lodash/orderBy'
 import { propertyTypes } from '@/lib/constants/property_types'
 import { sortByEnum, sortByDistanceValues } from '@/lib/constants/search_param_constants'
 import { latLngBoundsLiteralToClass } from '@/lib/google_maps_utils'
