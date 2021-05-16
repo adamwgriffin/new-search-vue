@@ -59,8 +59,8 @@ label {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  width: 56px;
-  height: 48px;
+  width: 48px;
+  height: 40px;
   font-size: 14px;
   border-left: 1px solid #e7e7e7;
 }

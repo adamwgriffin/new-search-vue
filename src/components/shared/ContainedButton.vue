@@ -25,11 +25,11 @@ button {
   display: flex;
   align-items: center;
   cursor: pointer;
-  padding: 14px 16px;
   border: 1px solid rgb(204, 204, 204);
+  height: 40px;
   border-radius: 6px;
+  padding: 0 .8rem;
   background: #fefefe;
-  height: 48px;
   font-size: 14px;
   font-family: inherit;
   color: inherit;

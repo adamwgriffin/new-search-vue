@@ -68,7 +68,7 @@ export default {
   margin: 1px;
   border: 1px solid rgba(51, 51, 51, 0.38);
   border-radius: 6px;
-  padding: 10px;
+  padding: 0.438rem;
 }
 
 .text-field:focus-within {
