@@ -95,7 +95,7 @@ export default {
 
 <style scoped>
 .more-filters-container {
-  width: 56vw;
+  width: 55.4vw;
 }
 
 .more-filters-container > * {
