@@ -170,7 +170,6 @@ export default {
 @include icon.icon-core-styles;
 
 .mdc-text-field {
-  @include textfield.outline-color(lightgray);
   @include textfield.outline-color(rgb(204, 204, 204));
   @include textfield.hover-outline-color(silver);
   @include textfield.fill-color(#fefefe);
