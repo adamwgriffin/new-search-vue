@@ -76,6 +76,7 @@ input {
 }
 
 input[type=radio]:checked + label{
-  background: rgba(4, 87, 175, 0.24);
+  background: #5092d3;
+  color: white;
 }
 </style>

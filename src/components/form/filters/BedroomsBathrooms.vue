@@ -61,7 +61,6 @@ export default {
 </script>
 
 <style scoped>
-
 fieldset:first-child {
   margin-bottom: 1rem;
 }
