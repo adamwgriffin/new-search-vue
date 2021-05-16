@@ -55,7 +55,7 @@ export default {
 #search-results-info {
   display: flex;
   justify-content: space-between;
-  padding: .8rem .3rem .1rem .2rem;
+  padding: .8rem;
 }
 
 .no-listings {

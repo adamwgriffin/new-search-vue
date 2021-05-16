@@ -32,5 +32,6 @@ export default {
 <style scoped>
 #progress-bar {
   height: 2px;
+  background: white;
 }
 </style>

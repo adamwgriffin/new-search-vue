@@ -137,12 +137,10 @@ export default {
 </script>
 
 <style scoped>
-form {
-  padding: .8rem;
-}
-
 .search-field-and-filters {
   display: flex;
+  background: white;
+  padding: .8rem;
 }
 
 .filters-container > * {
