@@ -7,12 +7,16 @@
     :class="menuOpenClasses"
     @click="handleClick"
   >
-    ▾
+    <ExpandMoreIcon />
   </span>
 </template>
 
 <script>
+import ExpandMoreIcon from '@/components/shared/ExpandMoreIcon'
+
 export default {
+  components: { ExpandMoreIcon },
+
   props: {
     open: {
       type: Boolean,
@@ -48,7 +52,7 @@ export default {
 
 <style scoped>
 .menu-open-icon {
-  display: inline-block;
+  display: flex;
   user-select: none;
   transform: rotate(0deg);
   transition: transform 150ms linear;

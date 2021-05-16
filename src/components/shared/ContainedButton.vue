@@ -22,9 +22,13 @@ export default {
 
 <style scoped>
 button {
+  display: flex;
+  align-items: center;
   cursor: pointer;
   border: none;
-  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.04), 0px 2px 2px rgba(0, 0, 0, 0.02), 0px 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.04),
+    0px 2px 2px rgba(0, 0, 0, 0.02),
+    0px 1px 3px rgba(0, 0, 0, 0.06);
   border-radius: 8px;
   padding: 14px 16px;
   background: #fefefe;

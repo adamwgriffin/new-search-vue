@@ -1,7 +1,7 @@
 <template>
   <div class="menu-button" v-click-outside="closeMenu">
     <ContainedButton @click="toggleMenu" :highlighted="open">
-      {{ label }} <MenuOpenIcon :open="open" />
+      <span class="label">{{ label }}</span> <MenuOpenIcon :open="open" />
     </ContainedButton>
     <div v-show="open" class="menu">
       <slot></slot>
@@ -60,5 +60,9 @@ export default {
   padding: 1rem;
   box-shadow: 0px 9px 12px rgba(0, 0, 0, 0.06), 0px 3px 16px rgba(0, 0, 0, 0.04), 0px 5px 6px rgba(0, 0, 0, 0.06);
   background: #fefefe;
+}
+
+.label {
+  margin-right: 0.3rem;
 }
 </style>
