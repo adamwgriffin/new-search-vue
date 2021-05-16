@@ -21,7 +21,7 @@ export default {
 
     color: {
       type: String,
-      default: '#333333'
+      default: '#212e35'
     }
   }
 }

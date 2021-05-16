@@ -35,6 +35,7 @@ button {
   height: 48px;
   font-size: 14px;
   font-family: inherit;
+  color: inherit;
 }
 
 button.highlighted {
