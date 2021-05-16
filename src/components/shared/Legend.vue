@@ -26,7 +26,7 @@ legend {
 
 .level-1 {
   font-weight: 700;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .level-2 {
