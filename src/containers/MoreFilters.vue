@@ -1,13 +1,15 @@
 <template>
-  <MenuButton label="Filters">
+  <MenuButton label="Filters" :theme="theme">
     <div class="more-filters-container">
-      <div class="row">
+      <div class="header">
         <ListingStatus :params="listingStatusParams" @change="setSearchParams($event)" />
         <OpenHouses :params="openHouseParams" @change="setSearchParams($event)" />
       </div>
-      <PropertyTypes :params="propertyTypeParams" @change="setSearchParams($event)" :propertyTypes="propertyTypes" />
-      <PropertyInfo :params="propertyInfoParams" @change="setSearchParams($event)" />
-      <Features :params="featuresParams" @change="setSearchParams($event)" />
+      <div class="main-content">
+        <PropertyTypes :params="propertyTypeParams" @change="setSearchParams($event)" :propertyTypes="propertyTypes" />
+        <PropertyInfo :params="propertyInfoParams" @change="setSearchParams($event)" />
+        <Features :params="featuresParams" @change="setSearchParams($event)" />
+      </div>
     </div>
   </MenuButton>
 </template>
@@ -37,6 +39,10 @@ export default {
     ...mapGetters('listingSearch', [
       'moreFiltersParams'
     ]),
+
+    theme() {
+      return { '--menu-button-padding': '0' }
+    },
 
     listingStatusParams() {
       return pick(this.moreFiltersParams, ['status', 'ex_pend', 'ex_cs', 'sold_days'])
@@ -95,19 +101,28 @@ export default {
 
 <style scoped>
 .more-filters-container {
-  width: 55.4vw;
+  width: 58vw;
 }
 
-.more-filters-container > * {
+.header {
+  background: #f6f6f6;
+}
+
+.header,
+.main-content {
+  padding: 1rem;
+}
+
+.main-content > * {
   margin-bottom: .5rem;
 }
 
 @media (min-width: 1025px) {
-  .row {
+  .header {
     display: flex;
   }
 
-  .row > *:last-child {
+  .header > *:last-child {
     margin-left: 10rem;
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-button" v-click-outside="closeMenu">
+  <div class="menu-button" v-click-outside="closeMenu" :style="theme">
     <ContainedButton @click="toggleMenu" :highlighted="open">
       <span class="label">{{ label }}</span> <MenuOpenIcon :open="open" />
     </ContainedButton>
@@ -22,6 +22,10 @@ export default {
   props: {
     label: {
       type: String
+    },
+
+    theme: {
+      type: Object
     }
   },
 
@@ -48,6 +52,7 @@ export default {
 .menu-button {
   position: relative;
   display: inline-block;
+  --menu-button-padding: 1rem;
 }
 
 .menu {
@@ -57,7 +62,7 @@ export default {
   min-width: 8rem;
   border-radius: 6px;
   margin-top: 3px;
-  padding: 1rem;
+  padding: var(--menu-button-padding);
   box-shadow: 0px 9px 12px rgba(0, 0, 0, 0.06), 0px 3px 16px rgba(0, 0, 0, 0.04), 0px 5px 6px rgba(0, 0, 0, 0.06);
   background: #fefefe;
 }
