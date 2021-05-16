@@ -78,8 +78,8 @@ label {
 }
 
 input:checked + label {
-  background: #0773f8;
-  border: #0773f8;
+  background: #5092d3;
+  border: #5092d3;
   color: white;
 }
 
