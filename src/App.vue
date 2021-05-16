@@ -41,6 +41,6 @@ html, body {
   height: 100%;
   font-family: "Open Sans", Hevetica, Verdana, Arial, sans-serif;
   font-size: 14px;
-  color: #333333;
+  color: #212e35;
 }
 </style>
