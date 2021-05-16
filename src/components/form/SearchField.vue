@@ -173,7 +173,7 @@ export default {
   @include textfield.outline-color(rgb(204, 204, 204));
   @include textfield.hover-outline-color(silver);
   @include textfield.fill-color(#fefefe);
-  @include textfield.outline-shape-radius(8px);
+  @include textfield.outline-shape-radius(6px);
   flex-grow: 1;
 }
 
