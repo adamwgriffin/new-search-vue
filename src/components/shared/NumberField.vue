@@ -21,7 +21,7 @@ export default {
 input {
   border-radius: 6px;
   margin: 1px;
-  border: 1px solid rgba(51, 51, 51, 0.38);
+  border: 1px solid #cccccc;
   padding: 11px 16px;
 }
 

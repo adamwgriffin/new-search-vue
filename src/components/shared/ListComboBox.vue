@@ -164,7 +164,7 @@ export default {
   display: flex;
   border-radius: 6px;
   margin: 1px;
-  border: 1px solid rgba(51, 51, 51, 0.38);
+  border: 1px solid #cccccc;
   padding: 9.6px 16px;
 }
 

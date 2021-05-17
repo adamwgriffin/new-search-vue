@@ -171,7 +171,7 @@ export default {
 
 .mdc-text-field {
   @include textfield.outlined-with-leading-icon-height(40px);
-  @include textfield.outline-color(rgb(204, 204, 204));
+  @include textfield.outline-color(#cccccc);
   @include textfield.hover-outline-color(silver);
   @include textfield.fill-color(#fefefe);
   @include textfield.outline-shape-radius(6px);

@@ -44,7 +44,7 @@ export default {
 select {
   appearance: none;
   border-radius: 6px;
-  border: 1px solid rgb(204, 204, 204);
+  border: 1px solid #cccccc;
   padding: 3px 24px 3px 6px;
   background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
   background-repeat: no-repeat;
