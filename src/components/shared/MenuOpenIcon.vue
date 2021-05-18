@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import ExpandMoreIcon from '@/components/shared/ExpandMoreIcon'
+import ExpandMoreIcon from '@/components/shared/icons/ExpandMoreIcon'
 
 export default {
   components: { ExpandMoreIcon },
