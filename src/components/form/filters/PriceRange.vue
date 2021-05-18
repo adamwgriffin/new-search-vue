@@ -1,5 +1,5 @@
 <template>
-  <MenuButton label="Price range">
+  <MenuButton :label="$t('price_range.heading')">
     <div class="price-range-menu">
       <div class="min-price">
         <TextField @input="updateValue('pricemin', $event)" :value="value.pricemin" :placeholder="$t('no_min')">

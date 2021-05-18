@@ -270,7 +270,7 @@
     "730": "Sold last 2 years"
   },
   "price_range": {
-    "heading": "Price Range",
+    "heading": "Price",
     "banner_label": {
       "min": "Minimum Price",
       "max": "Maximum Price"
