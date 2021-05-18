@@ -22,8 +22,8 @@
         @focus="openDropdown"
         @keyup.space="openDropdown"
         @keydown.tab="closeDropdown"
-        @keydown.down.stop="moveDown"
         @keydown.up.stop="moveUp"
+        @keydown.down.stop="moveDown"
         @keyup.esc.stop="closeDropdown"
         @keyup.enter.stop="closeDropdown"
       />
