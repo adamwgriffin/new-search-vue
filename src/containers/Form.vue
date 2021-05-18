@@ -1,12 +1,12 @@
 <template>
-  <form autocomplete="off" @submit.prevent="">
+  <form id="search-form" autocomplete="off" @submit.prevent="">
     <div class="search-field-and-filters">
       <SearchField
-        :locationSearchField="location_search_field"
-        :autocompleteOptions="autocompleteOptions"
-        :bounds="mapBounds"
-        @inputChanged="setLocationSearchField"
-        @autocompletePlaceChanged="handleAutocompletePlaceChanged"
+        :value="location_search_field"
+        :options="autcompletePlacePredictions"
+        :placeholder="$t('location_placeholder.websites')"
+        @input="handleSearchFieldInput"
+        @optionSelected="handleOptionSelected"
         @searchButtonClicked="handleSearchButtonClicked"
       />
       <Filters>
@@ -35,8 +35,8 @@
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { autocompleteOptions } from '@/config/google'
-import SearchField from '@/components/form/SearchField'
 import Filters from '@/components/form/filters/Filters'
+import SearchField from '@/components/form/SearchField'
 import PriceRange from '@/components/form/filters/PriceRange'
 import BedroomsBathrooms from '@/components/form/filters/BedroomsBathrooms'
 import MoreFilters from '@/containers/MoreFilters'
@@ -57,6 +57,7 @@ export default {
       'buffer_miles',
       'geocoderResult',
       'mapBounds',
+      'autcompletePlacePredictions',
     ]),
 
     ...mapGetters('listingMap', [
@@ -82,11 +83,14 @@ export default {
 
     searchResultsInfoParams() {
       return { sort_by: this.searchParams.sort_by }
-    }
+    },
   },
 
   methods: {
-    ...mapMutations('listingMap', ['setGeocoderResult']),
+    ...mapMutations('listingMap', [
+      'setGeocoderResult',
+      'setAutcompletePlacePredictions'
+    ]),
 
     ...mapMutations('listingSearch', [
       'setLocationSearchField',
@@ -96,20 +100,23 @@ export default {
 
     ...mapActions('listingSearch', ['searchListings']),
 
-    ...mapActions('listingMap', ['geocodeMap', 'getGeoLayer']),
+    ...mapActions('listingMap', [
+      'geocodeMap',
+      'getGeoLayer',
+      'getPlaceAutocompletePredictions',
+      'getPlaceAutocompletePlaceDetails',
+    ]),
 
-    async handleAutocompletePlaceChanged(e) {
-      this.setLocationSearchField(e.locationSearchField)
+    async handleSearchFieldInput(e) {
+      this.setLocationSearchField(e)
+      this.setAutcompletePlacePredictions([]);
+      this.getPlaceAutocompletePredictions(e)
+    },
+
+    async handleOptionSelected(e) {
+      this.setLocationSearchField(e.description)
       this.resetListings()
-      /* if the dropdown is open, but the user searches without selecting an option, the "place_changed" event can still
-      be triggered, but it will not have a geometry. it will only have a "name" property with the current value of the
-      input field */
-      const { address_components, geometry } = e.autocompletePlace
-      if (address_components && geometry) {
-        this.setGeocoderResult({ types: address_components[0].types, geometry })
-      } else {
-        await this.geocodeMap({ address: this.location_search_field })
-      }
+      await this.getPlaceAutocompletePlaceDetails(e.place_id)
       this.searchListings(this.searchParamsForListingService)
       this.getGeoLayer({
         center_lat: this.geocoderResult.location.lat,

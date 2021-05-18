@@ -1,6 +1,35 @@
+import i18n from '@/plugins/i18n';
 import http from '@/lib/http'
 import { geocode, googleToServiceAddressTypeMapping } from '@/lib/geocode'
 import { convertGeojsonCoordinatesToPolygonPaths, getGeoLayerBounds } from '@/lib/polygon'
+import { autocompleteOptions } from '@/config/google'
+
+let autocompleteService = null
+
+export const getPlacePredictions = (request) => {
+  return new Promise((resolve, reject) => {
+    if (!autocompleteService) {
+      autocompleteService = new google.maps.places.AutocompleteService
+    }
+    autocompleteService.getPlacePredictions(request, (results, status) => {
+      status === 'OK' ? resolve({ results, status }) : reject(new Error(status))
+    })
+  })
+}
+
+let placesService = null
+
+export const getPlaceDetails = (request) => {
+  return new Promise((resolve, reject) => {
+    if (!placesService) {
+      placesService = new google.maps.places.PlacesService(window.MoxiMap)
+    }
+    placesService.getDetails(request, (results, status) => {
+      // console.log("getPlaceDetails(), results", results)
+      status === 'OK' ? resolve({ results, status }) : reject(new Error(status))
+    })
+  })
+}
 
 const initialState = () => {
   return {
@@ -25,6 +54,19 @@ const initialState = () => {
       location: null,
       viewport: null
     },
+    placeAutocompleteRequest: {
+      pending: false,
+      request: null,
+      results: null,
+      status: null,
+    },
+    autcompletePlacePredictions: [],
+    placeDetailsRequest: {
+      pending: false,
+      request: null,
+      results: null,
+      status: null,
+    },
     geoLayer: {
       pending: false,
       request: null,
@@ -40,6 +82,22 @@ const initialState = () => {
 export const getters = {
   geoLayerServiceUrl(state, getters, rootState, rootGetters) {
     return `${rootGetters.baseUrl}/listing/geo/layer/search`
+  },
+
+  placeAutocompleteParams(state) {
+    return {
+      types: ['geocode'],
+      bounds: state.mapData.bounds,
+      components: autocompleteOptions.componentRestrictions,
+      language: i18n.locale,
+    }
+  },
+
+  placeDetailsParams() {
+    return {
+      fields: ['address_component', 'geometry'],
+      language: i18n.locale,
+    }
   },
 
   // geotype getter for geolayer request to Listing Service. the name of the type returned by the google geocoder may 
@@ -112,7 +170,43 @@ export const mutations = {
 
   setGeoLayerCoordinates(state, geojson) {
     state.geoLayerCoordinates = convertGeojsonCoordinatesToPolygonPaths(geojson.coordinates)
-  }
+  },
+
+  setPlaceAutocompleteRequestPending(state) {
+    state.placeAutocompleteRequest = { ...initialState().placeAutocompleteRequest, pending: true }
+  },
+
+  setPlaceAutocompleteRequestSuccess(state, { results, status }) {
+    state.placeAutocompleteRequest.results = results
+    state.placeAutocompleteRequest.status = status
+    state.placeAutocompleteRequest.pending = false
+  },
+
+  setPlaceAutocompleteRequestFailure(state, error) {
+    state.placeAutocompleteRequest.error = error
+    state.placeAutocompleteRequest.status = error.status
+    state.placeAutocompleteRequest.pending = false
+  },
+
+  setAutcompletePlacePredictions(state, predictions) {
+    state.autcompletePlacePredictions = predictions
+  },
+
+  setPlaceDetailsRequestPending(state) {
+    state.placeDetailsRequest = { ...initialState().placeDetailsRequest, pending: true }
+  },
+
+  setPlaceDetailsRequestSuccess(state, { results, status }) {
+    state.placeDetailsRequest.results = results
+    state.placeDetailsRequest.status = status
+    state.placeDetailsRequest.pending = false
+  },
+
+  setPlaceDetailsRequestFailure(state, error) {
+    state.placeDetailsRequest.error = error
+    state.placeDetailsRequest.status = error.status
+    state.placeDetailsRequest.pending = false
+  },
 }
 
 export const actions = {
@@ -126,6 +220,46 @@ export const actions = {
       return res
     } catch (error) {
       commit('setGeocodeFailure', { request: payload, error: error, status: error.status })
+      return error
+    }
+  },
+
+  async getPlaceAutocompletePredictions({ commit, getters }, searchString) {
+    try {
+      commit('setPlaceAutocompleteRequestPending')
+      const params = { input: searchString, ...getters.placeAutocompleteParams }
+      const res = await getPlacePredictions(params)
+      // console.log("getPlaceAutocompletePredictions res:", res)
+      if (res.status === 'OK') {
+        commit('setPlaceAutocompleteRequestSuccess', { request: params, results: res.results, status: res.status })
+        commit('setAutcompletePlacePredictions', res.results)
+      } else {
+        commit('setPlaceAutocompleteRequestFailure', { error: res.error_message, status: res.status } )
+      }
+      return res.results
+    } catch (error) {
+      commit('setPlaceAutocompleteRequestFailure', { error, status: error.status })
+      return error
+    }
+  },
+
+  async getPlaceAutocompletePlaceDetails({ commit, getters }, placeId) {
+    try {
+      commit('setPlaceDetailsRequestPending')
+      const res = await getPlaceDetails({ placeId, ...getters.placeDetailsParams })
+      // console.log("getPlaceAutocompletePlaceDetails res:", res)
+      if (res.status === 'OK') {
+        commit('setPlaceDetailsRequestSuccess', { request: placeId, results: res.results, status: res.status })
+        // need to make the data the same as what comes from geocoder results so it matches what setGeocoderResult
+        // expects  
+        const { address_components, geometry } = res.results
+        commit('setGeocoderResult', { types: address_components[0].types, geometry })
+      } else {
+        commit('setPlaceDetailsRequestFailure', { error: res.error_message, status: res.status } )
+      }
+      return res.results
+    } catch (error) {
+      commit('setPlaceDetailsRequestFailure', { error, status: error.status })
       return error
     }
   },

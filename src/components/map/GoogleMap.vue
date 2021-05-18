@@ -44,6 +44,7 @@ export default {
 
   mounted() {
     this.map = new google.maps.Map(this.$el, this.mapOptions)
+    window.MoxiMap = this.map
     this.createEventListeners()
   },
 

@@ -1,186 +1,243 @@
 <template>
-  <label
+  <div
     id="search-field"
-    class="mdc-text-field 
-      mdc-text-field--outlined 
-      mdc-text-field--no-label 
-      mdc-text-field--with-leading-icon"
+    class="combobox-wrapper"
+    :class="searchFieldClasses"
+    v-click-outside="closeDropdown"
   >
-    <span class="mdc-notched-outline">
-      <span class="mdc-notched-outline__leading"></span>
-      <span class="mdc-notched-outline__trailing"></span>
-    </span>
-    <button
-      id="submit-button"
-      class="mdc-text-field__icon mdc-text-field__icon--leading"
-      type="submit"
-      form="search-form"
-      value="Submit"
-      tabindex="0"
-      @click="handSearchButtonClicked"
-      title="Apply search"
-    >
-      <i class="material-icons" aria-hidden="true">search</i>
-    </button>
-    <input
-      type="text"
-      id="location-search-field"
-      class="mdc-text-field__input"
-      name="location_search_field"
-      aria-labelledby="label"
-      ref="locationSearchField"
-      :value="locationSearchField"
-      @input="handleLocationInput"
-      @keydown.enter="handleEnter"
-      :placeholder="$t('location_placeholder.websites')"
-    >
-    <i
-      v-show="locationSearchField"
-      class="material-icons mdc-text-field__icon mdc-text-field__icon--trailing"
-      tabindex="0"
-      role="button"
-      @click="clearForm"
-      title="Clear field"
-    >
-      clear
-    </i>
-  </label>
+    <div class="search-field-elements">
+      <div
+        class="combobox-input"
+        role="combobox"
+        :aria-expanded="open"
+        :aria-owns="ariaListboxId"
+        aria-haspopup="listbox"
+      >
+        <input
+          id="location-search-field"
+          name="location-search-field"
+          aria-label="Location Search"
+          aria-autocomplete="list"
+          :aria-controls="ariaListboxId"
+          :aria-activedescendant="activeDescendant"
+          :placeholder="placeholder"
+          :value="value"
+          type="text"
+          @input="handleInput($event.target.value)"
+          @focus="handleFocus"
+          @blur="handleBlur"
+          @keydown.tab="closeDropdown"
+          @keydown.up.stop="moveUp"
+          @keydown.down.stop="moveDown"
+          @keyup.esc.stop="closeDropdown"
+          @keyup.enter.stop="handleEnter"
+        />
+        <DriveTimeButton @click="openDriveTimeMenu" />
+      </div>
+      <SearchButton @click="handSearchButtonClicked" />
+    </div>
+    <ul v-show="open" class="menu" role="listbox" tabindex="-1">
+      <li
+        v-for="(option, index) in options"
+        role="option"
+        :id="`${ariaListboxId}-list-item-${index}`"
+        :key="option.place_id"
+        class="menu-item"
+        :class="{ active: activeDescendantKey === index }"
+        @click.stop="handleMenuItemClick(option)"
+      >
+        {{ option.description }}
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import { MDCTextField } from '@material/textfield'
+  import { ClickOutside } from '@/directives/ClickOutsideDirective'
+  import uniqueId from 'lodash/uniqueId'
+  import SearchButton from '@/components/form/SearchButton'
+  import DriveTimeButton from '@/components/form/DriveTimeButton'
 
-export default {
-  props: {
-    locationSearchField: {
-      type: String,
+  export default {
+    directives: { ClickOutside },
+
+    components: { DriveTimeButton, SearchButton, },
+
+    props: {
+      value: {
+        type: String,
+        default: null
+      },
+      
+      placeholder: {
+        type: String
+      },
+
+      options: {
+        type: Array,
+        required: true,
+        default: () => []
+      },
     },
 
-    autocompleteOptions: {
-      type: Object
+    data () {
+      return {
+        open: false,
+        inputHasFocus: false,
+        ariaListboxId: null,
+        activeDescendantKey: -1,
+      }
     },
 
-    bounds: {
-      type: Object
-    }
-  },
+    created() {
+      this.ariaListboxId = uniqueId('listbox-')
+    },
 
-  data() {
-    return {
-      textField: null,
-      icon: null,
-      autocomplete: null,
-      autocompletePlace: null,
-      autocompleteListener: null
-    }
-  },
+    watch: {
+      options() {
+        this.options.length ? this.openDropdown() : this.closeDropdown()
+      },
+    },
 
-  mounted() {
-    this.textField = new MDCTextField(this.$el)
-    this.initAutoComplete()
-  },
+    computed: {
+      searchFieldClasses() {
+        return { 'input-has-focus': this.inputHasFocus }
+      },
 
-  destroyed() {
-    this.autocompleteListener?.remove()
-  },
+      activeDescendant() {
+        return this.activeDescendantKey > -1 ?
+          `${this.ariaListboxId}-list-item-${this.activeDescendantKey}` : ''
+      },
+    },
 
-  watch: {
-    bounds(newBounds) {
-      // sets the preferred area within which to return place results. results are biased towards, but not restricted
-      // to, this area. we are passing the mapBounds for the bounds to bias results to the map viewport
-      this.autocomplete.setBounds(newBounds)
-    }
-  },
+    methods: {
+      openDropdown() {
+        this.open = true
+      },
 
-  methods: {
-    
-    handlePlaceChanged() {
-      this.autocompletePlace = this.autocomplete.getPlace()
-      this.$emit(
-        'autocompletePlaceChanged',
-        {
-          autocompletePlace: this.autocompletePlace,
-          locationSearchField: this.$refs.locationSearchField.value
+      closeDropdown() {
+        this.open = false
+      },
+
+      moveDown() {
+        this.openDropdown()
+        if (this.activeDescendantKey < this.options.length - 1) {
+          this.activeDescendantKey++
         }
-      )
+      },
+
+      moveUp() {
+        this.openDropdown();
+        if (this.activeDescendantKey > 0) {
+          this.activeDescendantKey--
+        }
+      },
+
+      handleFocus() {
+        this.inputHasFocus = true
+        this.options.length && this.openDropdown()
+      },
+
+      handleBlur() {
+        this.inputHasFocus = false
+      },
+
+      handleMenuItemClick(option) {
+        this.$emit('optionSelected', option)
+        this.closeDropdown()
+      },
+
+      handleEnter() {
+        this.$emit('optionSelected', this.options[this.activeDescendantKey])
+        this.closeDropdown()
+        this.activeDescendantKey = -1
+      },
+
+      handleInput(value) {
+        this.$emit('input', value)
+      },
+
+      handSearchButtonClicked(e) {
+        this.$emit('searchButtonClicked')
+        this.closeDropdown()
+      },
+
+      openDriveTimeMenu() {},
     },
-
-    /* if any of the dom nodes for .pac-container are visible, it means that the dropdown is open. there seems to be no
-    way to check this programmatically with the api, so we are forced to resort to this instead. this solution is based
-    on: https://stackoverflow.com/a/33357188/1536368 */
-    autocompleteDropdownOpen() {
-      return Array.from(document.getElementsByClassName('pac-container'))
-        .some(node => node.offsetParent !== null)
-    },
-
-    /* if the user selects an autocomplete dropdown item with the keyboard using the enter key, it will submit the form,
-    as well as cause the autocomplete to trigger a "place_changed" event. this causes the the autocomplete value that
-    was selected, as well as the partial text that was typed into the input, to be searched one after the other. */
-
-    handleEnter(e) {
-      /* if you open the dropdown with the arrow keys, select a value with the keyboard, then close the dropdown with
-      the escape key, you can get some weird behavior after hitting enter. for some reason it will trigger the search
-      button's click hander. location_search_field will not be updated yet in the store, so it will not search the value
-      that was entered into the field. calling inputChanged makes sure that location_search_field gets updated with the
-      latest value in the input. */
-      this.$emit('inputChanged', e.target.value)
-      /* calling preventDefault() stops the form submission event, so that only the "place_changed" event triggers the
-      search. we don't want the form submission event in this scenario because calling autocomplete.getPlace() will give
-      us the geometry for the selection so we don't have to look it up later. in some situations the dropdown may be
-      open but nothing will have been selected when the enter event is triggered. in that case there will be no geometry
-      returned from autocomplete.getPlace(), which we deal with in our "autocompletePlaceChanged" handler that actually
-      does the search */
-      if (this.autocompleteDropdownOpen()) e.preventDefault()
-    },
-
-    initAutoComplete() {
-      this.autocomplete = new google.maps.places.Autocomplete(this.$refs.locationSearchField, this.autocompleteOptions)
-      this.autocompleteListener = this.autocomplete.addListener('place_changed', this.handlePlaceChanged)
-    },
-
-    handleLocationInput(e) {
-      this.$emit('inputChanged', e.target.value)
-    },
-
-    async clearForm() {
-      this.$emit('inputChanged', '')
-      // we have to wait for this component to re-render with the new '' value for locationSearchField we just emitted.
-      // otherwise when we call focus the dropdown will open with results for the value we just cleared. 
-      await this.$nextTick()
-      this.$refs.locationSearchField.focus()
-    },
-
-    handSearchButtonClicked(e) {
-      this.$emit('searchButtonClicked')
-    } 
   }
-}
 </script>
 
-<style lang="scss" scoped>
-@use "@material/theme" with (
-  $primary: blue
-);
-@use "@material/line-ripple/mdc-line-ripple";
-@use "@material/notched-outline/mdc-notched-outline";
-@use "@material/textfield";
-@use "@material/textfield/icon";
+<style scoped>
+  .combobox-wrapper {
+    flex-grow: 1;
+    position: relative;
+  }
 
-@include textfield.core-styles;
-@include icon.icon-core-styles;
+  .search-field-elements {
+    display: flex;
+    width: 100%;
+  }
 
-.mdc-text-field {
-  @include textfield.outlined-with-leading-icon-height(40px);
-  @include textfield.outline-color(#cccccc);
-  @include textfield.hover-outline-color(silver);
-  @include textfield.fill-color(#fefefe);
-  @include textfield.outline-shape-radius(6px);
-  flex-grow: 1;
-}
+  .combobox-input,
+  input {
+    background: #f6f6f6;
+  }
 
-#submit-button {
-  border: none;
-  background: none;
-  padding: 0;
-}
+  .combobox-input {
+    flex-grow: 1;
+    display: flex;
+    border-radius: 6px 0 0 6px;
+    /* the margin stops content from moving around when focus ring is active */
+    padding: 1px;
+    border-top: 1px solid #cccccc;
+    border-left: 1px solid #cccccc; 
+    border-bottom: 1px solid #cccccc;
+  }
+
+  .input-has-focus .combobox-input {
+    padding: 0;
+    border: 2px solid #0773f8;
+  }
+
+  .input-has-focus #drive-time-menu-button {
+    /* stops the focus ring border from moving the drive time button */
+    margin-right: 1px;
+  }
+
+  input {
+    /* need to set width: 100% otherwise input will not shrink in flex container */
+    width: 100%;
+    border: none;
+    padding-left: 10px;
+    font-size: 16px;
+    font-family: inherit;
+    color: inherit;
+    height: 36px;
+    border-radius: 6px 0 0 6px;
+  }
+
+  input:focus { outline: none; }
+
+  .menu {
+    position: absolute;
+    z-index: 1;
+    overflow-x: hidden;
+    list-style: none;
+    background-color: white;
+    width: 100%;
+    max-height: 250px;
+    box-shadow: 0px 3px 3px 0 rgba(0, 0, 0, 0.4);
+    margin: 0;
+    padding: 8px 0;
+  }
+
+  .menu-item {
+    padding: 8px 14px;
+    cursor: pointer;
+  }
+
+  .menu-item:hover,
+  .menu-item.active {
+    background-color: #f6f6f6;
+  }
 </style>
