@@ -8,8 +8,8 @@ export const mapLoaderOptions = {
 // default options for the map itself, such as what UI controls to enable, etc.
 export const mapOptions = {
   center: {
-    lat: 39.14,
-    lng: -98.1,
+    lat: 47.6847,
+    lng: -122.3848,
   },
   zoom: 11,
   zoomControl: true,
