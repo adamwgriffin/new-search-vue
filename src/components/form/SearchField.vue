@@ -46,7 +46,7 @@
         :class="{ active: activeDescendantKey === index }"
         @click.stop="handleMenuItemClick(option)"
       >
-        {{ option.description }}
+        <PlacesPredictionText :prediction="option" />
       </li>
     </ul>
   </div>
@@ -57,11 +57,16 @@
   import uniqueId from 'lodash/uniqueId'
   import SearchButton from '@/components/form/SearchButton'
   import DriveTimeButton from '@/components/form/DriveTimeButton'
+  import PlacesPredictionText from '@/components/shared/PlacesPredictionText'
 
   export default {
     directives: { ClickOutside },
 
-    components: { DriveTimeButton, SearchButton, },
+    components: {
+      DriveTimeButton,
+      SearchButton,
+      PlacesPredictionText,
+    },
 
     props: {
       value: {
