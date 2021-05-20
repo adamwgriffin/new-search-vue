@@ -87,7 +87,6 @@ export const getters = {
   placeAutocompleteParams(state) {
     return {
       types: ['geocode'],
-      bounds: state.mapData.bounds,
       components: autocompleteOptions.componentRestrictions,
       language: i18n.locale,
     }
