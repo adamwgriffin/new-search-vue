@@ -141,8 +141,9 @@
         }
       },
 
-      handleFocus() {
+      handleFocus(e) {
         this.inputHasFocus = true
+        e.target.select()
         this.options.length && this.openDropdown()
       },
 
