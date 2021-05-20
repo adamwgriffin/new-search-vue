@@ -25,7 +25,6 @@ export const getPlaceDetails = (request) => {
       placesService = new google.maps.places.PlacesService(window.MoxiMap)
     }
     placesService.getDetails(request, (results, status) => {
-      // console.log("getPlaceDetails(), results", results)
       status === 'OK' ? resolve({ results, status }) : reject(new Error(status))
     })
   })
@@ -228,7 +227,6 @@ export const actions = {
       commit('setPlaceAutocompleteRequestPending')
       const params = { input: searchString, ...getters.placeAutocompleteParams }
       const res = await getPlacePredictions(params)
-      // console.log("getPlaceAutocompletePredictions res:", res)
       if (res.status === 'OK') {
         commit('setPlaceAutocompleteRequestSuccess', { request: params, results: res.results, status: res.status })
         commit('setAutcompletePlacePredictions', res.results)
@@ -246,7 +244,6 @@ export const actions = {
     try {
       commit('setPlaceDetailsRequestPending')
       const res = await getPlaceDetails({ placeId, ...getters.placeDetailsParams })
-      // console.log("getPlaceAutocompletePlaceDetails res:", res)
       if (res.status === 'OK') {
         commit('setPlaceDetailsRequestSuccess', { request: placeId, results: res.results, status: res.status })
         // need to make the data the same as what comes from geocoder results so it matches what setGeocoderResult
