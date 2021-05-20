@@ -46,6 +46,7 @@
         :class="{ active: activeDescendantKey === index }"
         @click.stop="handleMenuItemClick(option)"
       >
+        <LocationPinFilledIcon />
         <PlacesPredictionText :prediction="option" />
       </li>
     </ul>
@@ -57,6 +58,7 @@
   import uniqueId from 'lodash/uniqueId'
   import SearchButton from '@/components/form/SearchButton'
   import DriveTimeButton from '@/components/form/DriveTimeButton'
+  import LocationPinFilledIcon from '@/components/shared/icons/LocationPinFilledIcon'
   import PlacesPredictionText from '@/components/shared/PlacesPredictionText'
 
   export default {
@@ -65,6 +67,7 @@
     components: {
       DriveTimeButton,
       SearchButton,
+      LocationPinFilledIcon,
       PlacesPredictionText,
     },
 
@@ -237,12 +240,18 @@
   }
 
   .menu-item {
-    padding: 8px 14px;
+    display: flex;
+    align-items: flex-start;
+    padding: 8px;
     cursor: pointer;
   }
 
   .menu-item:hover,
   .menu-item.active {
     background-color: #f6f6f6;
+  }
+
+  .location-pin-filled-icon {
+    margin-right: .3rem;
   }
 </style>
