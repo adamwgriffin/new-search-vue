@@ -103,7 +103,7 @@
 
     watch: {
       options() {
-        this.open = this.options.length
+        this.options.length ? this.openDropdown() : this.closeDropdown()
       },
     },
 
