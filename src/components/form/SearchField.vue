@@ -101,7 +101,7 @@
     },
 
     created() {
-      this.ariaListboxId = uniqueId('listbox-')
+      this.ariaListboxId = uniqueId('search-listbox-')
     },
 
     watch: {
