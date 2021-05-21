@@ -7,7 +7,7 @@
         :placeholder="$t('location_placeholder.websites')"
         @input="handleSearchFieldInput"
         @optionSelected="handleOptionSelected"
-        @searchButtonClicked="handleSearchButtonClicked"
+        @searchInitiated="handleSearchInitiated"
       />
       <Filters>
         <div class="filters-container">
@@ -109,8 +109,7 @@ export default {
 
     async handleSearchFieldInput(e) {
       this.setLocationSearchField(e)
-      this.setAutcompletePlacePredictions([]);
-      if (e) this.getPlaceAutocompletePredictions(e)
+      e ? this.getPlaceAutocompletePredictions(e) : this.setAutcompletePlacePredictions([])
     },
 
     async handleOptionSelected(e) {
@@ -127,7 +126,7 @@ export default {
       })
     },
 
-    async handleSearchButtonClicked() {
+    async handleSearchInitiated() {
       this.resetListings()
       await this.geocodeMap({ address: this.location_search_field })
       this.searchListings(this.searchParamsForListingService)

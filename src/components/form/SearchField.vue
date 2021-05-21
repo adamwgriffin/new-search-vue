@@ -29,20 +29,20 @@
           @keydown.tab="closeDropdown"
           @keydown.up.stop="moveUp"
           @keydown.down.stop="moveDown"
-          @keyup.esc.stop="closeDropdown"
+          @keyup.esc.stop="handleEscape"
           @keyup.enter.stop="handleEnter"
         />
         <DriveTimeButton @click="openDriveTimeMenu" />
       </div>
       <SearchButton @click="handSearchButtonClicked" />
     </div>
-    <ul v-show="open" class="menu" role="listbox" tabindex="-1">
+    <ul v-show="open" class="listbox-menu" role="listbox" tabindex="-1">
       <li
         v-for="(option, index) in options"
         role="option"
         :id="`${ariaListboxId}-list-item-${index}`"
         :key="option.place_id"
-        class="menu-item"
+        class="list-item"
         :class="{ active: activeDescendantKey === index }"
         @click.stop="handleMenuItemClick(option)"
       >
@@ -61,6 +61,9 @@
   import LocationPinFilledIcon from '@/components/shared/icons/LocationPinFilledIcon'
   import PlacesPredictionText from '@/components/shared/PlacesPredictionText'
 
+  // the input with dropdown menu part of this components is based on the w3c's guide for building an accessible
+  // combobox with listingox popup at:
+  // https://www.w3.org/TR/wai-aria-practices-1.1/examples/combobox/aria1.1pattern/listbox-combo.html
   export default {
     directives: { ClickOutside },
 
@@ -112,39 +115,50 @@
         return { 'input-has-focus': this.inputHasFocus }
       },
 
+      listItemSelected() {
+        return this.activeDescendantKey > -1 && this.activeDescendantKey < this.options.length
+      },
+
+      // this is used for the aria-activedescendant attribute. it identifies the currently selected item in the dropdown
+      // menu for accessibility purposes.
       activeDescendant() {
-        return this.activeDescendantKey > -1 ?
-          `${this.ariaListboxId}-list-item-${this.activeDescendantKey}` : ''
+        return this.listItemSelected ? `${this.ariaListboxId}-list-item-${this.activeDescendantKey}` : null
       },
     },
 
     methods: {
       openDropdown() {
-        this.open = true
+        if (!this.open) this.open = true
       },
 
       closeDropdown() {
-        this.open = false
-      },
-
-      moveDown() {
-        this.openDropdown()
-        if (this.activeDescendantKey < this.options.length - 1) {
-          this.activeDescendantKey++
-        }
+        if (this.open) this.open = false
       },
 
       moveUp() {
         this.openDropdown();
-        if (this.activeDescendantKey > 0) {
-          this.activeDescendantKey--
-        }
+        if (this.activeDescendantKey > -1) this.activeDescendantKey--
+      },
+
+      // activeDescendantKey is allowed to be incremented to values that are one step beyond the actual indexes of the
+      // this.options array. this allows the user to move the selection down past the last item with the arrow key,
+      // which causes notting to be selected, but then move the selection back up to select that last item again. this
+      // is how google's own autocomplete widget behaves, so I've mimicked that behavior with this.
+      moveDown() {
+        this.openDropdown()
+        if (this.activeDescendantKey < this.options.length) this.activeDescendantKey++
       },
 
       handleFocus(e) {
         this.inputHasFocus = true
         e.target.select()
-        this.options.length && this.openDropdown()
+        if (this.options.length) this.openDropdown()
+      },
+
+      handleEscape() {
+        this.closeDropdown()
+        this.deselectListItem()
+
       },
 
       handleBlur() {
@@ -157,18 +171,27 @@
       },
 
       handleEnter() {
-        this.$emit('optionSelected', this.options[this.activeDescendantKey])
-        this.closeDropdown()
-        this.activeDescendantKey = -1
+        if (this.listItemSelected) {
+          this.$emit('optionSelected', this.options[this.activeDescendantKey])
+          this.closeDropdown()
+          this.deselectListItem()
+        } else {
+          this.$emit('searchInitiated')
+          this.closeDropdown()
+        }
       },
 
       handleInput(value) {
         this.$emit('input', value)
       },
 
-      handSearchButtonClicked(e) {
-        this.$emit('searchButtonClicked')
+      handSearchButtonClicked() {
+        this.$emit('searchInitiated')
         this.closeDropdown()
+      },
+
+      deselectListItem() {
+        this.activeDescendantKey = -1
       },
 
       openDriveTimeMenu() {},
@@ -227,7 +250,7 @@
 
   input:focus { outline: none; }
 
-  .menu {
+  .listbox-menu {
     position: absolute;
     z-index: 1;
     overflow-x: hidden;
@@ -240,15 +263,15 @@
     padding: 8px 0;
   }
 
-  .menu-item {
+  .list-item {
     display: flex;
     align-items: flex-start;
     padding: 8px;
     cursor: pointer;
   }
 
-  .menu-item:hover,
-  .menu-item.active {
+  .list-item:hover,
+  .list-item.active {
     background-color: #f6f6f6;
   }
 
