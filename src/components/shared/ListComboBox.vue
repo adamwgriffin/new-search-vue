@@ -178,6 +178,9 @@ input {
   width: 100%;
   border: none;
   padding: 0;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 input:focus { outline: none; }

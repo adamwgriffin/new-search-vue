@@ -94,9 +94,9 @@ i {
 input {
   width: 10ch;
   border: none;
-  font-size: 14px;
   color: inherit;
   font-family: inherit;
+  font-size: inherit;
 }
 
 input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
