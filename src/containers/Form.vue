@@ -108,8 +108,10 @@ export default {
     ]),
 
     async handleSearchFieldInput(e) {
-      this.setLocationSearchField(e)
-      e ? this.getPlaceAutocompletePredictions(e) : this.setAutcompletePlacePredictions([])
+      this.setLocationSearchField(e.value)
+      if (e.getPredictions) {
+        e.value ? this.getPlaceAutocompletePredictions(e.value) : this.setAutcompletePlacePredictions([])
+      }
     },
 
     async handleOptionSelected(e) {

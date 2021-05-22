@@ -14,6 +14,7 @@
         aria-haspopup="listbox"
       >
         <input
+          ref="searchInput"
           id="location-search-field"
           name="location-search-field"
           aria-label="Location Search"
@@ -97,6 +98,7 @@
         inputHasFocus: false,
         ariaListboxId: null,
         activeDescendantKey: -1,
+        lastInputValue: null,
       }
     },
 
@@ -128,25 +130,44 @@
 
     methods: {
       openDropdown() {
-        if (!this.open) this.open = true
+        if (!this.open) {
+          this.open = true
+          this.lastInputValue = this.value
+        }
       },
 
       closeDropdown() {
-        if (this.open) this.open = false
+        if (this.open) {
+          this.open = false
+          this.deselectListItem()
+        }
+      },
+
+      // activeDescendantKey is allowed to be incremented to values that are one step beyond the actual indexes of the
+      // options array. this allows the user to move the selection down past the last item with the arrow key, which
+      // causes nothing to be selected, but then move the selection back up to select that last item again. or,
+      // alternatively, to move down once more to go back to the first item. this is how google's own autocomplete
+      // widget behaves.
+      moveDown() {
+        this.openDropdown()
+        if (this.activeDescendantKey < this.options.length) {
+          this.activeDescendantKey++
+          this.setInputAccordingToListItemSelection()
+        } else {
+          // if we are one past the last item in the menu, go back to the beginning, and select the first item again
+          this.activeDescendantKey = 0
+        }
       },
 
       moveUp() {
         this.openDropdown();
-        if (this.activeDescendantKey > -1) this.activeDescendantKey--
-      },
-
-      // activeDescendantKey is allowed to be incremented to values that are one step beyond the actual indexes of the
-      // this.options array. this allows the user to move the selection down past the last item with the arrow key,
-      // which causes notting to be selected, but then move the selection back up to select that last item again. this
-      // is how google's own autocomplete widget behaves, so I've mimicked that behavior with this.
-      moveDown() {
-        this.openDropdown()
-        if (this.activeDescendantKey < this.options.length) this.activeDescendantKey++
+        if (this.activeDescendantKey > -1) {
+          this.activeDescendantKey--
+          this.setInputAccordingToListItemSelection()
+        } else {
+          // if we are one past the first item in the menu, go down to the end, and select the last item again
+          this.activeDescendantKey = this.options.length-1
+        }
       },
 
       handleFocus(e) {
@@ -157,8 +178,7 @@
 
       handleEscape() {
         this.closeDropdown()
-        this.deselectListItem()
-
+        this.setInputBackToLastValue()
       },
 
       handleBlur() {
@@ -174,7 +194,6 @@
         if (this.listItemSelected) {
           this.$emit('optionSelected', this.options[this.activeDescendantKey])
           this.closeDropdown()
-          this.deselectListItem()
         } else {
           this.$emit('searchInitiated')
           this.closeDropdown()
@@ -182,7 +201,8 @@
       },
 
       handleInput(value) {
-        this.$emit('input', value)
+        this.$emit('input', { value, getPredictions: true })
+        this.lastInputValue = value
       },
 
       handSearchButtonClicked() {
@@ -192,6 +212,21 @@
 
       deselectListItem() {
         this.activeDescendantKey = -1
+      },
+
+      setInputToListItemSelection() {
+        this.$emit('input', { value: this.options[this.activeDescendantKey].description, getPredictions: false })
+      },
+
+      setInputBackToLastValue() {
+        this.$emit('input', { value: this.lastInputValue, getPredictions: false })
+      },
+
+      // if we select a list item with the keyboard, we want to set the input value to that list item. if the selection
+      // moved past the items in the list menu, which causes nothing to be selected, we want to set the input back to
+      // it's last value before we had made any selections.
+      setInputAccordingToListItemSelection() {
+        this.listItemSelected ? this.setInputToListItemSelection() : this.setInputBackToLastValue()
       },
 
       openDriveTimeMenu() {},
