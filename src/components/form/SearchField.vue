@@ -47,7 +47,7 @@
         :class="{ active: activeDescendantKey === index }"
         @click.stop="handleMenuItemClick(option)"
       >
-        <LocationPinFilledIcon />
+        <LocationPinFilledIcon :color="pinIconColor(activeDescendantKey === index)" />
         <PlacesPredictionText :prediction="option" />
       </li>
     </ul>
@@ -62,7 +62,7 @@
   import LocationPinFilledIcon from '@/components/shared/icons/LocationPinFilledIcon'
   import PlacesPredictionText from '@/components/shared/PlacesPredictionText'
 
-  // the input with dropdown menu part of this components is based on the w3c's guide for building an accessible
+  // the input with dropdown menu part of this component is based on the w3c's guide for building an accessible
   // combobox with listingox popup at:
   // https://www.w3.org/TR/wai-aria-practices-1.1/examples/combobox/aria1.1pattern/listbox-combo.html
   export default {
@@ -129,6 +129,10 @@
     },
 
     methods: {
+      pinIconColor(active) {
+        return active ? '#e96262' : '#999'
+      },
+
       deselectListItem() {
         this.activeDescendantKey = -1
       },
