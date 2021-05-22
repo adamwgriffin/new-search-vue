@@ -5,7 +5,9 @@
         :value="location_search_field"
         :options="autcompletePlacePredictions"
         :placeholder="$t('location_placeholder.websites')"
-        @input="handleSearchFieldInput"
+        @input="setLocationSearchField"
+        @getPlaceAutocompletePredictions="getPlaceAutocompletePredictions"
+        @clearPlaceAutocompletePredictions="handleClearPlaceAutocompletePredictions"
         @optionSelected="handleOptionSelected"
         @searchInitiated="handleSearchInitiated"
       />
@@ -107,13 +109,14 @@ export default {
       'getPlaceAutocompletePlaceDetails',
     ]),
 
-    async handleSearchFieldInput(e) {
-      this.setLocationSearchField(e.value)
-      if (e.getPredictions) {
-        e.value ? this.getPlaceAutocompletePredictions(e.value) : this.setAutcompletePlacePredictions([])
-      }
+    handleClearPlaceAutocompletePredictions() {
+      this.setAutcompletePlacePredictions([])
     },
 
+    // TODO: could maybe consolidate these into one handleSearchInitiated method that can optionally receive a place_id
+    // in it's event. if the place_id is present we call getPlaceAutocompletePlaceDetails to get geocode info, otherwise
+    // we call geocodeMap. setLocationSearchField could be handled by Search emitting an "input" event with the
+    // description instead of setting it here.
     async handleOptionSelected(e) {
       this.setLocationSearchField(e.description)
       this.resetListings()

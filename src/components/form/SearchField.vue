@@ -35,7 +35,7 @@
         />
         <DriveTimeButton @click="openDriveTimeMenu" />
       </div>
-      <SearchButton @click="handSearchButtonClicked" />
+      <SearchButton @click="initiateSearch" />
     </div>
     <ul v-show="open" class="listbox-menu" role="listbox" tabindex="-1">
       <li
@@ -129,6 +129,25 @@
     },
 
     methods: {
+      deselectListItem() {
+        this.activeDescendantKey = -1
+      },
+
+      setInputToListItemSelection() {
+        this.$emit('input', this.options[this.activeDescendantKey].description)
+      },
+
+      setInputBackToLastValue() {
+        this.$emit('input', this.lastInputValue)
+      },
+
+      // if we select a list item with the keyboard, we want to set the input value to that list item. if the selection
+      // moved past the items in the list menu, which causes nothing to be selected, we want to set the input back to
+      // it's last value before we had made any selections.
+      setInputAccordingToListItemSelection() {
+        this.listItemSelected ? this.setInputToListItemSelection() : this.setInputBackToLastValue()
+      },
+
       openDropdown() {
         if (!this.open) {
           this.open = true
@@ -170,6 +189,12 @@
         }
       },
 
+      initiateSearch() {
+        this.$emit('clearPlaceAutocompletePredictions')
+        this.$emit('searchInitiated')
+        this.closeDropdown()
+      },
+
       handleFocus(e) {
         this.inputHasFocus = true
         e.target.select()
@@ -187,46 +212,26 @@
 
       handleMenuItemClick(option) {
         this.$emit('optionSelected', option)
+        this.$emit('clearPlaceAutocompletePredictions')
         this.closeDropdown()
       },
 
       handleEnter() {
         if (this.listItemSelected) {
           this.$emit('optionSelected', this.options[this.activeDescendantKey])
+          this.$emit('clearPlaceAutocompletePredictions')
           this.closeDropdown()
         } else {
-          this.$emit('searchInitiated')
-          this.closeDropdown()
+          this.initiateSearch()
         }
       },
 
       handleInput(value) {
-        this.$emit('input', { value, getPredictions: true })
+        this.$emit('input', value)
+        value ?
+          this.$emit('getPlaceAutocompletePredictions', value) :
+          this.$emit('clearPlaceAutocompletePredictions')
         this.lastInputValue = value
-      },
-
-      handSearchButtonClicked() {
-        this.$emit('searchInitiated')
-        this.closeDropdown()
-      },
-
-      deselectListItem() {
-        this.activeDescendantKey = -1
-      },
-
-      setInputToListItemSelection() {
-        this.$emit('input', { value: this.options[this.activeDescendantKey].description, getPredictions: false })
-      },
-
-      setInputBackToLastValue() {
-        this.$emit('input', { value: this.lastInputValue, getPredictions: false })
-      },
-
-      // if we select a list item with the keyboard, we want to set the input value to that list item. if the selection
-      // moved past the items in the list menu, which causes nothing to be selected, we want to set the input back to
-      // it's last value before we had made any selections.
-      setInputAccordingToListItemSelection() {
-        this.listItemSelected ? this.setInputToListItemSelection() : this.setInputBackToLastValue()
       },
 
       openDriveTimeMenu() {},
