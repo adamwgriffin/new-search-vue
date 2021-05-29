@@ -1,56 +1,122 @@
 <template>
-  <MenuButton :label="$t('price_range.heading')">
-    <div class="price-range-menu">
-      <div class="min-price">
-        <TextField @input="updateValue('pricemin', $event)" :value="value.pricemin" :placeholder="$t('no_min')">
-          $
-        </TextField>
-      </div>
-      <div class="to">
+  <MenuButton :label="$t('price_range.heading')" :theme="theme">
+    <div class="price-range-row price-inputs-row">
+      <FormattedInput
+        :value="value.pricemin"
+        :formatFunc="formatNumber"
+        :unformatFunc="stripFormattingFromNumberString"
+        :placeholder="$t('no_min')"
+        @input="updateValue('pricemin', $event)"
+        @focus="handleFocus('pricemin')"
+      >
+      </FormattedInput>
+      <div class="min-max-separator">
         to
       </div>
-      <div class="max-price">
-        <TextField @input="updateValue('pricemax', $event)" :value="value.pricemax" :placeholder="$t('no_max')">
-          $
-        </TextField>
+      <FormattedInput
+        :value="value.pricemax"
+        :formatFunc="formatNumber"
+        :unformatFunc="stripFormattingFromNumberString"
+        :placeholder="$t('no_max')"
+        @input="updateValue('pricemax', $event)"
+        @focus="handleFocus('pricemax')"
+      >
+      </FormattedInput>
+    </div>
+    <div class="price-list-row">
+      <div class="price-list-container" :class="{ selected: priceInputSelected === 'pricemin' }">
+        <PriceRangeList @click="updateValue('pricemin', $event)" />
+      </div>
+      <div class="min-max-separator">&nbsp;</div>
+      <div class="price-list-container" :class="{ selected: priceInputSelected === 'pricemax' }">
+        <PriceRangeList @click="updateValue('pricemax', $event)" />
       </div>
     </div>
   </MenuButton>
 </template>
 
 <script>
+import { formatNumber, stripFormattingFromNumberString } from '@/lib/helpers/number_formatters'
 import MenuButton from '@/components/shared/MenuButton'
-import TextField from '@/components/shared/TextField'
+import FormattedInput from '@/components/shared/FormattedInput'
+import PriceRangeList from '@/components/form/filters/PriceRangeList'
 
 export default {
-  components: { MenuButton, TextField },
+  components: { MenuButton, FormattedInput, PriceRangeList },
 
   props: {
-    // this is the value that is passed to the component via v-model
     value: {
       type: Object,
       default: () => ({ pricemin: null, pricemax: null })
     }
   },
 
+  data() {
+    return {
+      priceInputSelected: 'pricemin'
+    }
+  },
+
+  computed: {
+    theme() {
+      return { '--menu-button-padding': '0' }
+    },
+  },
+
   methods: {
-    updateValue(property, e) {
-      // propagate the updated input back to the parent component using $emit. other components that are bound to the
-      // same model with v-model will get the change
-      this.$emit('input', { [property]: (+e || null) })
+    formatNumber,
+
+    stripFormattingFromNumberString,
+
+    updateValue(priceParam, value) {
+      const price = +value || null
+      this.$emit('input', { [priceParam]: price })
+    },
+
+    handleFocus(priceParam) {
+      this.priceInputSelected = priceParam
     }
   }
 }
 </script>
 
 <style scoped>
-.price-range-menu {
+.price-range-row {
   display: flex;
   align-items: center;
-  font-size: 14px;
 }
 
-.to {
+.price-inputs-row {
+  padding: 1rem 1rem .4rem 1rem;
+}
+
+input {
+  width: 14ch;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  padding: 11px 16px;
+}
+
+.min-max-separator {
   padding: 0 .6rem;
+}
+
+.price-list-row {
+  display: flex;
+  max-height: 250px;
+  overflow-y: auto;
+  margin: 0 0 1rem 1rem;
+}
+
+.price-list-container {
+  width: 100%;
+  visibility: hidden;
+  padding-left: .4rem;
+}
+.price-list-container.selected {
+  visibility: visible;
 }
 </style>
