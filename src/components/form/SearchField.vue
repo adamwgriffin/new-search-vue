@@ -304,13 +304,13 @@
     max-height: 250px;
     box-shadow: 0px 3px 3px 0 rgba(0, 0, 0, 0.4);
     margin: 0;
-    padding: 8px 0;
+    padding: 0;
   }
 
   .list-item {
     display: flex;
     align-items: flex-start;
-    padding: 8px;
+    padding: .6rem;
     cursor: pointer;
   }
 

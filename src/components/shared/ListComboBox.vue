@@ -199,7 +199,7 @@ ul {
 }
 
 li {
-  padding: 12px;
+  padding: .6rem;
   cursor: pointer;
 }
 
