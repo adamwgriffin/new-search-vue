@@ -11,7 +11,6 @@
     "@google/markerclustererplus": "^5.1.0",
     "@googlemaps/js-api-loader": "^1.11.1",
     "@googlemaps/markerclustererplus": "^1.1.0",
-    "@material/textfield": "^10.0.0",
     "axios": "^0.20.0",
     "axios-jsonp": "^1.0.4",
     "core-js": "^3.6.5",
@@ -28,9 +27,6 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "fibers": "^5.0.0",
-    "sass": "^1.32.7",
-    "sass-loader": "^10",
     "vue-reactive-provide": "^0.3.0",
     "vue-template-compiler": "^2.6.11"
   },
