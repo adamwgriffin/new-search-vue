@@ -2,7 +2,7 @@ import http from '@/lib/http'
 import omitBy from 'lodash/omitBy'
 import omit from 'lodash/omit'
 import pick from 'lodash/pick'
-import { WEBSITES_SEARCH_PARAMS } from '@/lib/constants/search_param_constants'
+import { websitesSearchParams, sortByDistanceValues } from '@/lib/constants/search_param_constants'
 import {
   getPropertyTypes,
   formatListingDataForMapListings,
@@ -22,7 +22,7 @@ const initialState = () => {
     // center_lon coordinates. those coordinates are all that's really necessary to send the service if you already have
     // them.
     location_search_field: '',
-    searchParams: WEBSITES_SEARCH_PARAMS,
+    searchParams: websitesSearchParams,
     dedupeRequest: {
       pending: false,
       status: null,

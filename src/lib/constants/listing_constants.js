@@ -1,4 +1,4 @@
-export const PROPERTY_STATUS_TYPES = {
+export const PROPERTY_STATUS_TYPES = Object.freeze({
   active: 1,
   pending: 2,
   coming_soon: 11,
@@ -10,6 +10,8 @@ export const PROPERTY_STATUS_TYPES = {
   other: 10,
   short_sale: 7,
   sold: 9
-}
+})
 
-export const PROPERTY_STATUS_TYPE_IDS = Object.values(PROPERTY_STATUS_TYPES).sort((a, b) => a - b)
+export const PROPERTY_STATUS_TYPE_IDS = Object.freeze(
+  Object.values(PROPERTY_STATUS_TYPES).sort((a, b) => a - b)
+)

@@ -1,4 +1,4 @@
-export const WEBSITES_SEARCH_PARAMS = {
+export const websitesSearchParams = Object.freeze({
   agent_uuid: 'f74a3f6d-aeda-4daa-835e-029386152405',
   pgsize: 20,
   pricemin: null,
@@ -32,9 +32,9 @@ export const WEBSITES_SEARCH_PARAMS = {
   has_pool: null,
   senior_community: null,
   sort_by: 1,
-}
+})
 
-export const sortByEnum = {
+export const sortByEnum = Object.freeze({
   baths_desc: 3,
   baths_asc: 4,
   beds_desc: 5,
@@ -53,9 +53,9 @@ export const sortByEnum = {
   total_lot_square_footage_asc: 16,
   sold_date_desc: 17,
   sold_date_asc: 18
-}
+})
 
-export const sortByDistanceValues = [
+export const sortByDistanceValues = Object.freeze([
   sortByEnum.distance_from_user_lat_lon_asc,
   sortByEnum.distance_from_user_lat_lon_desc
-]
+])

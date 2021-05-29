@@ -1,4 +1,4 @@
-export const propertyTypes = {
+export const propertyTypes = Object.freeze({
   residential: 1,
   condo: 2,
   co_op: 8,
@@ -8,4 +8,4 @@ export const propertyTypes = {
   farm_and_ranch: 5,
   multi_family: 7,
   rental: 6
-}
+})
