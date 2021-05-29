@@ -36,7 +36,6 @@
 
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
-import { autocompleteOptions } from '@/config/google'
 import Filters from '@/components/form/filters/Filters'
 import SearchField from '@/components/form/SearchField'
 import PriceRange from '@/components/form/filters/PriceRange'
@@ -78,10 +77,6 @@ export default {
       'priceRangeParams',
       'bedBathParams',
     ]),
-
-    autocompleteOptions() {
-      return { ...autocompleteOptions, bounds: this.apiResponseBounds }
-    },
 
     searchResultsInfoParams() {
       return { sort_by: this.searchParams.sort_by }
