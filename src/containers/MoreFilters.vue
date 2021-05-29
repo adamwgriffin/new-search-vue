@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import pick from 'lodash/pick'
 import MenuButton from '@/components/shared/MenuButton'
 import ListingStatus from '@/components/form/filters/ListingStatus'
