@@ -1,3 +1,6 @@
+import pick from 'lodash/pick'
+import { sortByEnum } from '@/lib/constants/search_param_constants'
+
 // range numbers for sqftOptionRanges & priceRangeNumbers represent: [start, end, increment by]. the end number is
 // exclusive, so we have to add 1
 export const sqftOptionRanges = [
@@ -17,16 +20,16 @@ export const lotSizeSqftOptions = [2000, 4500, 6500, 8000, 10890, 21780]
 
 export const lotSizeAcreOptions = [.25, .5, 1, 2, 3, 4, 5, 10, 40, 100]
 
-export const defaultSortOptions = {
-  price_desc: 1,
-  price_asc: 2,
-  listing_date_desc: 10,
-  listing_date_asc: 9,
-  beds_desc: 5,
-  beds_asc: 6,
-  baths_desc: 3,
-  baths_asc: 4,
-  total_square_footage_desc: 13,
-  total_square_footage_asc: 14,
-  distance_from_user_lat_lon_asc: 11,
-}
+export const defaultSortOptions = pick(sortByEnum, [
+  'price_desc',
+  'price_asc',
+  'listing_date_desc',
+  'listing_date_asc',
+  'beds_desc',
+  'beds_asc',
+  'baths_desc',
+  'baths_asc',
+  'total_square_footage_desc',
+  'total_square_footage_asc',
+  'distance_from_user_lat_lon_asc'
+])
