@@ -25,5 +25,6 @@ export default {
 <style scoped>
 .listing-count {
   font-size: 14px;
+  font-weight: 600;
 }
 </style>
