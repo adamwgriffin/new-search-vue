@@ -8,6 +8,7 @@ import {
   formatListingDataForMapListings,
   searchParamsForMapClusters,
   mapOrder,
+  modifyParam,
 } from '@/lib/helpers/search_params'
 
 // NOTE: Eventually we would want to compose things like state (searchParams), getters, mutations, etc. based on what
@@ -71,20 +72,34 @@ export const getters = {
   },
 
   centerLatLonParams(state, getters, rootState) {
-    const coords = rootState.listingMap.geocoderResult.location
-    return { center_lat: coords.lat, center_lon: coords.lng }
+    const { lat, lng } = rootState.listingMap.geocoderResult.location
+    return { center_lat: lat, center_lon: lng }
   },
 
-  searchParamsForListingService(state, getters, rootState, rootGetters) {
-    const params = {
+  // the docs for the listing service say that it expects user_lat & user_lon when sorting by distance. not sure why
+  // center_lat & center_lon wouldn't do instead because it seems like you would always want to set the distance to be
+  // based on the coords of the location your are searching on
+  userLatLon(state, getters, rootState) {
+    const { center_lat, center_lon} = getters.centerLatLonParams
+    return { user_lat: center_lat, user_lon: center_lon }
+  },
+
+  defaultSearchParams(state, getters, rootState, rootGetters) {
+    return {
       ...state.searchParams,
       ...getters.centerLatLonParams,
       geotype: rootGetters['listingMap/geotype']
     }
-    return omitBy(params, (value, param) => {
-      return (param === 'sold_days' && state.searchParams.status === 'active') || !value
-    }) 
   },
+
+  searchParamsForListingService(state, getters, rootState, rootGetters) {    
+    const params = Object.entries(getters.defaultSearchParams)
+      .reduce((modifiedParams, [param, value]) => {
+        return { ...modifiedParams, [param]: value, ...modifyParam[param]?.(...arguments) }
+      }, {})
+    return omitBy(params, (value, param) => !value)  
+  },
+
 
   priceRangeParams(state) {
     return pick(state.searchParams, ['pricemin', 'pricemax'])
