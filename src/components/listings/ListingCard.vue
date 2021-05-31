@@ -17,9 +17,9 @@
           <button class="contact-button">Contact Agent</button>
         </div>
       </div>
-      <div class="address" v-if="listing.location.address">
+      <address class="address" v-if="listing.location.address">
         {{ address }}
-      </div>
+      </address>
       <div v-else>Address Not Available</div>
       <div class="status">{{ listing.status }}</div>
     </div>
@@ -137,6 +137,7 @@ export default {
 }
 
 .address {
+  font-style: normal;
   font-size: 14px;
   margin-bottom: 4px;
 }
