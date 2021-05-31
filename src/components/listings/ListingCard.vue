@@ -111,6 +111,7 @@ export default {
 }
 
 .price {
+  font-family: Arial, sans-serif;
   font-size: 24px;
   text-shadow: 1px 1px #333;
   font-weight: 100;
@@ -133,7 +134,7 @@ export default {
 
 .meta-info {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .address {
