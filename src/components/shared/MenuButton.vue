@@ -11,7 +11,7 @@
 
 <script>
 import ContainedButton from '@/components/shared/ContainedButton'
-import MenuOpenIcon from '@/components/shared/MenuOpenIcon'
+import MenuOpenIcon from '@/components/shared/icons/MenuOpenIcon'
 import { ClickOutside } from '@/directives/ClickOutsideDirective'
 
 export default {
