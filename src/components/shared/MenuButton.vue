@@ -63,7 +63,9 @@ export default {
   border-radius: 6px;
   margin-top: 3px;
   padding: var(--menu-button-padding);
-  box-shadow: 0px 9px 12px rgba(0, 0, 0, 0.06), 0px 3px 16px rgba(0, 0, 0, 0.04), 0px 5px 6px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 9px 12px rgba(0, 0, 0, 0.06),
+    0px 3px 16px rgba(0, 0, 0, 0.04),
+    0px 5px 6px rgba(0, 0, 0, 0.06);
   background: #fefefe;
 }
 
