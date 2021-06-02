@@ -24,12 +24,8 @@ export const defaultSortOptions = Object.freeze(pick(sortByEnum, [
   'price_desc',
   'price_asc',
   'listing_date_desc',
-  'listing_date_asc',
   'beds_desc',
-  'beds_asc',
   'baths_desc',
-  'baths_asc',
   'total_square_footage_desc',
-  'total_square_footage_asc',
   'distance_from_user_lat_lon_asc'
 ]))

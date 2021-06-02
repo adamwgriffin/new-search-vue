@@ -307,16 +307,12 @@
   "sort": {
     "label": "Sort:",
     "by": {
-      "price_desc": "Price (high-low)",
-      "price_asc": "Pice (low-High)",
-      "listing_date_desc": "Time on market (new-old)",
-      "listing_date_asc": "Time on market, (old-new)",
-      "beds_desc": "Beds (high-low)",
-      "beds_asc": "Beds (low-high)",
-      "baths_desc": "Baths (high-low)",
-      "baths_asc": "Baths (low-high)",
-      "total_square_footage_desc": "SQFT (high-low)",
-      "total_square_footage_asc": "SQFT (low-high)",
+      "price_desc": "Price (high to low)",
+      "price_asc": "Pice (low to high)",
+      "listing_date_desc": "Time on market",
+      "beds_desc": "Beds",
+      "baths_desc": "Baths",
+      "total_square_footage_desc": "Square footage",
       "distance_from_user_lat_lon_asc": "Distance"
     },
     "direction": {
