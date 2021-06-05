@@ -18,5 +18,7 @@ export const mapOptions = {
   scaleControl: false,
   streetViewControl: false,
   rotateControl: false,
-  fullscreenControl: false
+  fullscreenControl: false,
+  // passing any style causes the Google logo to appear white
+  styles: [{}]
 }
