@@ -2,10 +2,9 @@
 </template>
 
 <script>
-export default {
-  // allows us to access the map from the GoogleMap component made available via ReactiveProvideMixin
-  inject: ['GoogleMap'],
+import { googleMap } from '@/lib/google'
 
+export default {
   props: {
     paths: {
       type: Array,
@@ -18,7 +17,7 @@ export default {
   },
 
   watch: {
-    paths(newValue, oldValue) {
+    paths() {
       this.updatePolygon()
     }
   },
@@ -45,7 +44,7 @@ export default {
         paths: this.paths,
         ...this.options
       })
-      this.polygon.setMap(this.GoogleMap.map)
+      this.polygon.setMap(googleMap)
     },
 
     updatePolygon() {

@@ -5,19 +5,9 @@
 </template>
 
 <script>
-import { ReactiveProvideMixin } from 'vue-reactive-provide'
+import { setMap } from '@/lib/google'
 
 export default {
-  mixins: [
-    /* this mixin allows Vue's provide/inject bindings to be reactive. this is needed because the initial value of
-    this.map is null until we create the map in the mounted() hook. if map isn't reactive it will always be null in the
-    child components that use it via inject */
-    ReactiveProvideMixin({
-      name: 'GoogleMap',
-      include: ['map'],
-    })
-  ],
-
   props: {
     bounds: {
       type: Object,
@@ -43,8 +33,7 @@ export default {
   },
 
   mounted() {
-    this.map = new google.maps.Map(this.$el, this.mapOptions)
-    window.MoxiMap = this.map
+    this.map = setMap(this.$el, this.mapOptions)
     this.createEventListeners()
   },
 

@@ -3,11 +3,9 @@
 
 <script>
 import { listingMarker, listingMarkerIcon } from '@/lib/listing_marker'
+import { googleMap } from '@/lib/google'
 
 export default {
-  // allows us to access the map from the GoogleMap component made available via ReactiveProvideMixin
-  inject: ['GoogleMap'],
-
   props: {
     position: {
       type: Object,
@@ -47,14 +45,14 @@ export default {
   methods: {
 
     markerClickHandler() {
-      this.GoogleMap.map.setZoom(this.clickEventZoomLevel)
-      this.GoogleMap.map.setCenter(this.marker.getPosition())
+      googleMap.setZoom(this.clickEventZoomLevel)
+      googleMap.setCenter(this.marker.getPosition())
     },
 
     createMarker() {
       const markerIcon = listingMarkerIcon({ fill: this.iconFill })
       const markerIconHover = listingMarkerIcon({ fill: this.iconHoverFill })
-      this.marker = listingMarker(this.position, this.GoogleMap.map, markerIcon)
+      this.marker = listingMarker(this.position, googleMap, markerIcon)
       this.marker.addListener('click', this.markerClickHandler)
       this.marker.addListener('mouseover', () => this.marker.setIcon(markerIconHover))
       this.marker.addListener('mouseout', () => this.marker.setIcon(markerIcon))

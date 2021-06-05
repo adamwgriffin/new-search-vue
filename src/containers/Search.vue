@@ -22,10 +22,8 @@
 </template>
 
 <script>
-import { Loader } from '@googlemaps/js-api-loader'
 import { mapState, mapMutations, mapActions } from 'vuex'
-import { mapLoaderOptions } from '@/config/google'
-import { setGeocoder } from '@/lib/geocode'
+import { loadGoogle } from '@/lib/google'
 import ProgressBar from '@/components/ProgressBar'
 import Form from '@/containers/Form'
 import SearchResults from '@/components/SearchResults'
@@ -70,24 +68,17 @@ export default {
     /* we wait to render the content in the view that depends on the google maps api until the api is loaded, that way
     the "google" variable will be defined for any of the components need to create instances of google maps classes,
     e.g., `new google.maps.Map()` */
-    this.googleLoaded = await this.loadGoogle()
-    /* we have to set the geocoder in the geocode module after google is loaded. we can't create the geocoder instance
-    inside of the store that uses this because it loads before this mounted hook can load the google api */
-    setGeocoder(new google.maps.Geocoder())
+    try {
+      this.googleLoaded = await loadGoogle()
+    } catch (error) {
+      console.error("Unable to load Google Maps API", error)
+    }
   },
 
   methods: {
     ...mapMutations(['setEnvironment']),
 
-    ...mapActions('listingSearch', ['getMoreListings']),
-
-    /* there is no npm module for the google maps api. you have to load it via a script tag. @googlemaps/js-api-loader
-    just creates a nice interface that you can use to create the script tag dynamically, and returns a promise that will
-    resolve once its loaded. this way you can execute whatever code depends on the api after the promise resolves. */
-    async loadGoogle() {
-      if (typeof google === 'undefined') await new Loader(mapLoaderOptions).load()
-      return true
-    }
+    ...mapActions('listingSearch', ['getMoreListings'])
   }
 }
 </script>

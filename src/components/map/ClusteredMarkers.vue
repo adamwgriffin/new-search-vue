@@ -5,11 +5,9 @@
 import MarkerClusterer from '@googlemaps/markerclustererplus'
 import { listingMarker, listingMarkerIcon } from '@/lib/listing_marker'
 import { getClusterStyles } from '@/lib/listing_marker_clusterer'
+import { googleMap } from '@/lib/google'
 
 export default {
-  // allows us to access the map from the GoogleMap component made available via ReactiveProvideMixin
-  inject: ['GoogleMap'],
-
   props: {
     coordinates: {
       type: Array,
@@ -59,7 +57,7 @@ export default {
   methods: {
     createMarkerClusterer() {
       this.markerClusterer = new MarkerClusterer (
-        this.GoogleMap.map,
+        googleMap,
         this.markers,
         { styles: getClusterStyles() }
       )
@@ -83,7 +81,7 @@ export default {
     createMarker(position) {
       const markerIcon = listingMarkerIcon({ fill: this.iconFill })
       const markerIconHover = listingMarkerIcon({ fill: this.iconHoverFill })
-      const marker = listingMarker(position, this.GoogleMap.map, markerIcon)
+      const marker = listingMarker(position, googleMap, markerIcon)
       marker.addListener('mouseover', () => marker.setIcon(markerIconHover))
       marker.addListener('mouseout', () => marker.setIcon(markerIcon))
       return marker

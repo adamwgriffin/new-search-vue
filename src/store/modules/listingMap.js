@@ -1,34 +1,9 @@
 import i18n from '@/plugins/i18n';
 import http from '@/lib/http'
-import { geocode, googleToServiceAddressTypeMapping } from '@/lib/geocode'
+import { googleToServiceAddressTypeMapping } from '@/lib/constants/geocoder_constants'
+import { geocode, getPlacePredictions, getPlaceDetails } from '@/lib/google'
 import { convertGeojsonCoordinatesToPolygonPaths, getGeoLayerBounds } from '@/lib/polygon'
 import { autocompleteOptions } from '@/config/google'
-
-let autocompleteService = null
-
-export const getPlacePredictions = (request) => {
-  return new Promise((resolve, reject) => {
-    if (!autocompleteService) {
-      autocompleteService = new google.maps.places.AutocompleteService
-    }
-    autocompleteService.getPlacePredictions(request, (results, status) => {
-      status === 'OK' ? resolve({ results, status }) : reject(new Error(status))
-    })
-  })
-}
-
-let placesService = null
-
-export const getPlaceDetails = (request) => {
-  return new Promise((resolve, reject) => {
-    if (!placesService) {
-      placesService = new google.maps.places.PlacesService(window.MoxiMap)
-    }
-    placesService.getDetails(request, (results, status) => {
-      status === 'OK' ? resolve({ results, status }) : reject(new Error(status))
-    })
-  })
-}
 
 const initialState = () => {
   return {
