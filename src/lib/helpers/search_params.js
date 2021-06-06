@@ -55,5 +55,10 @@ export const modifyParam = {
 export const listingsFilteredByBounds = (latLngBoundsLiteral, listings) => {
   if (!latLngBoundsLiteral || !listings.length) return listings
   const mapBounds = latLngBoundsLiteralToClass(latLngBoundsLiteral)
-  return listings.filter(l => mapBounds.contains(getListingCoordinates(l)))
+  return listings.filter(l => {
+    // if display_address is false, the service will not return the listing's coordinates, which means we have no way to
+    // filter the listing by bounds, so for now we're just always including them until a better solution presents
+    // itself.
+    return !l.display_address || mapBounds.contains(getListingCoordinates(l))
+  })
 }
