@@ -10,6 +10,7 @@ import {
   mapOrder,
   modifyParam,
   listingsFilteredByBounds,
+  sortListings,
 } from '@/lib/helpers/search_params'
 
 // NOTE: Eventually we would want to compose things like state (searchParams), getters, mutations, etc. based on what
@@ -122,11 +123,13 @@ export const getters = {
   },
 
   listingsFilteredByMapBounds(state, getters, rootState) {
-    return listingsFilteredByBounds(rootState.listingMap.mapData.bounds, state.listings)
+    const filtered = listingsFilteredByBounds(rootState.listingMap.mapData.bounds, state.listings)
+    return sortListings(filtered, state.searchParams.sort_by, rootState.listingMap.geocoderResult.location)
   },
 
   mapListingsFilteredByMapBounds(state, getters, rootState) {
-    return listingsFilteredByBounds(rootState.listingMap.mapData.bounds, state.mapListings)
+    const filtered = listingsFilteredByBounds(rootState.listingMap.mapData.bounds, state.mapListings)
+    return filtered
   },
 }
 

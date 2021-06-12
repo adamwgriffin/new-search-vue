@@ -1,7 +1,8 @@
 import difference from 'lodash/difference'
 import omit from 'lodash/omit'
+import orderBy from 'lodash/orderBy'
 import { propertyTypes } from '@/lib/constants/property_types'
-import { sortByDistanceValues } from '@/lib/constants/search_param_constants'
+import { sortByEnum, sortByDistanceValues } from '@/lib/constants/search_param_constants'
 import { latLngBoundsLiteralToClass } from '@/lib/google_maps_utils'
 import { getListingCoordinates } from '@/lib/helpers/listing_helpers'
 
@@ -61,4 +62,34 @@ export const listingsFilteredByBounds = (latLngBoundsLiteral, listings) => {
     // itself.
     return !l.display_address || mapBounds.contains(getListingCoordinates(l))
   })
+}
+
+export const sortListingsByDistance = (listings, toLocation, direction='asc') => {
+  const to = new google.maps.LatLng(toLocation)
+  return orderBy(listings, l => {
+    const { latitude, longitude } = l.location
+    const from = new google.maps.LatLng({ lat: +latitude, lng: +longitude })
+    return google.maps.geometry.spherical.computeDistanceBetween(from, to)
+  }, direction)
+}
+
+export const sortListings = (listings, sortByType, toLocation) => {
+  switch (sortByType) {
+    case sortByEnum.price_asc:
+      return orderBy(listings, 'price', 'asc')
+    case sortByEnum.price_desc:
+      return orderBy(listings, 'price', 'desc')
+    case sortByEnum.listing_date_desc:
+      return orderBy(listings, l => Date.parse(l.listed_date), 'desc')
+    case sortByEnum.beds_desc:
+      return orderBy(listings, 'bedrooms', 'desc')
+    case sortByEnum.baths_desc:
+      return orderBy(listings, 'bathroom_details.bathrooms_display', 'desc')
+    case sortByEnum.total_square_footage_desc:
+      return orderBy(listings, 'sqr_footage', 'desc')
+    case sortByEnum.distance_from_user_lat_lon_asc:
+      return sortListingsByDistance(listings, toLocation) 
+    default:
+      return listings
+  }
 }
