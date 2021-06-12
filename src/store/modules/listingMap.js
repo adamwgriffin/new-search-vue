@@ -10,8 +10,8 @@ const initialState = () => {
     buffer_miles: 0,
     userAdjustedMap: false,
     mapData: {
-      bounds: null,
-      center: null,
+      bounds: {},
+      center: {},
       zoom: null,
     },
     geocode: {
@@ -26,8 +26,8 @@ const initialState = () => {
       // name that the Listing service understands when using it as the geotype param for a geolayer request
       type: null,
       // we're only using location for the geolayer request to the listing service
-      location: null,
-      viewport: null
+      location: {},
+      viewport: {}
     },
     placeAutocompleteRequest: {
       pending: false,
