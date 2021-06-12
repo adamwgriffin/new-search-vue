@@ -44,13 +44,13 @@ export const getGeoLayerBounds = (geoLayerCoordinates) => {
 }
 
 // polygon is partially outside of map viewport bounds
-export const polygonPartiallyOutsideMapViewport = (geojsonCoordinates, mapBoundsLiteral) => {
+export const polygonPartiallyOutsideViewport = (geojsonCoordinates, mapBoundsLiteral) => {
   const mapBounds = latLngBoundsLiteralToClass(mapBoundsLiteral)
   return geojsonCoordinates.some(latLngArr => latLngArr.some(latLng => !mapBounds.contains(latLng)))
 }
 
 // polygon is completely outside of map viewport bounds
-export const polygonOutsideMapViewport = (geojsonCoordinates, mapBoundsLiteral) => {
+export const polygonOutsideViewport = (geojsonCoordinates, mapBoundsLiteral) => {
   const mapBounds = latLngBoundsLiteralToClass(mapBoundsLiteral)
   return geojsonCoordinates.every(latLngArr => latLngArr.every(latLng => !mapBounds.contains(latLng)))
 }

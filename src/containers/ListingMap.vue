@@ -28,7 +28,7 @@ import MapTypeControl from '@/components/map/MapTypeControl'
 import MapToolsControl from '@/components/map/MapToolsControl'
 import { geoLayerPolygonOptions } from '@/config'
 import { mapOptions } from '@/config/google'
-import { polygonOutsideMapViewport, polygonPartiallyOutsideMapViewport } from '@/lib/polygon'
+import { polygonOutsideViewport, polygonPartiallyOutsideViewport } from '@/lib/polygon'
 
 export default {
 
@@ -76,19 +76,19 @@ export default {
       return google.maps.ControlPosition.LEFT_TOP
     },
     
-    boundaryOutsideMapViewport() {
-      return polygonOutsideMapViewport(this.geoLayerCoordinates, this.mapData.bounds)
+    boundaryCompletelyOutsideViewport() {
+      return polygonOutsideViewport(this.geoLayerCoordinates, this.mapData.bounds)
     },
     
-    boundaryPartiallyOutsideMapViewport() {
-      return polygonPartiallyOutsideMapViewport(this.geoLayerCoordinates, this.mapData.bounds)
+    boundaryPartiallyOutsideViewport() {
+      return polygonPartiallyOutsideViewport(this.geoLayerCoordinates, this.mapData.bounds)
     },
 
     searchResultsDontIncludeAllAvailableListings() {
       return this.listings < this.mapListings
     },
 
-    firstPageOfListingsVisibleInMapViewport() {
+    firstPageOfListingsVisibleInViewport() {
       const pageSize = this.mapListingsFilteredByMapBounds.length <= this.cluster_threshold ? 
         this.mapListingsFilteredByMapBounds.length :
         this.searchParams.pgsize
@@ -110,10 +110,10 @@ export default {
 
     ...mapActions('listingSearch', ['searchListingsIds']),
 
-    async getMoreSearchResultsFilteredByMapViewport() {
+    async getMoreSearchResultsFilteredByViewport() {
       this.setListingSearchPending()
       this.resetSearchResultsListings()
-      const newListingIds = this.firstPageOfListingsVisibleInMapViewport.map(l => l.listingid)
+      const newListingIds = this.firstPageOfListingsVisibleInViewport.map(l => l.listingid)
       const res = await this.searchListingsIds(newListingIds)
       this.setListings(res.result_list)
       this.setListingSearchComplete()
@@ -121,9 +121,9 @@ export default {
 
     handleUserAdjustedMap(e) {
       this.setMapData(e)
-      if (this.boundaryOutsideMapViewport) return
-      if (this.boundaryPartiallyOutsideMapViewport && this.searchResultsDontIncludeAllAvailableListings) {
-        this.getMoreSearchResultsFilteredByMapViewport()
+      if (this.boundaryCompletelyOutsideViewport) return
+      if (this.boundaryPartiallyOutsideViewport && this.searchResultsDontIncludeAllAvailableListings) {
+        this.getMoreSearchResultsFilteredByViewport()
       }
     }
   },
