@@ -86,7 +86,7 @@ export const getters = {
   instead. */
   apiResponseBounds(state) {
     return state.geoLayerCoordinates.length ?
-      getGeoLayerBounds(state.geoLayerCoordinates) :
+      getGeoLayerBounds(state.geoLayerCoordinates).toJSON() :
       state.geocoderResult.viewport
   }
 }
@@ -121,7 +121,7 @@ export const mutations = {
     state.geocoderResult = {
       type: result.types[0],
       location: location.toJSON(), // calling toJSON() returns the LatLngBounds instance as a POJO
-      viewport
+      viewport: viewport.toJSON()
     }
   },
 
