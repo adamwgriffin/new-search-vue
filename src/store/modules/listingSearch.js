@@ -214,6 +214,12 @@ export const mutations = {
     state.mapListings = mapListings
   },
 
+  resetSearchResultsListings(state) {
+    const { listingsPageIndex, listings } = initialState()
+    state.listingsPageIndex = listingsPageIndex
+    state.listings = listings
+  },
+
   setListingSearchPending(state) {
     state.listingSearchPending = true
   },
@@ -268,11 +274,13 @@ export const actions = {
     commit('setListingSearchComplete')
   },
 
-  getMoreListings: async ({ dispatch, commit, state }) => {
+  getMoreListings: async ({ dispatch, commit, state, getters }) => {
     commit('setGetMoreListingsPending', true)
     const { pgsize } = state.searchParams
     const newPageIndex = state.listingsPageIndex + pgsize
-    const listingIds = state.mapListings.slice(newPageIndex, newPageIndex+pgsize).map(l => l.listingid)
+    const listingIds = getters.mapListingsFilteredByMapBounds
+      .slice(newPageIndex, newPageIndex+pgsize)
+      .map(l => l.listingid)
     const newListings = await dispatch('searchListingsIds', listingIds)
     commit('setListings', state.listings.concat(newListings.result_list))
     commit('setGetMoreListingsPending', false)

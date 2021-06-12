@@ -1,3 +1,5 @@
+import { latLngBoundsLiteralToClass } from '@/lib/google_maps_utils'
+
 /*
 we need to transform the geojson we get from the service into a shape that works for the Polygon class we need to use
 it for. we get the data as:
@@ -39,4 +41,16 @@ export const getGeoLayerBounds = (geoLayerCoordinates) => {
   const bounds = new google.maps.LatLngBounds()
   geoLayerCoordinates.forEach(latLngArr => latLngArr.forEach(latLng => bounds.extend(latLng)))
   return bounds
+}
+
+// polygon is partially outside of map viewport bounds
+export const polygonPartiallyOutsideMapViewport = (geojsonCoordinates, mapBoundsLiteral) => {
+  const mapBounds = latLngBoundsLiteralToClass(mapBoundsLiteral)
+  return geojsonCoordinates.some(latLngArr => latLngArr.some(latLng => !mapBounds.contains(latLng)))
+}
+
+// polygon is completely outside of map viewport bounds
+export const polygonOutsideMapViewport = (geojsonCoordinates, mapBoundsLiteral) => {
+  const mapBounds = latLngBoundsLiteralToClass(mapBoundsLiteral)
+  return geojsonCoordinates.every(latLngArr => latLngArr.every(latLng => !mapBounds.contains(latLng)))
 }

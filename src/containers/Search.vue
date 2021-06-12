@@ -4,6 +4,8 @@
       <ProgressBar :active="listingSearchPending" />
       <Form />
       <SearchResults
+        :listingsLoaded="listingsFilteredByMapBounds.length"
+        :availableListings="mapListingsFilteredByMapBounds.length"
         @loadMoreListings="getMoreListings"
       >
         <ListingCards :listings="listingsFilteredByMapBounds" />
@@ -66,6 +68,7 @@ export default {
 
     ...mapGetters('listingSearch', [
       'listingsFilteredByMapBounds',
+      'mapListingsFilteredByMapBounds'
     ]),
   },
 

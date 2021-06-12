@@ -28,6 +28,7 @@ import MapTypeControl from '@/components/map/MapTypeControl'
 import MapToolsControl from '@/components/map/MapToolsControl'
 import { geoLayerPolygonOptions } from '@/config'
 import { mapOptions } from '@/config/google'
+import { polygonOutsideMapViewport, polygonPartiallyOutsideMapViewport } from '@/lib/polygon'
 
 export default {
 
@@ -52,14 +53,15 @@ export default {
     ...mapGetters('listingMap', ['apiResponseBounds',]),
 
     ...mapGetters('listingSearch', [
-      'searchParamsForListingService',
-      'boundsParams',
+      'listingsFilteredByMapBounds',
       'mapListingsFilteredByMapBounds',
     ]),
 
     ...mapState('listingSearch', [
+      'listings', 
       'mapListings',
       'cluster_threshold',
+      'searchParams'
     ]),
 
     listingCoordinates() {
@@ -72,7 +74,26 @@ export default {
 
     mapToolsPosition() {
       return google.maps.ControlPosition.LEFT_TOP
-    }
+    },
+    
+    boundaryOutsideMapViewport() {
+      return polygonOutsideMapViewport(this.geoLayerCoordinates, this.mapData.bounds)
+    },
+    
+    boundaryPartiallyOutsideMapViewport() {
+      return polygonPartiallyOutsideMapViewport(this.geoLayerCoordinates, this.mapData.bounds)
+    },
+
+    searchResultsDontIncludeAllAvailableListings() {
+      return this.listings < this.mapListings
+    },
+
+    firstPageOfListingsVisibleInMapViewport() {
+      const pageSize = this.mapListingsFilteredByMapBounds.length <= this.cluster_threshold ? 
+        this.mapListingsFilteredByMapBounds.length :
+        this.searchParams.pgsize
+      return this.mapListingsFilteredByMapBounds.slice(0, pageSize)
+    },
   },
 
   methods: {
@@ -80,12 +101,30 @@ export default {
       'setMapData',
     ]),
 
-    ...mapMutations('listingSearch', ['resetListings', 'setMapListings']),
+    ...mapMutations('listingSearch', [
+      'resetSearchResultsListings',
+      'setListings',
+      'setListingSearchPending',
+      'setListingSearchComplete',
+    ]),
 
-    ...mapActions('listingSearch', ['searchListings']),
+    ...mapActions('listingSearch', ['searchListingsIds']),
+
+    async getMoreSearchResultsFilteredByMapViewport() {
+      this.setListingSearchPending()
+      this.resetSearchResultsListings()
+      const newListingIds = this.firstPageOfListingsVisibleInMapViewport.map(l => l.listingid)
+      const res = await this.searchListingsIds(newListingIds)
+      this.setListings(res.result_list)
+      this.setListingSearchComplete()
+    },
 
     handleUserAdjustedMap(e) {
       this.setMapData(e)
+      if (this.boundaryOutsideMapViewport) return
+      if (this.boundaryPartiallyOutsideMapViewport && this.searchResultsDontIncludeAllAvailableListings) {
+        this.getMoreSearchResultsFilteredByMapViewport()
+      }
     }
   },
 
