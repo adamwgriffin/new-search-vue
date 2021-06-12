@@ -81,8 +81,8 @@ export const getters = {
   // center_lat & center_lon wouldn't do instead because it seems like you would always want to set the distance to be
   // based on the coords of the location your are searching on
   userLatLon(state, getters, rootState) {
-    const { center_lat, center_lon} = getters.centerLatLonParams
-    return { user_lat: center_lat, user_lon: center_lon }
+    const { lat, lng } = rootState.listingMap.geocoderResult.location
+    return { user_lat: lat, user_lon: lng }
   },
 
   defaultSearchParams(state, getters, rootState, rootGetters) {
