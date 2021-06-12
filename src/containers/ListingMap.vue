@@ -32,6 +32,12 @@ import { polygonOutsideViewport, polygonPartiallyOutsideViewport } from '@/lib/p
 
 export default {
 
+  data() {
+    return {
+      boundaryLastMovedPartiallyOutsideViewport: false
+    }
+  },
+
   components: {
     GoogleMap,
     GeoLayerPolygon,
@@ -121,8 +127,13 @@ export default {
 
     handleUserAdjustedMap(e) {
       this.setMapData(e)
-      if (this.boundaryCompletelyOutsideViewport) return
-      if (this.boundaryPartiallyOutsideViewport && this.searchResultsDontIncludeAllAvailableListings) {
+      if (this.boundaryCompletelyOutsideViewport) {
+        return
+      } else if (this.boundaryPartiallyOutsideViewport && this.searchResultsDontIncludeAllAvailableListings) {
+        this.boundaryLastMovedPartiallyOutsideViewport = true
+        this.getMoreSearchResultsFilteredByViewport()
+      } else if (this.boundaryLastMovedPartiallyOutsideViewport) {
+        this.boundaryLastMovedPartiallyOutsideViewport = false
         this.getMoreSearchResultsFilteredByViewport()
       }
     }
