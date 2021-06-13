@@ -1,5 +1,6 @@
 import difference from 'lodash/difference'
 import omit from 'lodash/omit'
+import orderBy from 'lodash/orderBy'
 import { propertyTypes } from '@/lib/constants/property_types'
 import { sortByDistanceValues } from '@/lib/constants/search_param_constants'
 

@@ -38,18 +38,40 @@
       <SearchButton @click="initiateSearch" />
     </div>
     <ul v-show="open" class="listbox-menu" role="listbox" tabindex="-1">
-      <li
-        v-for="(option, index) in options"
-        role="option"
-        :id="`${ariaListboxId}-list-item-${index}`"
-        :key="option.place_id"
-        class="list-item"
-        :class="{ active: activeDescendantKey === index }"
-        @click.stop="handleMenuItemClick(option)"
-      >
-        <LocationPinFilledIcon :color="pinIconColor(activeDescendantKey === index)" />
-        <PlacesPredictionText :prediction="option" />
-      </li>
+      <template v-if="placesOptions.length">
+        <li class="list-item-header list-item">
+          <strong>Places</strong>
+        </li>
+        <li
+          v-for="(option, index) in placesOptions"
+          role="option"
+          :id="`${ariaListboxId}-list-item-${index}`"
+          :key="option.place_id"
+          class="list-item"
+          :class="{ active: activeDescendantKey === index }"
+          @click.stop="handleMenuItemClick(option)"
+        >
+          <LocationPinFilledIcon :color="pinIconColor(activeDescendantKey === index)" />
+          <PlacesPredictionText :prediction="option" />
+        </li>
+      </template>
+      <template v-if="schoolOptions.length">
+        <li class="list-item-header list-item">
+          <strong>Schools</strong>
+        </li>
+        <li
+          v-for="(option, index) in schoolOptions"
+          role="option"
+          :id="`${ariaListboxId}-list-item-${index}`"
+          :key="option.place_id"
+          class="list-item"
+          :class="{ active: activeDescendantKey === index }"
+          @click.stop="handleMenuItemClick(option)"
+        >
+          <SchoolIcon :color="pinIconColor(activeDescendantKey === index)" />
+          <PlacesPredictionText :prediction="option" />
+        </li>
+      </template>
     </ul>
   </div>
 </template>
@@ -59,6 +81,7 @@
   import SearchButton from '@/components/form/SearchButton'
   import DriveTimeButton from '@/components/form/DriveTimeButton'
   import LocationPinFilledIcon from '@/components/shared/icons/LocationPinFilledIcon'
+  import SchoolIcon from '@/components/shared/icons/SchoolIcon'
   import PlacesPredictionText from '@/components/shared/PlacesPredictionText'
 
   // the input with dropdown menu part of this component is based on the w3c's guide for building an accessible
@@ -69,6 +92,7 @@
       DriveTimeButton,
       SearchButton,
       LocationPinFilledIcon,
+      SchoolIcon,
       PlacesPredictionText,
     },
 
@@ -110,6 +134,14 @@
     },
 
     computed: {
+      placesOptions() {
+        return this.options.filter(o => !o.types.includes('school'))
+      },
+
+      schoolOptions() {
+        return this.options.filter(o => o.types.includes('school'))
+      },
+
       searchFieldClasses() {
         return { 'input-has-focus': this.inputHasFocus }
       },
@@ -298,10 +330,13 @@
     list-style: none;
     background-color: white;
     width: 100%;
-    max-height: 250px;
     box-shadow: 0px 3px 3px 0 rgba(0, 0, 0, 0.4);
     margin: 0;
     padding: 0;
+  }
+
+  .list-item-header {
+    background-color: #f6f6f6;
   }
 
   .list-item {
