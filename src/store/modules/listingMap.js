@@ -201,15 +201,30 @@ export const actions = {
     try {
       commit('setPlaceAutocompleteRequestPending')
       const params = { input: searchString, ...getters.placeAutocompleteParams }
-      const res = await getPlacePredictions(params)
-      if (res.status === 'OK') {
-        commit('setPlaceAutocompleteRequestSuccess', { request: params, results: res.results, status: res.status })
-        commit('setAutcompletePlacePredictions', res.results)
+      const [geocodeRes, establishmentRes] = await Promise.all([
+        getPlacePredictions(params),
+        getPlacePredictions({ ...params, types: ['establishment'] })
+      ])
+      if (geocodeRes.status === 'OK' && establishmentRes.status == 'OK') {
+        commit('setPlaceAutocompleteRequestSuccess', {
+          request: params,
+          results: [geocodeRes, establishmentRes],
+          status: geocodeRes.status
+        })
+        const schoolsPredictions = establishmentRes.results.filter(r => r.types.includes('school'))
+        const allPredictions = geocodeRes.results.concat(schoolsPredictions)
+        commit('setAutcompletePlacePredictions', allPredictions)
+        return allPredictions
       } else {
-        commit('setPlaceAutocompleteRequestFailure', { error: res.error_message, status: res.status } )
+        const res = geocodeRes.status !== 'OK' ? geocodeRes : establishmentRes
+        commit('setPlaceAutocompleteRequestFailure', {
+          error: res.error_message,
+          status: res.status 
+        })
+        throw new Error(res.error_message)
       }
-      return res.results
     } catch (error) {
+      console.error(error)
       commit('setPlaceAutocompleteRequestFailure', { error, status: error.status })
       return error
     }
