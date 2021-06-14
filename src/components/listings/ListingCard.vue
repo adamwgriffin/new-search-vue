@@ -1,13 +1,6 @@
 <template>
   <div class="listing-card">
-    <div
-      class="listing-image"
-      :style="listingCardBackgroundImage"
-    >
-      <div class="listing-image-info">
-        <div class="price">{{ listingPrice | currency }}</div>
-      </div>
-    </div>
+    <ListingCardImage :listing="listing" />
     <div class="listing-info">
       <div class="meta-container">
         <div class="meta-info">
@@ -32,8 +25,13 @@
 
 <script>
 import { listingCardMetaInfo } from '@/lib/helpers/listing_helpers'
+import ListingCardImage from '@/components/listings/ListingCardImage'
 
 export default {
+  components: {
+    ListingCardImage
+  },
+
   props: {
     listing: {
       type: Object,
@@ -42,16 +40,6 @@ export default {
   },
 
   computed: {
-    listingCardBackgroundImage() {
-      return {
-        backgroundImage: `url('${this.listing.image[0].small_url}')`
-      }
-    },
-
-    listingPrice() {
-      return this.listing.status === 'Sold' ? this.listing.sold_price : this.listing.list_price
-    },
-
     metaInfo() {
       return listingCardMetaInfo(this.listing)
     },
@@ -70,17 +58,6 @@ export default {
         .filter(a => a)
         .join(', ')
     }
-  },
-
-  filters: {
-    currency(value) {
-      const formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-      })
-      return formatter.format(value)
-    }
   }
 }
 </script>
@@ -91,31 +68,6 @@ export default {
   display: flex;
   flex-direction: column;
   cursor: pointer;
-}
-
-.listing-image {
-  position: relative;
-  height: 220px;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.listing-image-info {
-  display: flex;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 0.4rem;
-  background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
-}
-
-.price {
-  font-family: Arial, sans-serif;
-  font-size: 24px;
-  text-shadow: 1px 1px #333;
-  font-weight: 100;
-  color: white;
 }
 
 .listing-info {
