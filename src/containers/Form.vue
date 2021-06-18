@@ -12,18 +12,17 @@
         @searchInitiated="handleSearchInitiated"
       />
       <Filters>
-        <div class="filters-container">
-          <PriceRange
-            :value="priceRangeParams"
-            @input="setSearchParams($event)"
-          />
-          <BedroomsBathrooms
-            :value="bedBathParams"
-            @input="setSearchParams($event)"
-          />
-          <MoreFilters />
-        </div>
+        <PriceRange
+          :value="priceRangeParams"
+          @input="setSearchParams($event)"
+        />
+        <BedroomsBathrooms
+          :value="bedBathParams"
+          @input="setSearchParams($event)"
+        />
+        <MoreFilters />
       </Filters>
+      <SaveSearchButton />
     </div>
     <SearchResultsInfo
       :listingsLoaded="listings.length"
@@ -41,6 +40,7 @@ import SearchField from '@/components/form/SearchField'
 import PriceRange from '@/components/form/filters/PriceRange'
 import BedroomsBathrooms from '@/components/form/filters/BedroomsBathrooms'
 import MoreFilters from '@/containers/MoreFilters'
+import SaveSearchButton from '@/components/form/SaveSearchButton'
 import SearchResultsInfo from '@/components/form/SearchResultsInfo'
 
 export default {
@@ -50,7 +50,8 @@ export default {
     PriceRange,
     BedroomsBathrooms,
     MoreFilters,
-    SearchResultsInfo,
+    SaveSearchButton,
+    SearchResultsInfo
   },
 
   computed: {
@@ -147,9 +148,5 @@ export default {
   display: flex;
   background: white;
   padding: .8rem;
-}
-
-.filters-container > * {
-  padding-left: .5rem;
 }
 </style>

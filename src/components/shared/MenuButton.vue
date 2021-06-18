@@ -1,7 +1,7 @@
 <template>
   <div class="menu-button" v-click-outside="closeMenu" :style="theme">
     <ContainedButton @click="toggleMenu" :highlighted="open">
-      <span class="label">{{ label }}</span> <MenuOpenIcon :open="open" />
+      <span class="label">{{ label }}</span> <MenuOpenIcon v-if="showIcon" :open="open" />
     </ContainedButton>
     <div v-show="open" class="menu">
       <slot></slot>
@@ -22,6 +22,11 @@ export default {
   props: {
     label: {
       type: String
+    },
+
+    showIcon: {
+      type: Boolean,
+      default: true
     },
 
     theme: {
@@ -71,5 +76,6 @@ export default {
 
 .label {
   margin-right: 0.3rem;
+  color: var(--menu-button-label-color);
 }
 </style>
