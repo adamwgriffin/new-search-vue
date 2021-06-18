@@ -6,11 +6,13 @@
     @userChangedZoom="handleUserAdjustedMap"
     @idle="setMapData"
   >
+    <MapToolsControl :position="mapToolsPosition" />
     <ClusteredMarkers :coordinates="listingCoordinates" :clusterThreshold="cluster_threshold" />
     <GeoLayerPolygon
       :paths="geoLayerCoordinates"
       :options="geoLayerPolygonOptions"
     />
+    <MapTypeControl :position="mapTypePosition" />
   </GoogleMap>
 </template>
 
@@ -19,6 +21,8 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import GoogleMap from '@/components/map/GoogleMap'
 import ClusteredMarkers from '@/components/map/ClusteredMarkers'
 import GeoLayerPolygon from '@/components/map/GeoLayerPolygon'
+import MapTypeControl from '@/components/map/MapTypeControl'
+import MapToolsControl from '@/components/map/MapToolsControl'
 import { geoLayerPolygonOptions } from '@/config'
 import { mapOptions } from '@/config/google'
 
@@ -28,6 +32,8 @@ export default {
     GoogleMap,
     GeoLayerPolygon,
     ClusteredMarkers,
+    MapTypeControl,
+    MapToolsControl
   },
 
   computed: {
@@ -50,6 +56,14 @@ export default {
 
     listingCoordinates() {
       return this.mapListings.map(l => ({ lat: l.lat, lng: l.lng }))
+    },
+
+    mapTypePosition() {
+      return google.maps.ControlPosition.LEFT_BOTTOM
+    },
+
+    mapToolsPosition() {
+      return google.maps.ControlPosition.LEFT_TOP
     }
   },
 
