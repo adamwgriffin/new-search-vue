@@ -35,6 +35,10 @@ button {
   color: inherit;
 }
 
+button:hover {
+  background: #f6f6f6;
+}
+
 button.highlighted {
   background: rgba(4, 87, 175, 0.24);
 }
