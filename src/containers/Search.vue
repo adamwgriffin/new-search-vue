@@ -96,7 +96,7 @@ export default {
 .form-and-search-results {
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 65%;
   background: #f6f6f6;
 }
 

@@ -92,6 +92,6 @@ export default {
 
 <style scoped>
 #google-map {
-  width: 40%;
+  width: 35%;
 }
 </style>
