@@ -157,6 +157,8 @@ export default {
 
 <style scoped>
 .combobox-wrapper {
+  /* allows the combobox to fill the available width when it's container is 100% */
+  width: 100%;
   position: relative;
 }
 
@@ -165,7 +167,7 @@ export default {
   border-radius: 6px;
   margin: 1px;
   border: 1px solid #cccccc;
-  padding: 9.6px 16px;
+  padding: 9.6px 0 9.6px 16px;
 }
 
 .combobox-input:focus-within {
@@ -174,8 +176,10 @@ export default {
 }
 
 input {
-  /* need to set width: 100% otherwise input will not shrink in flex container */
-  width: 100%;
+  display: inline;
+  /* the - 26px is for the MenuOpenIcon. the icon will cause this component to be wider than a normal input would be
+  without it, which make it not line up as well with other inputs in the form. */
+  width: calc(100% - 26px);
   border: none;
   padding: 0;
   color: inherit;

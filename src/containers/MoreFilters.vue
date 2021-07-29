@@ -41,7 +41,12 @@ export default {
     ]),
 
     theme() {
-      return { '--menu-button-padding': '0' }
+      return {
+        '--menu-button-padding': '0',
+        '--menu-button-menu-position-left': '50%',
+        '--menu-button-menu-position-right': 'auto',
+        '--menu-button-menu-position-trasform': 'translateX(-75%)'
+      }
     },
 
     listingStatusParams() {
@@ -101,7 +106,7 @@ export default {
 
 <style scoped>
 .more-filters-container {
-  width: 58vw;
+  width: 650px;
 }
 
 .header {
@@ -117,13 +122,12 @@ export default {
   margin-bottom: .5rem;
 }
 
-@media (min-width: 1025px) {
-  .header {
-    display: flex;
-  }
 
-  .header > *:last-child {
-    margin-left: 10rem;
-  }
+.header {
+  display: flex;
+}
+
+.header > * {
+  width: 50%;
 }
 </style>

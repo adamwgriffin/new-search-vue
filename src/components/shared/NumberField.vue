@@ -23,6 +23,7 @@ input {
   margin: 1px;
   border: 1px solid #cccccc;
   padding: 11px 16px;
+  width: 100%;
 }
 
 /* hide the up/down arrows in input number fields */

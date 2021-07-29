@@ -1,14 +1,22 @@
 <template>
   <Fieldset>
     <Legend>Property Info</Legend>
-    <div class="row">
-      <SquareFeet :params="squareFeetParams" @change="updateValue($event)" />
-      <LotSize :params="lotSizeParams" @change="updateValue($event)" />
-    </div>
-    <div class="row">
-      <YearBuilt :params="yearBuiltPararms" @change="updateValue($event)" />
-      <TimeOnMLS :value="params.days_indb" @input="updateValue($event)" />
-    </div>
+      <div class="row">
+        <div class="column">
+          <SquareFeet :params="squareFeetParams" @change="updateValue($event)" />
+        </div>
+        <div class="column">
+          <LotSize :params="lotSizeParams" @change="updateValue($event)" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <YearBuilt :params="yearBuiltPararms" @change="updateValue($event)" />
+        </div>
+        <div class="column">
+          <TimeOnMLS :value="params.days_indb" @input="updateValue($event)" />
+        </div>
+      </div>
   </Fieldset>
 </template>
 
@@ -59,12 +67,20 @@ export default {
 </script>
 
 <style scoped>
+/* could use flex-wrap: wrap; for mobile */
 .row {
   display: flex;
-  margin-bottom: .6rem;
 }
 
-.row > *:first-child {
-  margin-right: 6px;;
+/* can set this to width: 100%; for mobile */
+.column {
+  display: flex;
+  margin-bottom: .6rem;
+  width: 50%;
+}
+
+/* make sure to remove this at breakpoints where we would want columns to be width: 100% */
+.column:first-child {
+  margin-right: 6px;
 }
 </style>

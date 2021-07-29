@@ -52,7 +52,6 @@ export default {
 
 <style scoped>
 .menu-open-icon {
-  display: flex;
   user-select: none;
   transform: rotate(0deg);
   transition: transform 150ms linear;

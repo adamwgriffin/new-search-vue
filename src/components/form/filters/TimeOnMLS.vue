@@ -36,8 +36,7 @@ export default {
 </script>
 
 <style scoped>
-.time-on-mls,
-input {
+.time-on-mls {
   width: 100%;
 }
 </style>

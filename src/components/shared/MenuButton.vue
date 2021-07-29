@@ -58,11 +58,16 @@ export default {
   position: relative;
   display: inline-block;
   --menu-button-padding: 1rem;
+  --menu-button-menu-position-left: auto;
+  --menu-button-menu-position-right: 0;
+  --menu-button-menu-position-trasform: none;
 }
 
 .menu {
   position: absolute;
-  right: 0;
+  left: var(--menu-button-menu-position-left);
+  right: var(--menu-button-menu-position-right);
+  transform: var(--menu-button-menu-position-trasform);
   z-index: 1;
   min-width: 8rem;
   border-radius: 6px;

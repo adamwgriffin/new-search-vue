@@ -48,6 +48,10 @@ export default {
 </script>
 
 <style scoped>
+fieldset {
+  width: 100%;
+}
+
 .year-built {
   display: flex;
   align-items: center;

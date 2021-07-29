@@ -60,6 +60,10 @@ export default {
 </script>
 
 <style scoped>
+fieldset {
+  width: 100%;
+}
+
 .square-feet {
   display: flex;
   align-items: center;
