@@ -78,12 +78,12 @@ export default {
 
 
     handleUserAdjustedMap(e) {
+      this.setMapData(e)
       this.resetListings()
       this.searchListings({
         ...this.searchParamsForListingService,
         ...this.boundsParams,
       })
-      this.setMapData(e)
     }
   },
 
