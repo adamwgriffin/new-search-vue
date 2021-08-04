@@ -31,7 +31,7 @@
       :disabled="!openHouseOptionsSelected"
       @change="updateParams('openhouse', +$event.target.value || null)"
     >
-      <option v-for="(val, key) in openHouseTimes" :key="key" :disabled="!val" :value="val">
+      <option v-for="(val, key) in openHouseTimes" :key="key" :value="val">
         {{ openHouseTimeLabels[key] }}
       </option>
     </select>
@@ -53,14 +53,13 @@ export default {
   props: {
     params: {
       type: Object,
-      default: () => ({ openhouse: null, openhouse_virtual: false, openhouse_in_person: false, })
+      default: () => ({ openhouse: 2, openhouse_virtual: false, openhouse_in_person: false, })
     }
   },
 
   computed: {
     openHouseTimes() {
       return {
-        none: null,
         this_weekend: 2,
         this_saturday: 3,
         this_sunday: 4,
@@ -72,7 +71,6 @@ export default {
 
     openHouseTimeLabels(key) {
       return {
-        "none": "None",
         "this_weekend": "This Weekend",
         "this_saturday": "This Saturday",
         "this_sunday": "This Sunday",

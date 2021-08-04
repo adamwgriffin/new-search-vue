@@ -54,7 +54,7 @@ export default {
     },
 
     openHouseParams() {
-      return pick(this.moreFiltersParams, ['openhouse', 'openhouse_virtual', 'exopenhouse_in_person_cs'])
+      return pick(this.moreFiltersParams, ['openhouse', 'openhouse_virtual', 'openhouse_in_person'])
     },
 
     propertyTypes() {

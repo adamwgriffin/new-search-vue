@@ -47,5 +47,18 @@ export const modifyParam = {
     if (getters.defaultSearchParams.status === 'active') {
       return { sold_days: null }
     }
+  },
+
+  openhouse(state, getters, rootState, rootGetters) {
+    const { openhouse, openhouse_virtual, openhouse_in_person } = state.searchParams
+    // if the user selected both openhouse_virtual and openhouse_in_person, then what will get them both from the
+    // listing service is to only send the openhouse param
+    if (openhouse_virtual && openhouse_in_person) {
+      return { openhouse: openhouse, openhouse_in_person: null, openhouse_virtual: null }
+    } else if (!openhouse_virtual && !openhouse_in_person) {
+      // don't send the openhouse param if neither openhouse_virtual or openhouse_in_person were selected because
+      // sending just the openhouse param will be interpreted as selecting both openhouse_in_person & openhouse_virtual
+      return { openhouse: null }
+    }
   }
 }

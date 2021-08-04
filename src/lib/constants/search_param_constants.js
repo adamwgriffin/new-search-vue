@@ -6,7 +6,7 @@ export const websitesSearchParams = Object.freeze({
   bed_min: 0,
   bath_min: 0,
   sold_days: 180,
-  openhouse: null,
+  openhouse: 2,
   openhouse_virtual: false,
   openhouse_in_person: false,
   // a.k.a., "property type"
