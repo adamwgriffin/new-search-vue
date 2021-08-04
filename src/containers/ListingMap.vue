@@ -4,7 +4,7 @@
     :mapOptions="mapOptions"
     @dragend="handleUserAdjustedMap"
     @userChangedZoom="handleUserAdjustedMap"
-    @idle="setMapData"
+    @idle="handleIdle"
   >
     <MapToolsControl :position="mapToolsPosition" />
     <ClusteredMarkers :coordinates="listingCoordinates" :clusterThreshold="cluster_threshold" />
@@ -42,7 +42,8 @@ export default {
     geoLayerPolygonOptions,
 
     ...mapState('listingMap', [
-      'geoLayerCoordinates',
+      'userAdjustedMap',
+      'geoLayerCoordinates'
     ]),
 
     ...mapGetters('listingMap', ['apiResponseBounds',]),
@@ -51,7 +52,7 @@ export default {
 
     ...mapState('listingSearch', [
       'mapListings',
-      'cluster_threshold',
+      'cluster_threshold'
     ]),
 
     listingCoordinates() {
@@ -70,6 +71,7 @@ export default {
   methods: {
     ...mapMutations('listingMap', [
       'setMapData',
+      'setUserAdjustedMap'
     ]),
 
     ...mapMutations('listingSearch', ['resetListings']),
@@ -79,11 +81,21 @@ export default {
 
     handleUserAdjustedMap(e) {
       this.setMapData(e)
-      this.resetListings()
-      this.searchListings({
-        ...this.searchParamsForListingService,
-        ...this.boundsParams,
-      })
+      // we want to set this flag so that once the map "idle" event is fired we will know to run a search. without
+      // waiting for "idle" we can get into situations where the map position and listing results don't match
+      this.setUserAdjustedMap(true)
+    },
+
+    handleIdle(e) {
+      this.setMapData(e)
+      if (this.userAdjustedMap) {
+        this.setUserAdjustedMap(false)
+        this.resetListings()
+        this.searchListings({
+          ...this.searchParamsForListingService,
+          ...this.boundsParams,
+        }) 
+      }
     }
   },
 
