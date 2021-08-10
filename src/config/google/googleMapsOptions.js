@@ -12,6 +12,7 @@ export const mapOptions = {
     lat: 47.6847,
     lng: -122.3848,
   },
+  clickableIcons: false,
   zoom: 11,
   zoomControl: true,
   mapTypeControl: false,
