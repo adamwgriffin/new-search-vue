@@ -1,38 +1,7 @@
 <template>
-  
-</template>
-
-<script>
-import { googleMap } from '@/lib/google'
-
-export default {
-  props: {
-    position: {
-      type: Number,
-      default: 2
-    }
-  },
-
-  data() {
-    return {
-      mapToolsControlDiv: null,
-      controlsArrIndex: null,
-    }
-  },
-  
-  mounted() {
-    this.createControl()
-    this.addControlToMap()
-  },
-
-  destroyed() {
-    googleMap.controls[this.position].removeAt(this.controlsArrIndex)
-    this.mapToolsControlDiv.remove()
-  },
-
-  computed: {
-    schoolsIcon() {
-      return `
+  <div id="map-tools-control">
+    <div class="map-tools-control-button" title="Display schools in this area">
+      <div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -41,11 +10,13 @@ export default {
         >
           <path d="M954.347 440.81l-410.116-228.635c-17.661-9.833-46.843-9.833-64.483 0l-410.094 228.627c-11.729 6.542-18.453 16.871-18.453 28.349s6.725 21.815 18.453 28.357l67.946 37.875v89.354l-42.768 187.060c-1.346 5.889 0.526 12.1 4.802 15.958 0.878 0.795 21.787 19.351 52.365 19.351s51.494-18.556 52.365-19.351c4.277-3.858 6.149-10.069 4.802-15.958l-42.768-187.060v-73.301l71.999 40.142v105.878c0 83.874 127.849 172.945 273.598 172.945s273.598-89.070 273.598-172.945v-105.862l168.752-94.077c11.729-6.534 18.446-16.863 18.453-28.341 0-11.486-6.725-21.815-18.453-28.365zM151.999 815.623c-11.268 0-20.657-3.865-26.697-7.243l26.697-116.782 26.697 116.782c-6.055 3.385-15.444 7.243-26.697 7.243zM737.952 698.846c0 53.766-98.703 125.189-225.956 125.189s-225.956-71.424-225.956-125.189v-82.905l196.196 109.377c8.148 4.549 18.721 7.056 29.773 7.056 11.032 0 21.599-2.5 29.753-7.034l196.19-109.384v82.89zM529.915 683.108c-8.942 4.981-26.888 4.988-35.817-0.015l-268.006-148.308 260.162-58.35c7.388 6.872 12.844 7.438 25.742 7.438 22.292 0 40.372-13.177 40.372-29.429s-18.080-29.429-40.372-29.429c-17.172 0-31.8 7.828-37.633 18.849l-296.808 62.765-66.721-37.198c-0.22-0.245 127.53-71.652 383.251-214.221 8.922-4.981 26.881-4.981 35.81 0l383.264 213.669c0.224 0.25-127.524 71.66-383.244 214.228z"></path>
         </svg>
-      `
-    },
-
-    drawIcon() {
-      return `
+      </div>
+      <div>
+        Schools
+      </div>
+    </div>
+    <div class="map-tools-control-button" title="Draw a cusom boundary">
+      <div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -54,11 +25,13 @@ export default {
         >
           <path d="M530.268 813.587l348.926-604.358c14.984-25.953 6.092-59.139-19.861-74.123s-59.139-6.092-74.123 19.861l-348.926 604.358 7.477 95.573 86.507-41.311zM973.163 328.981l-139.269 241.221-44.34-25.6 139.269-241.221-33.65-19.428-328.507 568.991-168.133 80.29-14.533-185.753 356.869-618.115c24.071-41.693 72.311-60.731 116.805-49.637l31.924-55.294 60.889 35.154-34.060 58.993c24.698 32.783 28.924 78.459 7.107 116.246l-2.762 4.784 77.991 45.028-25.6 44.341zM700.302 301.454l94.663 54.653-25.6 44.341-94.663-54.653 25.6-44.341zM344.212 892.614c11.768-7.836 27.661-4.648 35.497 7.12s4.648 27.661-7.12 35.497c-78.652 52.371-153.412 44.005-214.994-24.54-90.973-101.259-111.667-316.341-27.456-394.612 95.060-88.354 229.887 37.339 180.717 149.938-5.658 12.957-20.749 18.874-33.706 13.216s-18.874-20.749-13.216-33.706c28.883-66.143-48.792-138.556-98.939-91.946-61.053 56.746-43.378 240.454 30.686 322.892 44.376 49.393 90.791 54.587 148.531 16.141z"></path>
         </svg>
-      `
-    },
-
-    radiusIcon() {
-      return `
+      </div>
+      <div>
+        Draw
+      </div>
+    </div>
+    <div class="map-tools-control-button" title="Search within a given radius">
+      <div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -67,47 +40,32 @@ export default {
         >
           <path d="M591.2 512c0 43.741-35.459 79.2-79.2 79.2s-79.2-35.459-79.2-79.2c0-43.741 35.459-79.2 79.2-79.2s79.2 35.459 79.2 79.2zM1024 512c0 56.554-45.846 102.4-102.4 102.4s-102.4-45.846-102.4-102.4c0-56.554 45.846-102.4 102.4-102.4s102.4 45.846 102.4 102.4zM512 903.813c216.392 0 391.813-175.42 391.813-391.813s-175.42-391.813-391.813-391.813c-216.392 0-391.813 175.42-391.813 391.813s175.42 391.813 391.813 391.813zM512 955.013c-244.669 0-443.013-198.343-443.013-443.013s198.343-443.013 443.013-443.013c244.669 0 443.013 198.343 443.013 443.013s-198.343 443.013-443.013 443.013zM563.2 537.6v-51.2h416.224v51.2z"></path>
         </svg>
-      `
-    }
+      </div>
+      <div>
+        Radius
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {}
   },
 
   methods: {
-    createButton(icon, label, title) {
-      const toolbarButton = document.createElement("div")
-      toolbarButton.className = "map-tools-control-button"
-      toolbarButton.title = title
-      const toolbarButtonIcon = document.createElement("div")
-      toolbarButtonIcon.innerHTML = icon
-      toolbarButton.appendChild(toolbarButtonIcon)
-      const toolbarButtonText = document.createElement("div")
-      toolbarButtonText.innerHTML = label
-      toolbarButton.appendChild(toolbarButtonText)
-      return toolbarButton
-    },
 
-    createControl() {
-      this.mapToolsControlDiv = document.createElement("div")
-      this.mapToolsControlDiv.id = "map-tools-ui"
-      const schoolsButton = this.createButton(this.schoolsIcon, "Schools", 'Display schools in this area')
-      this.mapToolsControlDiv.appendChild(schoolsButton)
-      const drawButton = this.createButton(this.drawIcon, "Draw", 'Draw a cusom boundary')
-      this.mapToolsControlDiv.appendChild(drawButton)
-      const radiusButton = this.createButton(this.radiusIcon, "Radius", 'Search within a given radius')
-      this.mapToolsControlDiv.appendChild(radiusButton)
-    },
-
-    addControlToMap() {
-      const arrayLen = googleMap.controls[this.position].push(this.mapToolsControlDiv)
-      this.controlsArrIndex = arrayLen - 1
-    }
-  },
-
-
+  }
 }
 </script>
 
-<style>
-#map-tools-ui {
+<style scoped>
+#map-tools-control {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
   border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
   cursor: pointer;

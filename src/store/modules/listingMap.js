@@ -13,6 +13,7 @@ const initialState = () => {
       bounds: {},
       center: {},
       zoom: null,
+      mapTypeId: 'roadmap'
     },
     geocode: {
       pending: false,

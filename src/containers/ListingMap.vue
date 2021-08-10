@@ -1,19 +1,25 @@
 <template>
-  <GoogleMap
-    :bounds="apiResponseBounds"
-    :mapOptions="mapOptions"
-    @dragend="handleUserAdjustedMap"
-    @userChangedZoom="handleUserAdjustedMap"
-    @idle="handleIdle"
-  >
-    <MapToolsControl :position="mapToolsPosition" />
-    <ClusteredMarkers :coordinates="listingCoordinates" :clusterThreshold="cluster_threshold" />
-    <GeoLayerPolygon
-      :paths="geoLayerCoordinates"
-      :options="geoLayerPolygonOptions"
-    />
-    <MapTypeControl :position="mapTypePosition" />
-  </GoogleMap>
+  <div id="listing-map">
+    <!-- ideally we would have created these map control components as custom controls using the Google Maps API, and
+   put them inside of the GoogleMap component, but that wasn't working well with Vue, so we're positioning them on top
+   of the map this way instead. -->
+    <MapToolsControl />
+    <MapTypeControl :mapTypeId="mapData.mapTypeId" @mapTypeSelected="handleMapTypeSelected"/>
+    <GoogleMap
+      :bounds="apiResponseBounds"
+      :mapOptions="mapOptions"
+      :mapTypeId="mapData.mapTypeId"
+      @dragend="handleUserAdjustedMap"
+      @userChangedZoom="handleUserAdjustedMap"
+      @idle="handleIdle"
+    >    
+      <ClusteredMarkers :coordinates="listingCoordinates" :clusterThreshold="cluster_threshold" />
+      <GeoLayerPolygon
+        :paths="geoLayerCoordinates"
+        :options="geoLayerPolygonOptions"
+      />
+    </GoogleMap>
+  </div>
 </template>
 
 <script>
@@ -42,6 +48,7 @@ export default {
     geoLayerPolygonOptions,
 
     ...mapState('listingMap', [
+      'mapData',
       'userAdjustedMap',
       'geoLayerCoordinates'
     ]),
@@ -78,6 +85,9 @@ export default {
 
     ...mapActions('listingSearch', ['searchListings']),
 
+    handleMapTypeSelected(e) {
+      this.setMapData({ mapTypeId: e })
+    },
 
     handleUserAdjustedMap(e) {
       this.setMapData(e)
@@ -103,7 +113,12 @@ export default {
 </script>
 
 <style scoped>
-#google-map {
+#listing-map {
+  position: relative;
   width: 35%;
+}
+
+#google-map {
+  height: 100%;
 }
 </style>

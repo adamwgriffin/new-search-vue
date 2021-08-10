@@ -1,91 +1,154 @@
 <template>
-  
+  <div id="map-type-control" class="menu-button" v-click-outside="closeMenu">
+    <button
+      id="map-type-button"
+      title="Change map type"
+      :aria-expanded="open"
+      aria-haspopup="listbox"
+      @click="toggleMenu"
+    >
+      <span class="label">{{ $t('map_type_btn.label') }}</span>
+      <MenuOpenIcon :open="open" role="button" />
+    </button>
+    <ul v-show="open" class="menu" role="listbox">
+      <li class="menu-item" @click="handleClick('roadmap')" role="option" :aria-selected="roadmapSelected">
+        {{ $t('map_type_btn.default') }}
+      </li>
+      <li class="menu-item" @click="handleClick('satellite')" role="option" :aria-selected="satelliteSelected">
+        {{ $t('map_type_btn.satellite') }}
+      </li>
+      <li class="menu-item" @click="handleClick('terrain')" role="option" :aria-selected="terrainSelected">
+        {{ $t('map_type_btn.terrain') }}
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import { googleMap } from '@/lib/google'
+import { ClickOutside } from '@/directives/ClickOutsideDirective'
+import MenuOpenIcon from '@/components/shared/icons/MenuOpenIcon'
 
 export default {
+  components: { MenuOpenIcon },
+
+  directives: { ClickOutside },
+
   props: {
-    position: {
-      type: Number,
-      default: 6
+    mapTypeId: {
+      type: String,
+      default: 'roadmap'
     }
   },
 
   data() {
     return {
-      mapTypeControlDiv: null,
-      controlsArrIndex: null,
+      open: false
     }
   },
-  
-  mounted() {
-    this.createControl()
-    this.addControlToMap()
-  },
 
-  destroyed() {
-    googleMap.controls[this.position].removeAt(this.controlsArrIndex)
-    this.mapTypeControlDiv.remove()
+  computed: {
+    roadmapSelected() {
+      return this.mapTypeId === 'roadmap'
+    },
+    
+    satelliteSelected() {
+      return this.mapTypeId === 'satellite'
+    },
+    
+    terrainSelected() {
+      return this.mapTypeId === 'terrain'
+    },
   },
 
   methods: {
-    createControl() {
-      this.mapTypeControlDiv = document.createElement("div")
-      const mapTypeUI = document.createElement("div")
-      mapTypeUI.id = "map-type-ui"
-      mapTypeUI.title = "Change map type"
-      this.mapTypeControlDiv.appendChild(mapTypeUI)
-      const mapTypeText = document.createElement("div")
-      mapTypeText.id = "map-type-text"
-      mapTypeText.innerHTML = "Map"
-      mapTypeUI.appendChild(mapTypeText)
-      const icon = `<svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        width="14"
-        height="14"
-        fill="#212e35"
-      >
-        <path d="M0 0h24v24H0z" fill="none" />
-        <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
-      </svg>`
-      const iconContainer = document.createElement("div")
-      iconContainer.id = 'map-type-icon-container'
-      iconContainer.innerHTML = icon
-      mapTypeUI.appendChild(iconContainer)
+    toggleMenu() {
+      this.open = !this.open
     },
 
-    addControlToMap() {
-      const arrayLen = googleMap.controls[this.position].push(this.mapTypeControlDiv)
-      this.controlsArrIndex = arrayLen - 1
+    closeMenu() {
+      this.open = false
+    },
+
+    handleClick(mapTypeId) {
+      this.$emit('mapTypeSelected', mapTypeId)
+      this.closeMenu()
     }
-  },
-
-
+  }
 }
 </script>
 
-<style>
-#map-type-ui {
-  display: flex;
-  border-radius: 6px;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
-  cursor: pointer;
+<style scoped>
+#map-type-control {
+  position: absolute;
+  left: 0;
+  bottom: 24px;
+  z-index: 1;
   margin: 0 0 5px 8px;
-  padding: 10px 0.8rem;
-  background-color: white;
-  font-family: "Open Sans", Hevetica, Verdana, Arial, sans-serif;
-  font-size: 14px;
 }
 
-#map-type-text {
-  margin-right: 6px;
+.menu-button {
+  position: relative;
+  display: inline-block;
 }
 
-#map-type-icon-container {
+.menu {
+  position: absolute;
+  bottom: 100%;
+  list-style: none;
+  width: 100%;
+  border-radius: 6px;
+  margin: 0;
+  padding: 0;
+  box-shadow: 0px 9px 12px rgba(0, 0, 0, 0.06),
+    0px 3px 16px rgba(0, 0, 0, 0.04),
+    0px 5px 6px rgba(0, 0, 0, 0.06);
+  background: #fefefe;
+}
+
+.menu-item {
+  padding: .6rem .8rem;
+  cursor: pointer;
+}
+
+.menu-item:first-child {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.menu-item:last-child {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.menu-item:hover {
+  background: #f6f6f6;
+}
+
+.menu-item[aria-selected] {
+  color: #5092d3;
+}
+
+#map-type-button {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+  height: 40px;
+  border-radius: 6px;
+  padding: 0 .8rem;
+  background: #fefefe;
+  font-size: 14px;
+  font-family: inherit;
+  color: inherit;
+}
+
+#map-type-button:hover {
+  background: #f6f6f6;
+}
+
+.label {
+  margin-right: 0.3rem;
 }
 </style>

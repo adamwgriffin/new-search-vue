@@ -13,6 +13,11 @@ export default {
       type: Object,
     },
 
+    mapTypeId: {
+      type: String,
+      default: 'roadmap'
+    },
+
     mapOptions: {
       type: Object,
       default: () => ({})
@@ -29,6 +34,10 @@ export default {
   watch: {
     bounds(newBounds) {
       newBounds && this.updateMapPosition(newBounds)
+    },
+
+    mapTypeId(newMapTypeId) {
+      this.map.setMapTypeId(newMapTypeId)
     }
   },
 
