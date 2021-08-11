@@ -2,7 +2,7 @@
 export const googleToServiceAddressTypeMapping = Object.freeze({
   'administrative_area_level_1': 'AdminDivision1',
   'administrative_area_level_2': 'AdminDivision2',
-  'administrative_area_level_3': 'AdminDivision2',
+  'administrative_area_level_3': 'AdminDivision3',
   'political': 'AdminDivision2',
   'country': 'AdminDivision1',
   'postal_code': 'Postcode1',
