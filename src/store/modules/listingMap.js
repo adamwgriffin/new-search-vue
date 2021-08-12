@@ -8,6 +8,7 @@ import { autocompleteOptions } from '@/config/google'
 const initialState = () => {
   return {
     buffer_miles: 0,
+    boundaryActive: true,
     mapData: {
       bounds: {},
       center: {},
@@ -146,6 +147,11 @@ export const mutations = {
     state.geoLayerCoordinates = convertGeojsonCoordinatesToPolygonPaths(geojson.coordinates)
   },
 
+  removeBoundary(state) {
+    // removing geoLayerCoordinates removes the boundary
+    state.geoLayerCoordinates = initialState().geoLayerCoordinates
+  },
+
   setPlaceAutocompleteRequestPending(state) {
     state.placeAutocompleteRequest = { ...initialState().placeAutocompleteRequest, pending: true }
   },
@@ -180,6 +186,10 @@ export const mutations = {
     state.placeDetailsRequest.error = error
     state.placeDetailsRequest.status = error.status
     state.placeDetailsRequest.pending = false
+  },
+
+  setBoundaryActive(state, active) {
+    state.boundaryActive = active
   }
 }
 

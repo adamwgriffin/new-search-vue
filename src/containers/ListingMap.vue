@@ -15,9 +15,9 @@
       @idle="handleIdle"
     >    
       <ClusteredMarkers :coordinates="listingCoordinates" :clusterThreshold="cluster_threshold" />
-      <GeoLayerPolygon
+      <Boundary
         :paths="geoLayerCoordinates"
-        :options="geoLayerPolygonOptions"
+        :options="boundaryOptions"
       />
     </GoogleMap>
   </div>
@@ -27,18 +27,18 @@
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import GoogleMap from '@/components/map/GoogleMap'
 import ClusteredMarkers from '@/components/map/ClusteredMarkers'
-import GeoLayerPolygon from '@/components/map/GeoLayerPolygon'
+import Boundary from '@/components/map/Boundary'
 import MapToolsControl from '@/components/map/MapToolsControl'
 import MapTypeControl from '@/components/map/MapTypeControl'
 import BoundaryControl from '@/components/map/BoundaryControl'
-import { geoLayerPolygonOptions } from '@/config'
+import { boundaryOptions } from '@/config'
 import { mapOptions } from '@/config/google'
 
 export default {
 
   components: {
     GoogleMap,
-    GeoLayerPolygon,
+    Boundary,
     ClusteredMarkers,
     MapTypeControl,
     MapToolsControl,
@@ -48,7 +48,7 @@ export default {
   computed: {
     mapOptions: () => mapOptions,
 
-    geoLayerPolygonOptions,
+    boundaryOptions,
 
     ...mapState('listingMap', [
       'mapData',
@@ -75,7 +75,7 @@ export default {
     ...mapMutations('listingMap', [
       'setMapData',
       'setBoundaryActive',
-      'resetGeoLayerCoordinates'
+      'removeBoundary'
     ]),
 
     ...mapMutations('listingSearch', [
@@ -91,7 +91,7 @@ export default {
 
     handleBoundaryControlClick() {
       this.setBoundaryActive(false)
-      this.resetGeoLayerCoordinates() // removing coordinates removes the boundary
+      this.removeBoundary()
       this.resetListings()
       this.setListingSearchPending()
     },

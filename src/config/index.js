@@ -1,4 +1,4 @@
-export const geoLayerPolygonOptions = () => ({
+export const boundaryOptions = () => ({
   strokeColor: '#484745',
   strokeOpacity: 1,
   strokeWeight: 3,

@@ -87,7 +87,8 @@ export default {
   methods: {
     ...mapMutations('listingMap', [
       'setGeocoderResult',
-      'setAutcompletePlacePredictions'
+      'setAutcompletePlacePredictions',
+      'setBoundaryActive'
     ]),
 
     ...mapMutations('listingSearch', [
@@ -103,7 +104,7 @@ export default {
       'geocodeMap',
       'getGeoLayer',
       'getPlaceAutocompletePredictions',
-      'getPlaceAutocompletePlaceDetails',
+      'getPlaceAutocompletePlaceDetails'
     ]),
 
     handleClearPlaceAutocompletePredictions() {
@@ -115,6 +116,7 @@ export default {
     // we call geocodeMap. setLocationSearchField could be handled by Search emitting an "input" event with the
     // description instead of setting it here.
     async handleOptionSelected(e) {
+      this.setBoundaryActive(true)
       this.setLocationSearchField(e.description)
       this.resetListings()
       await this.getPlaceAutocompletePlaceDetails(e.place_id)
@@ -129,6 +131,7 @@ export default {
     },
 
     async handleSearchInitiated() {
+      this.setBoundaryActive(true)
       this.resetListings()
       await this.geocodeMap({ address: this.location_search_field })
       this.getGeoLayer({

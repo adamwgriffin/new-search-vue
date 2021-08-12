@@ -36,6 +36,14 @@ export const mapOrder = (source, order, key) => {
 // if params need to be removed we can do so by setting their values to null. if nothing needs to be changed then the
 // function should not return a value.
 export const modifyParam = {
+  geotype(state, getters, rootState, rootGetters) {
+    if (!rootState.listingMap.boundaryActive) {
+      // excluding geotype from the service request causes it to not restrict the search to a geospatial boundary but
+      // instead return all the listings that are within the the bounds provided in bounds_north, bounds_east, etc.
+      return { geotype: null }
+    }
+  },
+
   sort_by(state, getters, rootState, rootGetters) {
     // listing service uses user_lat & user_lon as basis for distance sort
     if (sortByDistanceValues.includes(getters.defaultSearchParams.sort_by)) {

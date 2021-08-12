@@ -88,7 +88,8 @@ export const getters = {
     return {
       ...state.searchParams,
       ...getters.centerLatLonParams,
-      ...getters.boundsParams
+      ...getters.boundsParams,
+      geotype: rootGetters['listingMap/geotype']
     }
   },
 
