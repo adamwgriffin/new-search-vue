@@ -143,7 +143,7 @@ export const mutations = {
     state.geoLayer.pending = false
   },
 
-  setGeoLayerCoordinates(state, geojson) {
+  setGeoLayerCoordinatesWithGeojson(state, geojson) {
     state.geoLayerCoordinates = convertGeojsonCoordinatesToPolygonPaths(geojson.coordinates)
   },
 
@@ -247,7 +247,7 @@ export const actions = {
       const res = await http({ url: getters.geoLayerServiceUrl, params: payload })
       if (res.data.status !== 'error') {
         commit('setGeoLayerSuccess', { results: res.data.data, status: res.status })
-        commit('setGeoLayerCoordinates', res.data.data.result_list[0].geojson)
+        commit('setGeoLayerCoordinatesWithGeojson', res.data.data.result_list[0].geojson)
       } else {
         commit('setGeoLayerFailure', res)
       }
