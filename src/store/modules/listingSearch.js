@@ -88,7 +88,7 @@ export const getters = {
     return {
       ...state.searchParams,
       ...getters.centerLatLonParams,
-      geotype: rootGetters['listingMap/geotype']
+      ...getters.boundsParams
     }
   },
 
@@ -216,7 +216,6 @@ export const mutations = {
 
 export const actions = {
   searchListings: async ({ dispatch, commit, state }, searchParams) => {
-    commit('setListingSearchPending')
     const data = await dispatch('searchListingsDedupe', searchParams)
     if (!data.result_list) {
       commit('setListingSearchComplete')

@@ -93,7 +93,8 @@ export default {
     ...mapMutations('listingSearch', [
       'setLocationSearchField',
       'setSearchParams',
-      'resetListings'
+      'resetListings',
+      'setListingSearchPending'
     ]),
 
     ...mapActions('listingSearch', ['searchListings']),
@@ -117,7 +118,6 @@ export default {
       this.setLocationSearchField(e.description)
       this.resetListings()
       await this.getPlaceAutocompletePlaceDetails(e.place_id)
-      this.searchListings(this.searchParamsForListingService)
       this.getGeoLayer({
         center_lat: this.geocoderResult.location.lat,
         center_lon: this.geocoderResult.location.lng,
@@ -125,12 +125,12 @@ export default {
         buffer_miles: this.buffer_miles,
         source: 'agent website'
       })
+      this.setListingSearchPending()
     },
 
     async handleSearchInitiated() {
       this.resetListings()
       await this.geocodeMap({ address: this.location_search_field })
-      this.searchListings(this.searchParamsForListingService)
       this.getGeoLayer({
         center_lat: this.geocoderResult.location.lat,
         center_lon: this.geocoderResult.location.lng,
@@ -138,6 +138,7 @@ export default {
         buffer_miles: this.buffer_miles,
         source: 'agent website'
       })
+      this.setListingSearchPending()
     }
   }
 }

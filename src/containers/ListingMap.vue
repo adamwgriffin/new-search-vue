@@ -5,6 +5,7 @@
    of the map this way instead. -->
     <MapToolsControl />
     <MapTypeControl :mapTypeId="mapData.mapTypeId" @mapTypeSelected="handleMapTypeSelected"/>
+    <BoundaryControl v-if="boundaryActive" @click="handleBoundaryControlClick" />
     <GoogleMap
       :bounds="apiResponseBounds"
       :mapOptions="mapOptions"
@@ -27,8 +28,9 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import GoogleMap from '@/components/map/GoogleMap'
 import ClusteredMarkers from '@/components/map/ClusteredMarkers'
 import GeoLayerPolygon from '@/components/map/GeoLayerPolygon'
-import MapTypeControl from '@/components/map/MapTypeControl'
 import MapToolsControl from '@/components/map/MapToolsControl'
+import MapTypeControl from '@/components/map/MapTypeControl'
+import BoundaryControl from '@/components/map/BoundaryControl'
 import { geoLayerPolygonOptions } from '@/config'
 import { mapOptions } from '@/config/google'
 
@@ -39,7 +41,8 @@ export default {
     GeoLayerPolygon,
     ClusteredMarkers,
     MapTypeControl,
-    MapToolsControl
+    MapToolsControl,
+    BoundaryControl
   },
 
   computed: {
@@ -49,8 +52,8 @@ export default {
 
     ...mapState('listingMap', [
       'mapData',
-      'userAdjustedMap',
-      'geoLayerCoordinates'
+      'geoLayerCoordinates',
+      'boundaryActive'
     ]),
 
     ...mapGetters('listingMap', ['apiResponseBounds',]),
@@ -59,7 +62,8 @@ export default {
 
     ...mapState('listingSearch', [
       'mapListings',
-      'cluster_threshold'
+      'cluster_threshold',
+      'listingSearchPending'
     ]),
 
     listingCoordinates() {
@@ -70,10 +74,14 @@ export default {
   methods: {
     ...mapMutations('listingMap', [
       'setMapData',
-      'setUserAdjustedMap'
+      'setBoundaryActive',
+      'resetGeoLayerCoordinates'
     ]),
 
-    ...mapMutations('listingSearch', ['resetListings']),
+    ...mapMutations('listingSearch', [
+      'resetListings',
+      'setListingSearchPending'
+    ]),
 
     ...mapActions('listingSearch', ['searchListings']),
 
@@ -81,22 +89,24 @@ export default {
       this.setMapData({ mapTypeId: e })
     },
 
+    handleBoundaryControlClick() {
+      this.setBoundaryActive(false)
+      this.resetGeoLayerCoordinates() // removing coordinates removes the boundary
+      this.resetListings()
+      this.setListingSearchPending()
+    },
+
     handleUserAdjustedMap(e) {
       this.setMapData(e)
-      // we want to set this flag so that once the map "idle" event is fired we will know to run a search. without
-      // waiting for "idle" we can get into situations where the map position and listing results don't match
-      this.setUserAdjustedMap(true)
+      this.resetListings()
+      this.setListingSearchPending()
     },
 
     handleIdle(e) {
       this.setMapData(e)
-      if (this.userAdjustedMap) {
-        this.setUserAdjustedMap(false)
-        this.resetListings()
-        this.searchListings({
-          ...this.searchParamsForListingService,
-          ...this.boundsParams,
-        }) 
+      // TODO: also check if boundary is active and outside of viewport here
+      if (this.listingSearchPending) {
+        this.searchListings(this.searchParamsForListingService)
       }
     }
   },

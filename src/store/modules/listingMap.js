@@ -8,7 +8,6 @@ import { autocompleteOptions } from '@/config/google'
 const initialState = () => {
   return {
     buffer_miles: 0,
-    userAdjustedMap: false,
     mapData: {
       bounds: {},
       center: {},
@@ -181,10 +180,6 @@ export const mutations = {
     state.placeDetailsRequest.error = error
     state.placeDetailsRequest.status = error.status
     state.placeDetailsRequest.pending = false
-  },
-
-  setUserAdjustedMap(state, payload) {
-    state.userAdjustedMap = payload
   }
 }
 
