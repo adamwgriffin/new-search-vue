@@ -64,14 +64,6 @@ export default {
 
     listingCoordinates() {
       return this.mapListings.map(l => ({ lat: l.lat, lng: l.lng }))
-    },
-
-    mapTypePosition() {
-      return google.maps.ControlPosition.LEFT_BOTTOM
-    },
-
-    mapToolsPosition() {
-      return google.maps.ControlPosition.LEFT_TOP
     }
   },
 
