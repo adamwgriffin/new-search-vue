@@ -19,6 +19,10 @@ export default {
   watch: {
     paths() {
       this.updatePolygon()
+    },
+
+    options(options) {
+      this.polygon.setOptions(options)
     }
   },
 

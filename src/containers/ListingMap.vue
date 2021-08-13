@@ -48,7 +48,9 @@ export default {
   computed: {
     mapOptions: () => mapOptions,
 
-    boundaryOptions,
+    boundaryOptions() {
+      return { ...boundaryOptions, visible: this.boundaryActive }
+    },
 
     ...mapState('listingMap', [
       'mapData',
@@ -74,8 +76,7 @@ export default {
   methods: {
     ...mapMutations('listingMap', [
       'setMapData',
-      'setBoundaryActive',
-      'removeBoundary'
+      'setBoundaryActive'
     ]),
 
     ...mapMutations('listingSearch', [
@@ -95,9 +96,10 @@ export default {
 
     handleBoundaryControlClick() {
       this.setBoundaryActive(false)
-      this.removeBoundary()
       this.resetListings()
       this.setListingSearchPending()
+      // no further map events will be triggered so we do the search here instead of handleIdle()
+      this.completePendingListingSearch()
     },
 
     handleUserAdjustedMap(e) {
@@ -110,16 +112,19 @@ export default {
       this.setMapData(e)
       // TODO: also check if boundary is active and outside of viewport here
       if (this.listingSearchPending) {
-        this.cancelActiveSearchListingRequests()
-        this.resetListings()
-        try {
-          await this.searchListings(this.searchParamsForListingService)          
-        } catch (error) {
-          // TODO: could trigger a message to the user here
-          console.error(error)
-        } finally {
-          this.setListingSearchComplete()
-        }
+        this.completePendingListingSearch()
+      }
+    },
+
+    async completePendingListingSearch() {
+      this.cancelActiveSearchListingRequests()
+      try {
+        await this.searchListings(this.searchParamsForListingService)          
+      } catch (error) {
+        // TODO: could trigger a message to the user here
+        console.error(error)
+      } finally {
+        this.setListingSearchComplete()
       }
     }
   },

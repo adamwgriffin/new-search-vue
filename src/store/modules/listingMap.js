@@ -147,11 +147,6 @@ export const mutations = {
     state.geoLayerCoordinates = convertGeojsonCoordinatesToPolygonPaths(geojson.coordinates)
   },
 
-  removeBoundary(state) {
-    // removing geoLayerCoordinates removes the boundary
-    state.geoLayerCoordinates = initialState().geoLayerCoordinates
-  },
-
   setPlaceAutocompleteRequestPending(state) {
     state.placeAutocompleteRequest = { ...initialState().placeAutocompleteRequest, pending: true }
   },
