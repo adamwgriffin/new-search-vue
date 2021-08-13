@@ -80,10 +80,14 @@ export default {
 
     ...mapMutations('listingSearch', [
       'resetListings',
-      'setListingSearchPending'
+      'setListingSearchPending',
+      'setListingSearchComplete'
     ]),
 
-    ...mapActions('listingSearch', ['searchListings']),
+    ...mapActions('listingSearch', [
+      'searchListings',
+      'cancelActiveSearchListingRequests'
+    ]),
 
     handleMapTypeSelected(e) {
       this.setMapData({ mapTypeId: e })
@@ -102,11 +106,20 @@ export default {
       this.setListingSearchPending()
     },
 
-    handleIdle(e) {
+    async handleIdle(e) {
       this.setMapData(e)
       // TODO: also check if boundary is active and outside of viewport here
       if (this.listingSearchPending) {
-        this.searchListings(this.searchParamsForListingService)
+        this.cancelActiveSearchListingRequests()
+        this.resetListings()
+        try {
+          await this.searchListings(this.searchParamsForListingService)          
+        } catch (error) {
+          // TODO: could trigger a message to the user here
+          console.error(error)
+        } finally {
+          this.setListingSearchComplete()
+        }
       }
     }
   },

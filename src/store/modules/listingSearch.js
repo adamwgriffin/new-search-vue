@@ -150,6 +150,10 @@ export const mutations = {
     state.dedupeRequest.status = error.status
     state.dedupeRequest.pending = false
   },
+
+  setDedupeRequestCanceled(state) {
+    state.dedupeRequest = initialState().dedupeRequest
+  },
   
   setNonDedupeRequestListingsPending(state) {
     state.nonDedupeRequest = { ...initialState().nonDedupeRequest, pending: true }
@@ -166,6 +170,10 @@ export const mutations = {
     state.nonDedupeRequest.status = error.status
     state.nonDedupeRequest.pending = false
   },
+
+  setNonDedupeRequestCanceled(state) {
+    state.nonDedupeRequest = initialState().nonDedupeRequest
+  },
   
   setListingIdRequestPending(state) {
     state.listingIdRequest = { ...initialState().listingIdRequest, pending: true }
@@ -181,6 +189,10 @@ export const mutations = {
     state.listingIdRequest.error = error
     state.listingIdRequest.status = error.status
     state.listingIdRequest.pending = false
+  },
+
+  setListingIdRequestCanceled(state) {
+    state.listingIdRequest = initialState().listingIdRequest
   },
 
   setGetMoreListingsPending(state, status) {
@@ -215,48 +227,60 @@ export const mutations = {
   }
 }
 
+const cancelTokenSources = {
+  dedupeRequest: null,
+  nonDedupeRequest: null,
+  listingIdRequest: null
+}
+
 export const actions = {
   searchListings: async ({ dispatch, commit, state }, searchParams) => {
-    const data = await dispatch('searchListingsDedupe', searchParams)
-    if (!data.result_list) {
-      commit('setListingSearchComplete')
-      // TODO: need to publish some kind of no results message here
-      return
-    } else if (data.number_found === data.number_returned) {
-      // we have all listings, so just set them on the store
-      commit('setListings', data.result_list)
-      commit('setMapListings', formatListingDataForMapListings(data.result_list))
-    } else if (data.number_found >= state.cluster_threshold) {
-      /* we have the first 20 listings but we need to get all listings for the map. since we are at or above the
-      cluster_threshold we will need to call the old non-dedupe endpoint which is able to return a lot of listings
-      but only with { lat, lng, listingid } for each listing, rather than all listing data, which presumably would be
-      too much data to get back quickly. since we only need coordinates for the map listing markers this will work
-      fine. */
-      commit('setListings', data.result_list)
-      const mapListingData = await dispatch(
-        'searchListingsNonDedupe',
-        searchParamsForMapClusters(searchParams, state.cluster_threshold)
-      )
-      commit('setMapListings', mapListingData.result_list)
-    } else if (data.number_found < state.cluster_threshold) {
-      // we have the first 20 listings, so we might as well add them first so the user has something to look at while
-      // they wait for the rest
-      commit('setListings', data.result_list)
-      /* we need to get the remaining listings. since the number_found in the request is less than cluster_threshold we
-      can get them by listing id, which will return all listing data for each listing. we will then merge the first 20
-      with the remaining listings. */
-      const remainingListings = await dispatch('searchListingsIds', data.result_listing_ids)
-      /* currenlty the service doesn't return the listings sorted in the same order you request them, which causes them
-      to be sorted incorrectly in the response, so we have to sort them based on the original result_listing_ids since
-      it's in the correct order. */
-      const remainingListingsSorted = mapOrder(remainingListings.result_list, data.result_listing_ids, 'listingid')
-      const allListingData = data.result_list.concat(remainingListingsSorted)
-      commit('setListings', allListingData)
-      commit('setMapListings', formatListingDataForMapListings(allListingData))
-    } else {
-      console.error("No conditions were met for searchListings() response")
+    try {
+      const data = await dispatch('searchListingsDedupe', searchParams)
+      if (!data.result_list) {
+        // TODO: need to publish some kind of no results message here
+        console.debug("No results")
+      } else if (data.number_found === data.number_returned) {
+        // we have all listings, so just set them on the store
+        commit('setListings', data.result_list)
+        commit('setMapListings', formatListingDataForMapListings(data.result_list))
+      } else if (data.number_found >= state.cluster_threshold) {
+        /* we have the first 20 listings but we need to get all listings for the map. since we are at or above the
+        cluster_threshold we will need to call the old non-dedupe endpoint which is able to return a lot of listings
+        but only with { lat, lng, listingid } for each listing, rather than all listing data, which presumably would be
+        too much data to get back quickly. since we only need coordinates for the map listing markers this will work
+        fine. */
+        commit('setListings', data.result_list)
+        const mapListingData = await dispatch(
+          'searchListingsNonDedupe',
+          searchParamsForMapClusters(searchParams, state.cluster_threshold)
+        )
+        commit('setMapListings', mapListingData.result_list)        
+      } else if (data.number_found < state.cluster_threshold) {
+        // we have the first 20 listings, so we might as well add them first so the user has something to look at while
+        // they wait for the rest
+        commit('setListings', data.result_list)
+        /* we need to get the remaining listings. since the number_found in the request is less than cluster_threshold
+        we can get them by listing id, which will return all listing data for each listing. we will then merge the first
+        20 with the remaining listings. */
+        const remainingListings = await dispatch('searchListingsIds', data.result_listing_ids)
+        /* currenlty the service doesn't return the listings sorted in the same order you request them, which causes
+        them to be sorted incorrectly in the response, so we have to sort them based on the original result_listing_ids
+        since it's in the correct order. */
+        const remainingListingsSorted = mapOrder(remainingListings.result_list, data.result_listing_ids, 'listingid')
+        const allListingData = data.result_list.concat(remainingListingsSorted)
+        commit('setListings', allListingData)
+        commit('setMapListings', formatListingDataForMapListings(allListingData))
+      } else {
+        console.warn("No conditions were met for searchListings() response")
+      }
+    } catch (error) {
+      if (http.isCancel(error)) {
+        console.debug(error.message)
+      } else {
+        throw error
+      }
     }
-    commit('setListingSearchComplete')
   },
 
   getMoreListings: async ({ dispatch, commit, state }) => {
@@ -264,16 +288,25 @@ export const actions = {
     const { pgsize } = state.searchParams
     const newPageIndex = state.listingsPageIndex + pgsize
     const listingIds = state.mapListings.slice(newPageIndex, newPageIndex+pgsize).map(l => l.listingid)
-    const newListings = await dispatch('searchListingsIds', listingIds)
-    commit('setListings', state.listings.concat(newListings.result_list))
+    try {
+      const newListings = await dispatch('searchListingsIds', listingIds)
+      commit('setListings', state.listings.concat(newListings.result_list))
+      commit('setListingsPageIndex', newPageIndex)
+    } catch (error) {
+      if (http.isCancel(error)) {
+        commit('setGetMoreListingsPending', false)
+      }
+      throw error
+    }
     commit('setGetMoreListingsPending', false)
-    commit('setListingsPageIndex', newPageIndex)
   },
 
   searchListingsDedupe: async ({ commit, getters }, params) => {
+    const source = http.CancelToken.source()
+    cancelTokenSources.dedupeRequest = source
     try {
-      commit('setDedupeRequestPending')
-      const res = await http({ url: getters.dedupeEndpoint, params })
+      commit('setDedupeRequestPending', source)
+      const res = await http({ cancelToken: source.token, url: getters.dedupeEndpoint, params })
       const { data } = res.data
       if (res.data.status !== 'fail') {
         commit('setDedupeRequestSuccess', { results: data, status: res.status })
@@ -282,16 +315,23 @@ export const actions = {
         throw new Error(data)
       }
     } catch (error) {
-      const err = error.message || error
-      commit('setDedupeRequestFailure', err)
-      throw new Error(err)
+      if (http.isCancel(error)) {
+        commit('setDedupeRequestCanceled')
+        throw error
+      } else {
+        const err = error.message || error
+        commit('setDedupeRequestFailure', err)
+        throw new Error(err)
+      }
     }
   },
 
   searchListingsNonDedupe: async ({ commit, getters }, params) => {
+    const source = http.CancelToken.source()
+    cancelTokenSources.nonDedupeRequest = source
     try {
       commit('setNonDedupeRequestListingsPending')
-      const res = await http({ url: getters.nonDedupeEndpoint, params })
+      const res = await http({ cancelToken: source.token, url: getters.nonDedupeEndpoint, params })
       const { data } = res.data
       if (res.data.status !== 'fail') {
         commit('setNonDedupeRequestSuccess', { results: data, status: res.status })
@@ -300,16 +340,24 @@ export const actions = {
         throw new Error(data)
       }
     } catch (error) {
-      const err = error.message || error
-      commit('setNonDedupeRequestFailure', err)
-      throw new Error(err)
+      if (http.isCancel(error)) {
+        commit('setNonDedupeRequestCanceled')
+        throw error
+      } else {
+        const err = error.message || error
+        commit('setNonDedupeRequestFailure', err)
+        throw new Error(err)
+      }
     }
   },
 
   searchListingsIds: async ({ commit, getters, rootState }, listingIds) => {
+    const source = http.CancelToken.source()
+    cancelTokenSources.listingIdRequest = source
     try {
       commit('setListingIdRequestPending')
       const res = await http({
+        cancelToken: source.token,
         url: `${getters.listingIdEndpoint}/${listingIds.join('|')}`,
         params: { company_uuid: rootState.env.company_uuid }
       })
@@ -321,9 +369,22 @@ export const actions = {
         throw new Error(data)
       }
     } catch (error) {
-      const err = error.message || error
-      commit('setListingIdRequestFailure', err)
-      throw new Error(err)
+      if (http.isCancel(error)) {
+        commit('setListingIdRequestCanceled')
+        throw error
+      } else {
+        const err = error.message || error
+        commit('setListingIdRequestFailure', err)
+        throw new Error(err)
+      }
+    }
+  },
+
+  cancelActiveSearchListingRequests({ state }) {
+    for (const requestName in cancelTokenSources) {
+      if (state[requestName].pending) {
+        cancelTokenSources[requestName].cancel(`${requestName} request cancelled.`)
+      }
     }
   }
 }
