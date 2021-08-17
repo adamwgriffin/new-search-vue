@@ -65,6 +65,16 @@ label {
   border-left: 1px solid #e7e7e7;
 }
 
+label:first-of-type {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+label:last-of-type {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
 label:hover {
   background: #F6F6F6;
 }
