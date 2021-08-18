@@ -25,14 +25,11 @@
 </template>
 
 <script>
-import { ClickOutside } from '@/directives/ClickOutsideDirective'
 import MenuOpenIcon from '@/components/shared/icons/MenuOpenIcon'
 import ContainedButton from '@/components/shared/ContainedButton'
 
 export default {
   components: { ContainedButton, MenuOpenIcon },
-
-  directives: { ClickOutside },
 
   props: {
     mapTypeId: {

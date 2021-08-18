@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { ClickOutside } from '@/directives/ClickOutsideDirective'
 import CaretDownIcon from '@/components/shared/icons/CaretDownIcon'
 import CheckIcon from '@/components/shared/icons/CheckIcon'
 
@@ -30,8 +29,6 @@ export default {
     prop: 'params',
     event: 'change',
   },
-
-  directives: { ClickOutside },
 
   components: {
     CaretDownIcon,

@@ -55,7 +55,6 @@
 </template>
 
 <script>
-  import { ClickOutside } from '@/directives/ClickOutsideDirective'
   import uniqueId from 'lodash/uniqueId'
   import SearchButton from '@/components/form/SearchButton'
   import DriveTimeButton from '@/components/form/DriveTimeButton'
@@ -66,8 +65,6 @@
   // combobox with listingox popup at:
   // https://www.w3.org/TR/wai-aria-practices-1.1/examples/combobox/aria1.1pattern/listbox-combo.html
   export default {
-    directives: { ClickOutside },
-
     components: {
       DriveTimeButton,
       SearchButton,

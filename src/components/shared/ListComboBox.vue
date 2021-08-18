@@ -49,13 +49,10 @@
 </template>
 
 <script>
-import { ClickOutside } from '@/directives/ClickOutsideDirective'
 import uniqueId from 'lodash/uniqueId'
 import MenuOpenIcon from '@/components/shared/icons/MenuOpenIcon'
 
 export default {
-  directives: { ClickOutside },
-
   components: { MenuOpenIcon },
 
   data () {

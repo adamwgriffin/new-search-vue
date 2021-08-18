@@ -12,12 +12,9 @@
 <script>
 import OutlinedButton from '@/components/shared/OutlinedButton'
 import MenuOpenIcon from '@/components/shared/icons/MenuOpenIcon'
-import { ClickOutside } from '@/directives/ClickOutsideDirective'
 
 export default {
   components: { OutlinedButton, MenuOpenIcon },
-
-  directives: { ClickOutside },
 
   props: {
     label: {
