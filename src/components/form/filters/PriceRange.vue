@@ -1,7 +1,6 @@
 <template>
   <MenuButton
     :label="$t('price_range.heading')"
-    :theme="theme"
     :open="open"
     @click="toggleMenu"
     v-click-outside="closeMenu"
@@ -38,6 +37,7 @@
         <PriceRangeList @click="updateValue('pricemax', $event)" />
       </div>
     </div>
+    <ApplyFilters @cancelClicked="closeMenu" @applyClicked="handleApplyClicked" />
   </MenuButton>
 </template>
 
@@ -47,11 +47,12 @@ import menu_open_mixin from '@/mixins/menu_open_mixin'
 import MenuButton from '@/components/shared/MenuButton'
 import FormattedInput from '@/components/shared/FormattedInput'
 import PriceRangeList from '@/components/form/filters/PriceRangeList'
+import ApplyFilters from '@/components/form/filters/ApplyFilters'
 
 export default {
   mixins: [menu_open_mixin],
   
-  components: { MenuButton, FormattedInput, PriceRangeList },
+  components: { MenuButton, FormattedInput, PriceRangeList, ApplyFilters },
 
   props: {
     value: {
@@ -66,12 +67,6 @@ export default {
     }
   },
 
-  computed: {
-    theme() {
-      return { '--menu-button-padding': '0' }
-    },
-  },
-
   methods: {
     formatNumber,
 
@@ -84,6 +79,11 @@ export default {
 
     handleFocus(priceParam) {
       this.priceInputSelected = priceParam
+    },
+
+    handleApplyClicked() {
+      this.closeMenu()
+      this.$emit('searchInitiated')
     }
   }
 }
@@ -117,7 +117,7 @@ input {
   display: flex;
   max-height: 250px;
   overflow-y: auto;
-  margin: 0 0 1rem 1rem;
+  margin: 0 0 0 1rem;
 }
 
 .price-list-container {
@@ -125,6 +125,7 @@ input {
   visibility: hidden;
   padding-left: .4rem;
 }
+
 .price-list-container.selected {
   visibility: visible;
 }

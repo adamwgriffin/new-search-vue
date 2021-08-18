@@ -12,10 +12,15 @@
         <OpenHouses :params="openHouseParams" @change="setSearchParams($event)" />
       </div>
       <div class="main-content">
-        <PropertyTypes :params="propertyTypeParams" @change="setSearchParams($event)" :propertyTypes="propertyTypes" />
+        <PropertyTypes
+          :params="propertyTypeParams"
+          :propertyTypes="propertyTypes"
+          @change="setSearchParams($event)"
+        />
         <PropertyInfo :params="propertyInfoParams" @change="setSearchParams($event)" />
         <Features :params="featuresParams" @change="setSearchParams($event)" />
       </div>
+      <ApplyFilters @cancelClicked="closeMenu" @applyClicked="handleApplyClicked" />
     </div>
   </MenuButton>
 </template>
@@ -29,6 +34,7 @@ import OpenHouses from '@/components/form/filters/OpenHouses'
 import PropertyTypes from '@/components/form/filters/PropertyTypes'
 import PropertyInfo from '@/components/form/filters/PropertyInfo'
 import Features from '@/components/form/filters/Features'
+import ApplyFilters from '@/components/form/filters/ApplyFilters'
 import { propertyTypes } from '@/lib/constants/property_types'
 import menu_open_mixin from '@/mixins/menu_open_mixin'
 
@@ -42,6 +48,7 @@ export default {
     PropertyTypes,
     PropertyInfo,
     Features,
+    ApplyFilters
   },
 
   computed: {
@@ -51,7 +58,6 @@ export default {
 
     theme() {
       return {
-        '--menu-button-padding': '0',
         '--menu-button-menu-position-left': '50%',
         '--menu-button-menu-position-right': 'auto',
         '--menu-button-menu-position-trasform': 'translateX(-75%)'
@@ -109,6 +115,11 @@ export default {
 
   methods: {
     ...mapMutations('listingSearch', ['setSearchParams']),
+
+    handleApplyClicked() {
+      this.closeMenu()
+      this.$emit('searchInitiated')
+    }
   }
 }
 </script>
@@ -124,13 +135,16 @@ export default {
 
 .header,
 .main-content {
-  padding: 1rem;
+  padding: 1rem 1rem 0 1rem;
 }
 
 .main-content > * {
   margin-bottom: .5rem;
 }
 
+.main-content > *:last-child {
+  margin-bottom: 0;
+}
 
 .header {
   display: flex;

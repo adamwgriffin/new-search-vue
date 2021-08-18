@@ -15,12 +15,14 @@
         <PriceRange
           :value="priceRangeParams"
           @input="setSearchParams($event)"
+          @searchInitiated="handleSearchInitiated"
         />
         <BedroomsBathrooms
           :value="bedBathParams"
           @input="setSearchParams($event)"
+          @searchInitiated="handleSearchInitiated"
         />
-        <MoreFilters />
+        <MoreFilters @searchInitiated="handleSearchInitiated" />
       </Filters>
       <SaveSearchButton />
     </div>
