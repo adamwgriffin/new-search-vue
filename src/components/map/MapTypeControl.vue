@@ -1,6 +1,6 @@
 <template>
   <div id="map-type-control" class="menu-button" v-click-outside="closeMenu">
-    <button
+    <ContainedButton
       id="map-type-button"
       title="Change map type"
       :aria-expanded="open"
@@ -9,7 +9,7 @@
     >
       <span class="label">{{ $t('map_type_btn.label') }}</span>
       <MenuOpenIcon :open="open" role="button" />
-    </button>
+    </ContainedButton>
     <ul v-show="open" class="menu" role="listbox">
       <li class="menu-item" @click="handleClick('roadmap')" role="option" :aria-selected="roadmapSelected">
         {{ $t('map_type_btn.default') }}
@@ -27,9 +27,10 @@
 <script>
 import { ClickOutside } from '@/directives/ClickOutsideDirective'
 import MenuOpenIcon from '@/components/shared/icons/MenuOpenIcon'
+import ContainedButton from '@/components/shared/ContainedButton'
 
 export default {
-  components: { MenuOpenIcon },
+  components: { ContainedButton, MenuOpenIcon },
 
   directives: { ClickOutside },
 
@@ -126,26 +127,6 @@ export default {
 
 .menu-item[aria-selected] {
   color: #5092d3;
-}
-
-#map-type-button {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  border: none;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
-  height: 40px;
-  border-radius: 6px;
-  padding: 0 .8rem;
-  background: #fefefe;
-  font-size: 14px;
-  font-family: inherit;
-  color: inherit;
-}
-
-#map-type-button:hover {
-  background: #f6f6f6;
 }
 
 .label {
