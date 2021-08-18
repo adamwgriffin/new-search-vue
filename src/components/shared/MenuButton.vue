@@ -1,8 +1,8 @@
 <template>
   <div class="menu-button" v-click-outside="closeMenu" :style="theme">
-    <ContainedButton @click="toggleMenu" :highlighted="open">
+    <OutlinedButton @click="toggleMenu" :highlighted="open">
       <span class="label">{{ label }}</span> <MenuOpenIcon v-if="showIcon" :open="open" />
-    </ContainedButton>
+    </OutlinedButton>
     <div v-show="open" class="menu">
       <slot></slot>
     </div>
@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import ContainedButton from '@/components/shared/ContainedButton'
+import OutlinedButton from '@/components/shared/OutlinedButton'
 import MenuOpenIcon from '@/components/shared/icons/MenuOpenIcon'
 import { ClickOutside } from '@/directives/ClickOutsideDirective'
 
 export default {
-  components: { ContainedButton, MenuOpenIcon },
+  components: { OutlinedButton, MenuOpenIcon },
 
   directives: { ClickOutside },
 
