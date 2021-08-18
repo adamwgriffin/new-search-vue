@@ -1,5 +1,11 @@
 <template>
-  <MenuButton label="Filters" :theme="theme">
+  <MenuButton
+    label="Filters"
+    :theme="theme"
+    :open="open"
+    @click="toggleMenu"
+    v-click-outside="closeMenu"
+  >
     <div class="more-filters-container">
       <div class="header">
         <ListingStatus :params="listingStatusParams" @change="setSearchParams($event)" />
@@ -24,8 +30,11 @@ import PropertyTypes from '@/components/form/filters/PropertyTypes'
 import PropertyInfo from '@/components/form/filters/PropertyInfo'
 import Features from '@/components/form/filters/Features'
 import { propertyTypes } from '@/lib/constants/property_types'
+import menu_open_mixin from '@/mixins/menu_open_mixin'
 
 export default {
+  mixins: [menu_open_mixin],
+
   components: {
     MenuButton,
     ListingStatus,

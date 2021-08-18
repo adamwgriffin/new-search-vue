@@ -1,5 +1,11 @@
 <template>
-  <MenuButton :label="$t('price_range.heading')" :theme="theme">
+  <MenuButton
+    :label="$t('price_range.heading')"
+    :theme="theme"
+    :open="open"
+    @click="toggleMenu"
+    v-click-outside="closeMenu"
+  >
     <div class="price-range-row price-inputs-row">
       <FormattedInput
         :value="value.pricemin"
@@ -37,11 +43,14 @@
 
 <script>
 import { formatNumber, stripFormattingFromNumberString } from '@/lib/helpers/number_formatters'
+import menu_open_mixin from '@/mixins/menu_open_mixin'
 import MenuButton from '@/components/shared/MenuButton'
 import FormattedInput from '@/components/shared/FormattedInput'
 import PriceRangeList from '@/components/form/filters/PriceRangeList'
 
 export default {
+  mixins: [menu_open_mixin],
+  
   components: { MenuButton, FormattedInput, PriceRangeList },
 
   props: {

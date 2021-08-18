@@ -1,5 +1,10 @@
 <template>
-  <MenuButton label="Bed + bath">
+  <MenuButton
+    label="Bed + bath"
+    :open="open"
+    @click="toggleMenu"
+    v-click-outside="closeMenu"
+  >
     <Fieldset id="bed_min">
       <Legend>Beds</Legend>
       <RadioButtonGroup
@@ -26,8 +31,11 @@ import MenuButton from '@/components/shared/MenuButton'
 import Fieldset from '@/components/shared/Fieldset'
 import Legend from '@/components/shared/Legend'
 import RadioButtonGroup from '@/components/shared/RadioButtonGroup'
+import menu_open_mixin from '@/mixins/menu_open_mixin'
 
 export default {
+  mixins: [menu_open_mixin],
+
   components: { MenuButton, Fieldset, Legend, RadioButtonGroup },
 
   props: {
