@@ -3,6 +3,9 @@
     :label="$t('saved_search.save_search_btn')"
     :showIcon="false"
     :theme="theme"
+    :open="open"
+    @click="toggleMenu"
+    v-click-outside="closeMenu"
   >
     <div class="save-search-form">
       TBD
@@ -12,8 +15,11 @@
 
 <script>
 import MenuButton from '@/components/shared/MenuButton'
+import menu_open_mixin from '@/mixins/menu_open_mixin'
 
 export default {
+  mixins: [menu_open_mixin],
+
   components: { MenuButton },
 
   computed: {
@@ -25,5 +31,7 @@ export default {
 </script>
 
 <style scoped>
-
+.save-search-form {
+  padding: 1rem;
+}
 </style>
