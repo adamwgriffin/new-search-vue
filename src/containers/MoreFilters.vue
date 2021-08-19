@@ -131,9 +131,9 @@ export default {
 
 .header {
   background: #f6f6f6;
+  padding: 1rem 1rem .5rem 1rem;
 }
 
-.header,
 .main-content {
   padding: 1rem 1rem 0 1rem;
 }
