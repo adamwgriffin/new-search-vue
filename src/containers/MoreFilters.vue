@@ -20,7 +20,10 @@
         <PropertyInfo :params="propertyInfoParams" @change="setSearchParams($event)" />
         <Features :params="featuresParams" @change="setSearchParams($event)" />
       </div>
-      <ApplyFilters @cancelClicked="closeMenu" @applyClicked="handleApplyClicked" />
+      <div class="footer">
+        <ResetFilters @click="resetFilters" />
+        <ApplyFilters @cancelClicked="closeMenu" @applyClicked="handleApplyClicked" />
+      </div>
     </div>
   </MenuButton>
 </template>
@@ -34,6 +37,7 @@ import OpenHouses from '@/components/form/filters/OpenHouses'
 import PropertyTypes from '@/components/form/filters/PropertyTypes'
 import PropertyInfo from '@/components/form/filters/PropertyInfo'
 import Features from '@/components/form/filters/Features'
+import ResetFilters from '@/components/form/filters/ResetFilters'
 import ApplyFilters from '@/components/form/filters/ApplyFilters'
 import { propertyTypes } from '@/lib/constants/property_types'
 import menu_open_mixin from '@/mixins/menu_open_mixin'
@@ -48,6 +52,7 @@ export default {
     PropertyTypes,
     PropertyInfo,
     Features,
+    ResetFilters,
     ApplyFilters
   },
 
@@ -114,10 +119,19 @@ export default {
   },
 
   methods: {
-    ...mapMutations('listingSearch', ['setSearchParams']),
+    ...mapMutations('listingSearch', [
+      'setSearchParams',
+      'setSearchParamsToDefault'
+    ]),
 
     handleApplyClicked() {
       this.closeMenu()
+      this.$emit('searchInitiated')
+    },
+
+    resetFilters() {
+      this.closeMenu()
+      this.setSearchParamsToDefault()
       this.$emit('searchInitiated')
     }
   }
@@ -152,5 +166,13 @@ export default {
 
 .header > * {
   width: 50%;
+}
+
+.footer {
+  display: flex;
+}
+
+.footer > *:first-child {
+  flex-grow: 1;
 }
 </style>

@@ -131,6 +131,12 @@ export const mutations = {
     }
   },
 
+  setSearchParamsToDefault(state) {
+    const initialStateObj = initialState()
+    state.searchParams = initialStateObj.searchParams
+    state.location_search_field = initialStateObj.location_search_field
+  },
+
   setLocationSearchField(state, location) {
     state.location_search_field = location
   },
