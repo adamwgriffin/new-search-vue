@@ -30,7 +30,7 @@
       :listingsLoaded="listings.length"
       :availableListings="mapListings.length"
       :params="searchResultsInfoParams"
-      @change="setSearchParams($event)"
+      @change="handleSortMenuChange"
     />
   </form>
 </template>
@@ -97,10 +97,14 @@ export default {
       'setLocationSearchField',
       'setSearchParams',
       'resetListings',
-      'setListingSearchPending'
+      'setListingSearchPending',
+      'setListingSearchComplete'
     ]),
 
-    ...mapActions('listingSearch', ['searchListings']),
+    ...mapActions('listingSearch', [
+      'searchListings',
+      'cancelActiveSearchListingRequests'
+    ]),
 
     ...mapActions('listingMap', [
       'geocodeMap',
@@ -130,6 +134,21 @@ export default {
         source: 'agent website'
       })
       this.setListingSearchPending()
+    },
+
+    async handleSortMenuChange(e) {
+      if (e.sort_by === this.searchParams.sort_by) return
+      this.setSearchParams(e)
+      this.cancelActiveSearchListingRequests()
+      this.resetListings()
+      this.setListingSearchPending()
+      try {
+        await this.searchListings(this.searchParamsForListingService)          
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.setListingSearchComplete()
+      }
     },
 
     async handleSearchInitiated() {
