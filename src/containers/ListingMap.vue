@@ -4,7 +4,6 @@
    put them inside of the GoogleMap component, but that wasn't working well with Vue, so we're positioning them on top
    of the map this way instead. -->
     <MapToolsControl />
-    <MapTypeControl :mapTypeId="mapData.mapTypeId" @mapTypeSelected="handleMapTypeSelected"/>
     <BoundaryControl v-if="boundaryActive" @click="handleBoundaryControlClick" />
     <GoogleMap
       :bounds="apiResponseBounds"
@@ -13,7 +12,10 @@
       @dragend="handleUserAdjustedMap"
       @userChangedZoom="handleUserAdjustedMap"
       @idle="handleIdle"
-    >    
+    >
+      <CustomControlWrapper position="LEFT_BOTTOM">
+        <MapTypeControl :mapTypeId="mapData.mapTypeId" @mapTypeSelected="handleMapTypeSelected"/>
+      </CustomControlWrapper>
       <ClusteredMarkers :coordinates="listingCoordinates" :clusterThreshold="cluster_threshold" />
       <Boundary
         :paths="geoLayerCoordinates"
@@ -31,8 +33,10 @@ import Boundary from '@/components/map/Boundary'
 import MapToolsControl from '@/components/map/MapToolsControl'
 import MapTypeControl from '@/components/map/MapTypeControl'
 import BoundaryControl from '@/components/map/BoundaryControl'
+import CustomControlWrapper from '@/components/map/CustomControlWrapper'
 import { boundaryOptions } from '@/config'
 import { mapOptions } from '@/config/google'
+import CustomControlSlot from '@/components/map/CustomControlSlot'
 
 export default {
 
@@ -42,7 +46,9 @@ export default {
     ClusteredMarkers,
     MapTypeControl,
     MapToolsControl,
-    BoundaryControl
+    BoundaryControl,
+    CustomControlWrapper,
+    CustomControlSlot
   },
 
   computed: {

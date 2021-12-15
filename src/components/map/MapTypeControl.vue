@@ -76,11 +76,15 @@ export default {
 </script>
 
 <style scoped>
-#map-type-control {
+/* #map-type-control {
   position: absolute;
   left: 0;
   bottom: 24px;
   z-index: 1;
+  margin: 0 0 5px 8px;
+} */
+
+#map-type-control {
   margin: 0 0 5px 8px;
 }
 
