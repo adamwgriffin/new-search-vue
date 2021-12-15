@@ -17,7 +17,11 @@ export const getPropertyTypes = (newPropertyTypes, oldPropertyTypes) => {
 }
 
 export const formatListingDataForMapListings = (listings) => {
-  return listings.map(l => ({ lat: +l.location.latitude, lng: +l.location.longitude, listingid: l.listingid }))
+  return listings.map(l => ({
+     lat: +l.location.latitude,
+     lng: +l.location.longitude,
+     listingid: l.listingid 
+  }))
 }
 
 export const searchParamsForMapClusters = (params, cluster_threshold) => {
