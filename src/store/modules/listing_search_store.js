@@ -2,7 +2,7 @@ import http from '@/lib/http'
 import omitBy from 'lodash/omitBy'
 import omit from 'lodash/omit'
 import pick from 'lodash/pick'
-import { websitesSearchParams, sortByDistanceValues } from '@/lib/constants/search_param_constants'
+import { websitesSearchParams } from '@/lib/constants/search_param_constants'
 import {
   getPropertyTypes,
   formatListingDataForMapListings,
@@ -79,7 +79,7 @@ export const getters = {
   // the docs for the listing service say that it expects user_lat & user_lon when sorting by distance. not sure why
   // center_lat & center_lon wouldn't do instead because it seems like you would always want to set the distance to be
   // based on the coords of the location your are searching on
-  userLatLon(state, getters, rootState) {
+  userLatLon(state, getters) {
     const { center_lat, center_lon} = getters.centerLatLonParams
     return { user_lat: center_lat, user_lon: center_lon }
   },
@@ -93,14 +93,13 @@ export const getters = {
     }
   },
 
-  searchParamsForListingService(state, getters, rootState, rootGetters) {    
+  searchParamsForListingService(state, getters) {    
     const params = Object.entries(getters.defaultSearchParams)
       .reduce((modifiedParams, [param, value]) => {
         return { ...modifiedParams, [param]: value, ...modifyParam[param]?.(...arguments) }
       }, {})
-    return omitBy(params, (value, param) => !value)  
+    return omitBy(params, (value) => !value)
   },
-
 
   priceRangeParams(state) {
     return pick(state.searchParams, ['pricemin', 'pricemax'])

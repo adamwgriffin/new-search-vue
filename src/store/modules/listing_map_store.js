@@ -60,7 +60,7 @@ export const getters = {
     return `${rootGetters.baseUrl}/listing/geo/layer/search`
   },
 
-  placeAutocompleteParams(state) {
+  placeAutocompleteParams() {
     return {
       types: ['geocode'],
       components: autocompleteOptions.componentRestrictions,

@@ -119,7 +119,7 @@ export default {
     async completePendingListingSearch() {
       this.cancelActiveSearchListingRequests()
       try {
-        await this.searchListings(this.searchParamsForListingService)          
+        await this.searchListings(this.searchParamsForListingService)
       } catch (error) {
         // TODO: could trigger a message to the user here
         console.error(error)
