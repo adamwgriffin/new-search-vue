@@ -1,7 +1,7 @@
 import difference from 'lodash/difference'
 import omit from 'lodash/omit'
+import omitBy from 'lodash/omitBy'
 import { propertyTypes } from '@/lib/constants/property_types'
-import { sortByDistanceValues } from '@/lib/constants/search_param_constants'
 
 // for IDX search you can either choose rental or non-rental property types, but not both
 export const toggleRentalOrNonRentalTypes = (newPropertyTypes, oldPropertyTypes) => {
@@ -40,28 +40,13 @@ export const mapOrder = (source, order, key) => {
 // if params need to be removed we can do so by setting their values to null. if nothing needs to be changed then the
 // function should not return a value.
 export const modifyParam = {
-  geotype(state, getters, rootState, rootGetters) {
-    if (!rootState.listingMap.boundaryActive) {
-      // excluding geotype from the service request causes it to not restrict the search to a geospatial boundary but
-      // instead return all the listings that are within the the bounds provided in bounds_north, bounds_east, etc.
-      return { geotype: null }
-    }
-  },
-
-  sort_by(state, getters, rootState, rootGetters) {
-    // listing service uses user_lat & user_lon as basis for distance sort
-    if (sortByDistanceValues.includes(getters.defaultSearchParams.sort_by)) {
-      return { sort_by: getters.defaultSearchParams.sort_by, ...getters.userLatLon }
-    }
-  },
-
-  sold_days(state, getters, rootState, rootGetters) {
-    if (getters.defaultSearchParams.status === 'active') {
+  sold_days(state) {
+    if (state.searchParams.status === 'active') {
       return { sold_days: null }
     }
   },
 
-  openhouse(state, getters, rootState, rootGetters) {
+  openhouse(state) {
     const { openhouse, openhouse_virtual, openhouse_in_person } = state.searchParams
     // if the user selected both openhouse_virtual and openhouse_in_person, then what will get them both from the
     // listing service is to only send the openhouse param
@@ -73,4 +58,16 @@ export const modifyParam = {
       return { openhouse: null }
     }
   }
+}
+
+export const modifyParams = (originalParams, state, getters, rootState, rootGetters) => {
+  const newParams = Object.entries(originalParams)
+    .reduce((modifiedParams, [param, value]) => {
+      return {
+        ...modifiedParams,
+        [param]: value,
+        ...modifyParam[param]?.(state, getters, rootState, rootGetters)
+      }
+    }, {})
+  return omitBy(newParams, (value) => !value)
 }

@@ -1,7 +1,7 @@
 <template>
   <div v-if="googleLoaded" id="search">
     <div class="form-and-search-results">
-      <ProgressBar :active="listingSearchPending" />
+      <ProgressBar :active="doListingSearchOnMapIdle || listingSearchRunning" />
       <Form />
       <SearchResults
         :listingsLoaded="listings.length"
@@ -58,7 +58,8 @@ export default {
     ...mapState('listingSearch', [
       'listings',
       'mapListings',
-      'listingSearchPending',
+      'doListingSearchOnMapIdle',
+      'listingSearchRunning',
       'getMoreListingsPending'
     ])
   },

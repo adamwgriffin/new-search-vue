@@ -65,7 +65,7 @@ export default {
     ...mapState('listingSearch', [
       'mapListings',
       'cluster_threshold',
-      'listingSearchPending'
+      'doListingSearchOnMapIdle'
     ]),
 
     listingCoordinates() {
@@ -81,12 +81,11 @@ export default {
 
     ...mapMutations('listingSearch', [
       'resetListings',
-      'setListingSearchPending',
-      'setListingSearchComplete'
+      'setDoListingSearchOnMapIdle',
     ]),
 
     ...mapActions('listingSearch', [
-      'searchListings',
+      'doGeospatialSearch',
       'cancelActiveSearchListingRequests'
     ]),
 
@@ -97,7 +96,7 @@ export default {
     handleBoundaryControlClick() {
       this.setBoundaryActive(false)
       this.resetListings()
-      this.setListingSearchPending()
+      this.setDoListingSearchOnMapIdle(true)
       // no further map events will be triggered so we do the search here instead of handleIdle()
       this.completePendingListingSearch()
     },
@@ -105,13 +104,13 @@ export default {
     handleUserAdjustedMap(e) {
       this.setMapData(e)
       this.resetListings()
-      this.setListingSearchPending()
+      this.setDoListingSearchOnMapIdle(true)
     },
 
     async handleIdle(e) {
       this.setMapData(e)
       // TODO: also check if boundary is active and outside of viewport here
-      if (this.listingSearchPending) {
+      if (this.doListingSearchOnMapIdle) {
         this.completePendingListingSearch()
       }
     },
@@ -119,12 +118,12 @@ export default {
     async completePendingListingSearch() {
       this.cancelActiveSearchListingRequests()
       try {
-        await this.searchListings(this.searchParamsForListingService)
+         this.doGeospatialSearch()
       } catch (error) {
         // TODO: could trigger a message to the user here
         console.error(error)
       } finally {
-        this.setListingSearchComplete()
+        this.setDoListingSearchOnMapIdle(false)
       }
     }
   },

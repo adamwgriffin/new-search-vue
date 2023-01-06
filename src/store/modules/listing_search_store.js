@@ -1,5 +1,4 @@
 import http from '@/lib/http'
-import omitBy from 'lodash/omitBy'
 import omit from 'lodash/omit'
 import pick from 'lodash/pick'
 import { websitesSearchParams } from '@/lib/constants/search_param_constants'
@@ -8,7 +7,7 @@ import {
   formatListingDataForMapListings,
   searchParamsForMapClusters,
   mapOrder,
-  modifyParam,
+  modifyParams
 } from '@/lib/helpers/search_params'
 
 // NOTE: Eventually we would want to compose things like state (searchParams), getters, mutations, etc. based on what
@@ -17,11 +16,8 @@ const initialState = () => {
   return {
     listingsPageIndex: 0,
     cluster_threshold: 200,
-    listingSearchPending: false,
-    // "location_search_field" is a synonym for "street" in listing service. it is a valid search param but we don't
-    // include it in "searchParams" because we are using it to geocode on the front end to get the center_lat &
-    // center_lon coordinates. those coordinates are all that's really necessary to send the service if you already have
-    // them.
+    listingSearchRunning: false,
+    doListingSearchOnMapIdle: false,
     location_search_field: '',
     searchParams: websitesSearchParams,
     dedupeRequest: {
@@ -84,21 +80,35 @@ export const getters = {
     return { user_lat: center_lat, user_lon: center_lon }
   },
 
-  defaultSearchParams(state, getters, rootState, rootGetters) {
-    return {
-      ...state.searchParams,
+  // if the boundary is active we do a normal geospatial search, which requires center lat/lng and geotype. the geotype
+  // param is what restricts the results to the geospatial boundary.
+  searchParamsForGeospatialSearch(state, getters, rootState, rootGetters) {
+    const params = {
       ...getters.centerLatLonParams,
       ...getters.boundsParams,
-      geotype: rootGetters['listingMap/geotype']
+      geotype: rootGetters['listingMap/geotype'],
+      ...state.searchParams
     }
+    return modifyParams(params, state, getters, rootState, rootGetters)
   },
-
-  searchParamsForListingService(state, getters) {    
-    const params = Object.entries(getters.defaultSearchParams)
-      .reduce((modifiedParams, [param, value]) => {
-        return { ...modifiedParams, [param]: value, ...modifyParam[param]?.(...arguments) }
-      }, {})
-    return omitBy(params, (value) => !value)
+  
+  // if the boundary is not active we just do a bounds search. in that case excluding geotype returns all listings
+  // within the map's viewport bounds.
+  searchParamsForBoundsSearch(state, getters, rootState, rootGetters) {
+    const params = {
+      ...getters.boundsParams,
+      ...state.searchParams
+    }
+    return modifyParams(params, state, getters, rootState, rootGetters)
+  },
+  
+  // passing "street" causes the service to geocode the value provided. we use that geocoder result to position the map
+  searchParamsForGeospatialGeocodeSearch(state, getters, rootState, rootGetters) {
+    const params = {
+      street: state.location_search_field,
+      ...state.searchParams
+    }
+    return modifyParams(params, state, getters, rootState, rootGetters)
   },
 
   priceRangeParams(state) {
@@ -223,13 +233,14 @@ export const mutations = {
     state.mapListings = mapListings
   },
 
-  setListingSearchPending(state) {
-    state.listingSearchPending = true
+  setDoListingSearchOnMapIdle(state, payload) {
+    state.doListingSearchOnMapIdle = payload
   },
-
-  setListingSearchComplete(state) {
-    state.listingSearchPending = false
+  
+  setListingSearchRunning(state, payload) {
+    state.listingSearchRunning = payload
   }
+
 }
 
 const cancelTokenSources = {
@@ -239,9 +250,51 @@ const cancelTokenSources = {
 }
 
 export const actions = {
-  searchListings: async ({ dispatch, commit, state }, searchParams) => {
+  doGeospatialGeocodeSearch: async ({ dispatch, commit, getters }) => {
     try {
+      commit('setListingSearchRunning', true)
+      const data = await dispatch('searchListingsDedupe', getters.searchParamsForGeospatialGeocodeSearch)
+      commit('listingMap/setGeocoderResult', data.result_geocode.results[0], { root: true })
+      commit('listingMap/setGeoLayerCoordinatesWithGeojson', data.result_geo[0].geojson, { root: true })
+      dispatch(
+        'doAdditonalListingRequestsAndSetListingData',
+        { data, searchParams: getters.searchParamsForGeospatialGeocodeSearch }
+      )
+    } catch (error) {
+      commit('setListingSearchRunning', false)
+      if (http.isCancel(error)) {
+        console.debug(error.message)
+      } else {
+        console.error(error)
+        throw error
+      }
+    }
+  },
+
+  doGeospatialSearch: async ({ dispatch, commit, rootState, getters }) => {
+    try {
+      commit('setListingSearchRunning', true)
+      const searchParams = rootState.listingMap.boundaryActive ?
+        getters.searchParamsForGeospatialSearch :
+        getters.searchParamsForBoundsSearch
       const data = await dispatch('searchListingsDedupe', searchParams)
+      dispatch(
+        'doAdditonalListingRequestsAndSetListingData',
+        { data, searchParams }
+      )
+    } catch (error) {
+      commit('setListingSearchRunning', false)
+      if (http.isCancel(error)) {
+        console.debug(error.message)
+      } else {
+        console.error(error)
+        throw error
+      }
+    }
+  },
+
+  doAdditonalListingRequestsAndSetListingData: async ({ dispatch, commit, state }, { data, searchParams }) => {
+    try {
       if (!data.result_list) {
         // TODO: need to publish some kind of no results message here
         console.debug("No results")
@@ -277,14 +330,13 @@ export const actions = {
         commit('setListings', allListingData)
         commit('setMapListings', formatListingDataForMapListings(allListingData))
       } else {
-        console.warn("No conditions were met for searchListings() response")
+        console.warn("No conditions were met for doAdditonalListingRequestsAndSetListingData() response")
       }
+      commit('setListingSearchRunning', false)
     } catch (error) {
-      if (http.isCancel(error)) {
-        console.debug(error.message)
-      } else {
-        throw error
-      }
+      commit('setListingSearchRunning', false)
+      console.error(error)
+      throw error
     }
   },
 

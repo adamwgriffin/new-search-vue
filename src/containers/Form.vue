@@ -97,18 +97,15 @@ export default {
       'setLocationSearchField',
       'setSearchParams',
       'resetListings',
-      'setListingSearchPending',
-      'setListingSearchComplete'
+      'setDoListingSearchOnMapIdle'
     ]),
 
     ...mapActions('listingSearch', [
-      'searchListings',
+      'doGeospatialGeocodeSearch',
       'cancelActiveSearchListingRequests'
     ]),
 
     ...mapActions('listingMap', [
-      'geocodeMap',
-      'getGeoLayer',
       'getPlaceAutocompletePredictions',
       'getPlaceAutocompletePlaceDetails'
     ]),
@@ -117,23 +114,17 @@ export default {
       this.setAutcompletePlacePredictions([])
     },
 
-    // TODO: could maybe consolidate these into one handleSearchInitiated method that can optionally receive a place_id
-    // in it's event. if the place_id is present we call getPlaceAutocompletePlaceDetails to get geocode info, otherwise
-    // we call geocodeMap. setLocationSearchField could be handled by Search emitting an "input" event with the
-    // description instead of setting it here.
     async handleOptionSelected(e) {
       this.setBoundaryActive(true)
       this.setLocationSearchField(e.description)
       this.resetListings()
-      await this.getPlaceAutocompletePlaceDetails(e.place_id)
-      this.getGeoLayer({
-        center_lat: this.geocoderResult.location.lat,
-        center_lon: this.geocoderResult.location.lng,
-        geotype: this.geotype,
-        buffer_miles: this.buffer_miles,
-        source: 'agent website'
-      })
-      this.setListingSearchPending()
+      this.doGeospatialGeocodeSearch()
+    },
+
+    async handleSearchInitiated() {
+      this.setBoundaryActive(true)
+      this.resetListings()
+      this.doGeospatialGeocodeSearch()
     },
 
     async handleSortMenuChange(e) {
@@ -141,29 +132,9 @@ export default {
       this.setSearchParams(e)
       this.cancelActiveSearchListingRequests()
       this.resetListings()
-      this.setListingSearchPending()
-      try {
-        await this.searchListings(this.searchParamsForListingService)          
-      } catch (error) {
-        console.error(error)
-      } finally {
-        this.setListingSearchComplete()
-      }
-    },
-
-    async handleSearchInitiated() {
-      this.setBoundaryActive(true)
-      this.resetListings()
-      await this.geocodeMap({ address: this.location_search_field })
-      this.getGeoLayer({
-        center_lat: this.geocoderResult.location.lat,
-        center_lon: this.geocoderResult.location.lng,
-        geotype: this.geotype,
-        buffer_miles: this.buffer_miles,
-        source: 'agent website'
-      })
-      this.setListingSearchPending()
+      this.doGeospatialGeocodeSearch()
     }
+
   }
 }
 </script>
