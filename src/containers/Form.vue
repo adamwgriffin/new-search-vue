@@ -76,7 +76,7 @@ export default {
     ]),
 
     ...mapGetters('listingSearch', [
-      'searchParamsForListingService',
+      'searchParamsForListingServiceWithoutBounds',
       'priceRangeParams',
       'bedBathParams'
     ]),
@@ -129,21 +129,10 @@ export default {
       this.getGeoLayer({
         center_lat: this.geocoderResult.location.lat,
         center_lon: this.geocoderResult.location.lng,
-        geotype: this.geotype,
-        buffer_miles: this.buffer_miles,
-        source: 'agent website'
+        geotype: this.geotype
       })
-      this.setListingSearchPending()
-    },
-
-    async handleSortMenuChange(e) {
-      if (e.sort_by === this.searchParams.sort_by) return
-      this.setSearchParams(e)
-      this.cancelActiveSearchListingRequests()
-      this.resetListings()
-      this.setListingSearchPending()
       try {
-        await this.searchListings(this.searchParamsForListingService)          
+        await this.searchListings(this.searchParamsForListingServiceWithoutBounds)
       } catch (error) {
         console.error(error)
       } finally {
@@ -158,11 +147,30 @@ export default {
       this.getGeoLayer({
         center_lat: this.geocoderResult.location.lat,
         center_lon: this.geocoderResult.location.lng,
-        geotype: this.geotype,
-        buffer_miles: this.buffer_miles,
-        source: 'agent website'
+        geotype: this.geotype
       })
+      try {
+        await this.searchListings(this.searchParamsForListingServiceWithoutBounds)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.setListingSearchComplete()
+      }
+    },
+
+    async handleSortMenuChange(e) {
+      if (e.sort_by === this.searchParams.sort_by) return
+      this.setSearchParams(e)
+      this.cancelActiveSearchListingRequests()
+      this.resetListings()
       this.setListingSearchPending()
+      try {
+        await this.searchListings(this.searchParamsForListingServiceWithoutBounds)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.setListingSearchComplete()
+      }
     }
   }
 }
