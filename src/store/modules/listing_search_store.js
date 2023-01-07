@@ -8,7 +8,7 @@ import {
   formatListingDataForMapListings,
   searchParamsForMapClusters,
   mapOrder,
-  modifyParam,
+  modifyParams
 } from '@/lib/helpers/search_params'
 
 // NOTE: Eventually we would want to compose things like state (searchParams), getters, mutations, etc. based on what
@@ -44,7 +44,7 @@ const initialState = () => {
     },
     getMoreListingsPending: false,
     listings: [],
-    mapListings: [],
+    mapListings: []
   }
 }
 
@@ -56,18 +56,18 @@ export const getters = {
   nonDedupeEndpoint(state, getters, rootState, rootGetters) {
     return `${rootGetters.baseUrl}/listing/search`
   },
-  
+
   listingIdEndpoint(state, getters, rootState, rootGetters) {
     return `${rootGetters.baseUrl}/listing/ids`
   },
 
   boundsParams(state, getters, rootState) {
-    const { north, east, south, west, } = rootState.listingMap.mapData.bounds
+    const { north, east, south, west } = rootState.listingMap.mapData.bounds
     return {
       bounds_north: north,
       bounds_east: east,
       bounds_south: south,
-      bounds_west: west,
+      bounds_west: west
     }
   },
 
@@ -80,7 +80,7 @@ export const getters = {
   // center_lat & center_lon wouldn't do instead because it seems like you would always want to set the distance to be
   // based on the coords of the location your are searching on
   userLatLon(state, getters) {
-    const { center_lat, center_lon} = getters.centerLatLonParams
+    const { center_lat, center_lon } = getters.centerLatLonParams
     return { user_lat: center_lat, user_lon: center_lon }
   },
 
@@ -159,9 +159,12 @@ export const mutations = {
   setDedupeRequestCanceled(state) {
     state.dedupeRequest = initialState().dedupeRequest
   },
-  
+
   setNonDedupeRequestListingsPending(state) {
-    state.nonDedupeRequest = { ...initialState().nonDedupeRequest, pending: true }
+    state.nonDedupeRequest = {
+      ...initialState().nonDedupeRequest,
+      pending: true
+    }
   },
 
   setNonDedupeRequestSuccess(state, { results, status }) {
@@ -179,9 +182,12 @@ export const mutations = {
   setNonDedupeRequestCanceled(state) {
     state.nonDedupeRequest = initialState().nonDedupeRequest
   },
-  
+
   setListingIdRequestPending(state) {
-    state.listingIdRequest = { ...initialState().listingIdRequest, pending: true }
+    state.listingIdRequest = {
+      ...initialState().listingIdRequest,
+      pending: true
+    }
   },
 
   setListingIdRequestSuccess(state, { results, status }) {
@@ -211,7 +217,7 @@ export const mutations = {
   setListingsPageIndex(state, index) {
     state.listingsPageIndex = index
   },
-  
+
   setMapListings(state, listings) {
     state.mapListings = listings
   },
@@ -244,11 +250,14 @@ export const actions = {
       const data = await dispatch('searchListingsDedupe', searchParams)
       if (!data.result_list) {
         // TODO: need to publish some kind of no results message here
-        console.debug("No results")
+        console.debug('No results')
       } else if (data.number_found === data.number_returned) {
         // we have all listings, so just set them on the store
         commit('setListings', data.result_list)
-        commit('setMapListings', formatListingDataForMapListings(data.result_list))
+        commit(
+          'setMapListings',
+          formatListingDataForMapListings(data.result_list)
+        )
       } else if (data.number_found >= state.cluster_threshold) {
         /* we have the first 20 listings but we need to get all listings for the map. since we are at or above the
         cluster_threshold we will need to call the old non-dedupe endpoint which is able to return a lot of listings
@@ -260,7 +269,7 @@ export const actions = {
           'searchListingsNonDedupe',
           searchParamsForMapClusters(searchParams, state.cluster_threshold)
         )
-        commit('setMapListings', mapListingData.result_list)        
+        commit('setMapListings', mapListingData.result_list)
       } else if (data.number_found < state.cluster_threshold) {
         // we have the first 20 listings, so we might as well add them first so the user has something to look at while
         // they wait for the rest
@@ -268,16 +277,26 @@ export const actions = {
         /* we need to get the remaining listings. since the number_found in the request is less than cluster_threshold
         we can get them by listing id, which will return all listing data for each listing. we will then merge the first
         20 with the remaining listings. */
-        const remainingListings = await dispatch('searchListingsIds', data.result_listing_ids)
+        const remainingListings = await dispatch(
+          'searchListingsIds',
+          data.result_listing_ids
+        )
         /* currenlty the service doesn't return the listings sorted in the same order you request them, which causes
         them to be sorted incorrectly in the response, so we have to sort them based on the original result_listing_ids
         since it's in the correct order. */
-        const remainingListingsSorted = mapOrder(remainingListings.result_list, data.result_listing_ids, 'listingid')
+        const remainingListingsSorted = mapOrder(
+          remainingListings.result_list,
+          data.result_listing_ids,
+          'listingid'
+        )
         const allListingData = data.result_list.concat(remainingListingsSorted)
         commit('setListings', allListingData)
-        commit('setMapListings', formatListingDataForMapListings(allListingData))
+        commit(
+          'setMapListings',
+          formatListingDataForMapListings(allListingData)
+        )
       } else {
-        console.warn("No conditions were met for searchListings() response")
+        console.warn('No conditions were met for searchListings() response')
       }
     } catch (error) {
       if (http.isCancel(error)) {
@@ -292,7 +311,9 @@ export const actions = {
     commit('setGetMoreListingsPending', true)
     const { pgsize } = state.searchParams
     const newPageIndex = state.listingsPageIndex + pgsize
-    const listingIds = state.mapListings.slice(newPageIndex, newPageIndex+pgsize).map(l => l.listingid)
+    const listingIds = state.mapListings
+      .slice(newPageIndex, newPageIndex + pgsize)
+      .map((l) => l.listingid)
     try {
       const newListings = await dispatch('searchListingsIds', listingIds)
       commit('setListings', state.listings.concat(newListings.result_list))
@@ -311,7 +332,11 @@ export const actions = {
     cancelTokenSources.dedupeRequest = source
     try {
       commit('setDedupeRequestPending', source)
-      const res = await http({ cancelToken: source.token, url: getters.dedupeEndpoint, params })
+      const res = await http({
+        cancelToken: source.token,
+        url: getters.dedupeEndpoint,
+        params
+      })
       const { data } = res.data
       if (res.data.status !== 'fail') {
         commit('setDedupeRequestSuccess', { results: data, status: res.status })
@@ -336,10 +361,17 @@ export const actions = {
     cancelTokenSources.nonDedupeRequest = source
     try {
       commit('setNonDedupeRequestListingsPending')
-      const res = await http({ cancelToken: source.token, url: getters.nonDedupeEndpoint, params })
+      const res = await http({
+        cancelToken: source.token,
+        url: getters.nonDedupeEndpoint,
+        params
+      })
       const { data } = res.data
       if (res.data.status !== 'fail') {
-        commit('setNonDedupeRequestSuccess', { results: data, status: res.status })
+        commit('setNonDedupeRequestSuccess', {
+          results: data,
+          status: res.status
+        })
         return data
       } else {
         throw new Error(data)
@@ -368,7 +400,10 @@ export const actions = {
       })
       const { data } = res.data
       if (res.data.status !== 'fail') {
-        commit('setListingIdRequestSuccess', { results: data, status: res.status })
+        commit('setListingIdRequestSuccess', {
+          results: data,
+          status: res.status
+        })
         return data
       } else {
         throw new Error(data)
@@ -388,7 +423,9 @@ export const actions = {
   cancelActiveSearchListingRequests({ state }) {
     for (const requestName in cancelTokenSources) {
       if (state[requestName].pending) {
-        cancelTokenSources[requestName].cancel(`${requestName} request cancelled.`)
+        cancelTokenSources[requestName].cancel(
+          `${requestName} request cancelled.`
+        )
       }
     }
   }

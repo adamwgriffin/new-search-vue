@@ -7,7 +7,9 @@
         :placeholder="$t('location_placeholder.websites')"
         @input="setLocationSearchField"
         @getPlaceAutocompletePredictions="getPlaceAutocompletePredictions"
-        @clearPlaceAutocompletePredictions="handleClearPlaceAutocompletePredictions"
+        @clearPlaceAutocompletePredictions="
+          handleClearPlaceAutocompletePredictions
+        "
         @optionSelected="handleOptionSelected"
         @searchInitiated="handleSearchInitiated"
       />
@@ -61,12 +63,10 @@ export default {
       'buffer_miles',
       'geocoderResult',
       'mapBounds',
-      'autcompletePlacePredictions',
+      'autcompletePlacePredictions'
     ]),
 
-    ...mapGetters('listingMap', [
-      'geotype',
-    ]),
+    ...mapGetters('listingMap', ['geotype']),
 
     ...mapState('listingSearch', [
       'searchParams',
@@ -78,12 +78,12 @@ export default {
     ...mapGetters('listingSearch', [
       'searchParamsForListingService',
       'priceRangeParams',
-      'bedBathParams',
+      'bedBathParams'
     ]),
 
     searchResultsInfoParams() {
       return { sort_by: this.searchParams.sort_by }
-    },
+    }
   },
 
   methods: {
@@ -172,6 +172,6 @@ export default {
 .search-field-and-filters {
   display: flex;
   background: white;
-  padding: .8rem;
+  padding: 0.8rem;
 }
 </style>

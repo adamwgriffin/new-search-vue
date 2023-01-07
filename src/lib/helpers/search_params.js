@@ -4,23 +4,28 @@ import { propertyTypes } from '@/lib/constants/property_types'
 import { sortByDistanceValues } from '@/lib/constants/search_param_constants'
 
 // for IDX search you can either choose rental or non-rental property types, but not both
-export const toggleRentalOrNonRentalTypes = (newPropertyTypes, oldPropertyTypes) => {
-  return difference(newPropertyTypes, oldPropertyTypes).includes(propertyTypes.rental) ?
-    [propertyTypes.rental] :
-    newPropertyTypes.filter(t => t !== propertyTypes.rental)
+export const toggleRentalOrNonRentalTypes = (
+  newPropertyTypes,
+  oldPropertyTypes
+) => {
+  return difference(newPropertyTypes, oldPropertyTypes).includes(
+    propertyTypes.rental
+  )
+    ? [propertyTypes.rental]
+    : newPropertyTypes.filter((t) => t !== propertyTypes.rental)
 }
 
 export const getPropertyTypes = (newPropertyTypes, oldPropertyTypes) => {
-  return newPropertyTypes ?
-    toggleRentalOrNonRentalTypes(newPropertyTypes, oldPropertyTypes) :
-    oldPropertyTypes
+  return newPropertyTypes
+    ? toggleRentalOrNonRentalTypes(newPropertyTypes, oldPropertyTypes)
+    : oldPropertyTypes
 }
 
 export const formatListingDataForMapListings = (listings) => {
-  return listings.map(l => ({
-     lat: +l.location.latitude,
-     lng: +l.location.longitude,
-     listingid: l.listingid 
+  return listings.map((l) => ({
+    lat: +l.location.latitude,
+    lng: +l.location.longitude,
+    listingid: l.listingid
   }))
 }
 
@@ -61,12 +66,20 @@ export const modifyParam = {
     }
   },
 
-  openhouse(state, getters, rootState, rootGetters) {
-    const { openhouse, openhouse_virtual, openhouse_in_person } = state.searchParams
+  openhouse(params) {
+    const {
+      openhouse,
+      openhouse_virtual,
+      openhouse_in_person
+    } = params
     // if the user selected both openhouse_virtual and openhouse_in_person, then what will get them both from the
     // listing service is to only send the openhouse param
     if (openhouse_virtual && openhouse_in_person) {
-      return { openhouse: openhouse, openhouse_in_person: null, openhouse_virtual: null }
+      return {
+        openhouse: openhouse,
+        openhouse_in_person: null,
+        openhouse_virtual: null
+      }
     } else if (!openhouse_virtual && !openhouse_in_person) {
       // don't send the openhouse param if neither openhouse_virtual or openhouse_in_person were selected because
       // sending just the openhouse param will be interpreted as selecting both openhouse_in_person & openhouse_virtual
