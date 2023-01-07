@@ -8,7 +8,7 @@ import {
   formatListingDataForMapListings,
   searchParamsForMapClusters,
   mapOrder,
-  modifyParams
+  modifyParam
 } from '@/lib/helpers/search_params'
 
 // NOTE: Eventually we would want to compose things like state (searchParams), getters, mutations, etc. based on what
