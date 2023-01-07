@@ -10,10 +10,10 @@ export const websitesSearchParams = Object.freeze({
   openhouse_virtual: false,
   openhouse_in_person: false,
   // a.k.a., "property type"
-  ptype: [1, 2, 8, 9],
+  ptype: [1,2,3,4,5,7,9],
   status: 'active',
-  ex_pend: true,
-  ex_cs: true,
+  ex_pend: false,
+  ex_cs: false,
   sqft_min: null,
   sqft_max: null,
   ls_conversion: 'acres',
