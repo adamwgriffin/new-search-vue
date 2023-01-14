@@ -1,5 +1,7 @@
 import { Loader } from '@googlemaps/js-api-loader'
+import score from 'string-score'
 import { mapLoaderOptions } from '@/config/google'
+import google_bypass from '@/lib/google_bypass'
 
 let geocoder = null
 export let googleMap = null
@@ -40,6 +42,27 @@ export const geocode = (request) => {
     geocoder.geocode(request, (results, status) => {
       status === 'OK' ? resolve({ results, status }) : reject(new Error(status))
     })
+  })
+}
+
+const formatLocationForScore = (locationStr) => {
+  return locationStr
+    .toString()
+    .replace(/\W/g, '')
+    .toLowerCase()
+    .replace('unitedstates', '')
+}
+
+export const geocodeByPass = (locationStr) => {
+  return google_bypass.reduce((max, o) => {
+    const bypassObj = {
+      ...o,
+      score: score(
+        formatLocationForScore(o.name),
+        formatLocationForScore(locationStr)
+      )
+    }
+    return max.score > bypassObj.score ? max : bypassObj
   })
 }
 

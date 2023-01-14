@@ -61,6 +61,25 @@ export const getters = {
     return `${rootGetters.baseUrl}/listing/ids`
   },
 
+  priceRangeParams(state) {
+    return pick(state.searchParams, ['pricemin', 'pricemax'])
+  },
+
+  bedBathParams(state) {
+    return pick(state.searchParams, ['bed_min', 'bath_min'])
+  },
+
+  moreFiltersParams(state) {
+    return omit(state.searchParams, [
+      'agent_uuid',
+      'pgsize',
+      'pricemin',
+      'pricemax',
+      'bed_min',
+      'bath_min'
+    ])
+  },
+
   boundsParams(state, getters, rootState) {
     const { north, east, south, west } = rootState.listingMap.mapData.bounds
     return {
@@ -84,7 +103,7 @@ export const getters = {
     return { user_lat: center_lat, user_lon: center_lon }
   },
 
-  defaultSearchParams(state, getters, rootState, rootGetters) {
+  searchParamsForGeospatialSearch(state, getters, rootState, rootGetters) {
     return {
       ...state.searchParams,
       ...getters.centerLatLonParams,
@@ -93,30 +112,33 @@ export const getters = {
     }
   },
 
-  searchParamsForListingService(state, getters) {    
-    const params = Object.entries(getters.defaultSearchParams)
-      .reduce((modifiedParams, [param, value]) => {
-        return { ...modifiedParams, [param]: value, ...modifyParam[param]?.(...arguments) }
-      }, {})
-    return omitBy(params, (value) => !value)
+  searchParamsForBoundsSearch(state, getters) {
+    return {
+      ...state.searchParams,
+      ...getters.boundsParams
+    }
   },
 
-  priceRangeParams(state) {
-    return pick(state.searchParams, ['pricemin', 'pricemax'])
+  searchParamsForListingService(state, getters, rootState, rootGetters) {
+    const originalParams = rootState.listingMap.boundaryActive
+      ? getters.searchParamsForGeospatialSearch
+      : getters.searchParamsForBoundsSearch
+    const originalParamsModified = modifyParams(
+      originalParams,
+      state,
+      getters,
+      rootState,
+      rootGetters
+    )
+    return omitBy(originalParamsModified, (value) => !value)
   },
 
-  bedBathParams(state) {
-    return pick(state.searchParams, ['bed_min', 'bath_min'])
-  },
-
-  moreFiltersParams(state) {
-    return omit(state.searchParams, [
-      'agent_uuid',
-      'pgsize',
-      'pricemin',
-      'pricemax',
-      'bed_min',
-      'bath_min'
+  searchParamsForListingServiceWithoutBounds(state, getters) {
+    return omit(getters.searchParamsForListingService, [
+      'bounds_north',
+      'bounds_east',
+      'bounds_south',
+      'bounds_west'
     ])
   }
 }
