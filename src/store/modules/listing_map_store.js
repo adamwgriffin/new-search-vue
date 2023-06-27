@@ -79,6 +79,9 @@ export const getters = {
   // geotype getter for geolayer request to Listing Service. the name of the type returned by the google geocoder may 
   // be different from what the service expects for legacy reasons
   geotype(state) {
+    if (state.geocoderResult.type === 'political' && /school/i.test(state.geocoderResult.name)) {
+      return 'SchoolDistrict'
+    }
     return googleToServiceAddressTypeMapping[state.geocoderResult.type]
   },
 
