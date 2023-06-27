@@ -8,8 +8,8 @@ import {
   formatListingDataForMapListings,
   searchParamsForMapClusters,
   mapOrder,
-  modifyParam
 } from '@/lib/helpers/search_params'
+import { modifyParams } from '@/lib/helpers/search_params'
 
 // NOTE: Eventually we would want to compose things like state (searchParams), getters, mutations, etc. based on what
 // app is using this module, but for now we are assuming Websites IDX search.
