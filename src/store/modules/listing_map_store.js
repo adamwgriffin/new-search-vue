@@ -23,6 +23,7 @@ const initialState = () => {
       error: null,
     },
     geocoderResult: {
+      name: '',
       // this is first type returned from the geocoder result. the orignal is stored here. it needs to be mapped to a
       // name that the Listing service understands when using it as the geotype param for a geolayer request
       type: null,
@@ -121,8 +122,8 @@ export const mutations = {
   setGeocoderResult(state, result) {
     const { location, viewport } = result.geometry
     state.geocoderResult = {
-      name: result.formatted_address,
-      type: result.types[0],
+      name: result.address_components[0].long_name,
+      type: result.address_components[0].types[0],
       location: location.toJSON(), // calling toJSON() returns the LatLngBounds instance as a POJO
       viewport: viewport.toJSON()
     }
@@ -228,10 +229,7 @@ export const actions = {
       const res = await getPlaceDetails({ placeId, ...getters.placeDetailsParams })
       if (res.status === 'OK') {
         commit('setPlaceDetailsRequestSuccess', { request: placeId, results: res.results, status: res.status })
-        // need to make the data the same as what comes from geocoder results so it matches what setGeocoderResult
-        // expects  
-        const { address_components, geometry } = res.results
-        commit('setGeocoderResult', { types: address_components[0].types, geometry })
+        commit('setGeocoderResult', res.results)
       } else {
         commit('setPlaceDetailsRequestFailure', { error: res.error_message, status: res.status } )
       }
