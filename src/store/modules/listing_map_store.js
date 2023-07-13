@@ -223,7 +223,9 @@ export const actions = {
           status: geocodeRes.status
         })
         const schoolsPredictions = establishmentRes.results.filter(r => r.types.includes('school'))
-        const allPredictions = geocodeRes.results.concat(schoolsPredictions)
+        const allPredictions = geocodeRes
+          .results
+          .concat(schoolsPredictions)
         commit('setAutcompletePlacePredictions', allPredictions)
         return allPredictions
       } else {
