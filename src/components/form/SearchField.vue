@@ -37,7 +37,7 @@
       </div>
       <SearchButton @click="initiateSearch" />
     </div>
-    <ul v-show="open" class="listbox-menu" role="listbox" tabindex="-1">
+    <Dropdown v-show="open">
       <template v-if="placesOptions.length">
         <li class="list-item-header list-item">
           <strong>Places</strong>
@@ -72,7 +72,7 @@
           <PlacesPredictionText :prediction="option" />
         </li>
       </template>
-    </ul>
+    </Dropdown>
   </div>
 </template>
 
@@ -80,6 +80,7 @@
   import uniqueId from 'lodash/uniqueId'
   import SearchButton from '@/components/form/SearchButton'
   import DriveTimeButton from '@/components/form/DriveTimeButton'
+  import Dropdown from '@/components/form/Dropdown.vue'
   import LocationPinFilledIcon from '@/components/shared/icons/LocationPinFilledIcon'
   import SchoolIcon from '@/components/shared/icons/SchoolIcon'
   import PlacesPredictionText from '@/components/shared/PlacesPredictionText'
@@ -89,6 +90,7 @@
   // https://www.w3.org/TR/wai-aria-practices-1.1/examples/combobox/aria1.1pattern/listbox-combo.html
   export default {
     components: {
+      Dropdown,
       DriveTimeButton,
       SearchButton,
       LocationPinFilledIcon,
