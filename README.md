@@ -1,4 +1,4 @@
-# vue-moxi-search
+# vue-search
 
 ## Project setup
 ```
